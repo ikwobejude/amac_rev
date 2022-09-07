@@ -1,0 +1,49 @@
+
+
+  <footer class="bg-dark">
+
+
+    <div class="bg-darker py-4">
+      <div class="container text-center">
+        <!-- You are completely free to use this template for your personal use or as a work for your client as long as you keep the link at the template footer pointing to our partner and us.-->
+        <!-- If you would prefer removing the backlink from the theme footer, please purchase the attribution-free license at the theme page at https://bootstraptemple.com.-->
+        <p class="mb-0 text-muted text-small">&copy; All rights reserved. <a href="/">AMAC</a>. </p>
+      </div>
+    </div>
+    </footer>
+    <!-- JavaScript files-->
+    <script src="/a/vendor/jquery/jquery.min.js"></script>
+    <script src="/a/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/a/vendor/owl.carousel2/owl.carousel.min.js"></script>
+    <script src="/a/vendor/modal-video/js/modal-video.js"></script>
+    <script src="/a/vendor/leaflet/leaflet.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu5nZKbeK-WHQ70oqOWo-_4VmwOwKP9YQ"></script>
+    <script src="/a/js/leaflet.js"></script>
+    <script src="/a/js/front.js"></script>
+    <script>
+    // ------------------------------------------------------- //
+    //   Inject SVG Sprite - 
+    //   see more here 
+    //   https://css-tricks.com/ajaxing-svg-sprite/
+    // ------------------------------------------------------ //
+    function injectSvgSprite(path) {
+    
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", path, true);
+      ajax.send();
+      ajax.onload = function(e) {
+        var div = document.createElement("div");
+        div.className = 'd-none';
+        div.innerHTML = ajax.responseText;
+        document.body.insertBefore(div, document.body.childNodes[0]);
+      }
+    }
+    // this is set to BootstrapTemple website as you cannot 
+    // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
+    // while using file:// protocol
+    // pls don't forget to change to your domain :)
+    injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg');
+    </script>
+    <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    

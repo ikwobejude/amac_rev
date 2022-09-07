@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+    </head>
+    <body>
+      <% if(user.group_id == 111000){%>
+        <%- include('../layouts/cbs/top-nav') %>
+        <%- include('../layouts/cbs/side-bar') %>
+    <% } else { %>
+        <%- include('../layouts/admin/top-nav') %>
+        <%- include('../layouts/admin/side-bar') %>
+    <% } %>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Agencies</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Agencies</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- <div class="col-sm-12">
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    <form method="get" action="/admin/individuals" id="taxoffice">
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3 m-form__group">
+                                                    <label>NAME</label> 
+                                                    <div class="input-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                            <input type="text" class="form-control" id="individual_name" name="individual_name" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                           <div class="col-md-6">
+                                            <div class="mb-3 m-form__group">
+                                                <label>INDIVIDUAL TIN:</label> 
+                                                <div class="input-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                        <input type="text" class="form-control" id="user_rin" name="user_rin" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                        
+                                   </div>  
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                            <div class="mb-3 m-form__group">
+                                                <label>PHONE NUMBER</label> 
+                                                <div class="input-group">
+                                                    
+                
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                        <input type="date" class="form-control" id="mobile_number_1" name="mobile_number_1" placeholder="dd/mm/yyy">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                           <div class="mb-3 m-form__group">
+                                                <label>EMAIL ADDRESS</label> 
+                                                <div class="input-group">
+                                                    
+                                                    <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                    <input type="email" class="form-control" id="email_addresss_1" name="email_addresss_1" placeholder="dd/mm/yyy">
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                
+                                      <tr>
+                                        <td colspan="2" >
+                                            <div >
+                                                <input name="Button_DoSearch" type="submit" value="Search" alt="Search" id="revenue_invoices_api_paymButton_DoSearch" class="btn btn-primary">
+                                           
+                                                
+                                            </div>
+                                          </td> 
+                                      </tr>
+                                      
+                                      
+                                    </form>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header pb-0">
+                                <h5><a href="javascript:;" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">add</a></span>
+                                </div>
+                                
+                                <div class="card-body">
+                                    
+                                    <div class="table-responsive">
+                   
+                                        <table  class="table display"  id="basic-10"  >
+                                          <thead>
+                                            <tr>
+                                                <th>ACTION</th>
+                                                <th>NAME</th>
+                                                <th>ADDRESS</th>
+                                                <th>EMAIL</th>
+                                                <th>PHONE</th>
+                                                <th>TYPE</th>
+                                                <!-- <th>ADDRESS</th> -->
+                                            </tr>
+                                          </thead>
+                                      <tbody>
+                                           <% revenue_ahencies.forEach(function(View) { %> 
+                                                <tr>   
+                                                    <td>
+                                                        <div class="card-body dropdown-basic">
+                                                            <div class="dropdown">
+                                                              <button class="dropbtn btn-primary" type="button">Actions <span><i class="icofont icofont-arrow-down"></i></span></button>
+                                                              <div class="dropdown-content">
+                                                               <a href="javascript:;" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal<%= View.id_tax_office %>">Edit details</a>
+                                                                <a href="javascript:;" >View transactions</a>
+                                                                <a href="#">Agency Status</a>
+                                                                <a href="#">Ip Configurations</a></div>
+                                                            </div>
+                                                          </div>
+                                                    </td>
+                                                    <td><%= View.tax_office  %> </td>
+                                                    <td><%= View.address %> </td>
+                                                    <td><%= View.email %> </td>
+                                                    <td><%= View.mobile_number %> </td>
+                                                    <td><%= View.agencies_type %> </td>
+                                                    <!-- <td><%= View.functions %> </td> -->
+                                                </tr>
+                                                <div class="modal fade" id="exampleModal<%= View.id_tax_office %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                  <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">UPDATE AGENCY INFO</h5>
+                                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                      </div>
+                                                      <form class="form theme-form" method="post" id="form<%= View.id_tax_office %>" action="/submit">
+                                                      <div class="modal-body">
+                                                        
+                                                            <div class="card-body">
+                                                              <div class="row">
+                                                                <div class="col">
+                                                                  <div class="mb-3 row">
+                                                                    <label class="col-sm-3 col-form-label" style="text-align: right;">Agency</label>
+                                                                    <div class="col-sm-9">
+                                                                      <input class="form-control" type="text" name="tax_office" id="tax_office" value="<%= View.tax_office  %>">
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="mb-3 row">
+                                                                    <label class="col-sm-3 col-form-label"  style="text-align: right;">Email</label>
+                                                                    <div class="col-sm-9">
+                                                                      <input class="form-control" type="email" name="email" id="email" placeholder="" value="<%= View.email %>">
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="mb-3 row">
+                                                                    <label class="col-sm-3 col-form-label"  style="text-align: right;">Mobile Number</label>
+                                                                    <div class="col-sm-9">
+                                                                      <input class="form-control digits" type="number" name="mobile_number" id="mobile_number" placeholder="" value="<%= View.mobile_number %> ">
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="mb-3 row">
+                                                                    <label class="col-sm-3 col-form-label"  style="text-align: right;">Agency Type</label>
+                                                                    <div class="col-sm-9">
+                                                                      <input class="form-control " type="text" name="agencies_type" id="agencies_type" placeholder="" value="<%= View.agencies_type %>">
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="mb-3 row">
+                                                                    <label class="col-sm-3 col-form-label"  style="text-align: right;">functions</label>
+                                                                    <div class="col-sm-9">
+                                                                      <input class="form-control m-input digits" type="text" name="functions" id="functions" value="">
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="row">
+                                                                    <label class="col-sm-3 col-form-label" style="text-align: right;">Address</label>
+                                                                    <div class="col-sm-9">
+                                                                      <textarea class="form-control" rows="5" cols="5" placeholder="Default textarea" name="address" id="address"><%= View.address %></textarea>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <!-- <div class="card-footer text-end">
+                                                              <div class="col-sm-9 offset-sm-3">
+                                                                <button class="btn btn-primary" type="submit">Submit</button>
+                                                                <input class="btn btn-light" type="reset" value="Cancel">
+                                                              </div>
+                                                            </div> -->
+                                                          
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
+                                                        <button class="btn btn-secondary" type="submit" onclick="submitEdit('<%= View.id_tax_office %>')">Save changes</button>
+                                                      </div>
+                                                    </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            <%});%>
+                                          </tbody>
+                                        </table>
+                                       
+                                    
+                                      </div>
+
+                                      
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">CREATE AGENCY INFO</h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="form theme-form"  id="form" >
+                    <div class="modal-body">
+                      
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label" style="text-align: right;">Agency</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="tax_office" id="tax_office" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Email</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control" type="email" name="email" id="email" placeholder="" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Mobile Number</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control digits" type="number" name="mobile_number" id="mobile_number" placeholder="" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Agency Type</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control " type="text" name="agencies_type" id="agencies_type" placeholder="" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">functions</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control m-input digits" type="text" name="functions" id="functions" value="">
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <label class="col-sm-3 col-form-label" style="text-align: right;">Address</label>
+                                  <div class="col-sm-9">
+                                    <textarea class="form-control" rows="5" cols="5" placeholder="Default textarea" name="address" id="address"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="card-footer text-end">
+                            <div class="col-sm-9 offset-sm-3">
+                              <button class="btn btn-primary" type="submit">Submit</button>
+                              <input class="btn btn-light" type="reset" value="Cancel">
+                            </div>
+                          </div> -->
+                        
+                    </div>
+                    <div class="modal-footer">
+                      <!-- <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button> -->
+                      <button class="btn btn-secondary" type="submit" onclick="create()">Create</button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              </div>
+
+
+        <%- include('../layouts/admin/footer') %>
+        <script>
+            function submitEdit(id){
+                let form = document.querySelector('#form'+id+'');
+
+                form.addEventListener('submit', async(e)=> {
+                    e.preventDefault()
+                    let tax_office = form.tax_office.value;
+                    let email = form.email.value;
+                    let mobile_number = form.mobile_number.value;
+                    let agencies_type = form.agencies_type.value;
+                    let functions = form.functions.value;
+                    let address = form.address.value;
+                    console.log(tax_office, email, mobile_number, agencies_type, functions, address)
+                    try {
+                        let res = await fetch('/admin/edit_agency', {
+                            method: "POST",
+                            body: JSON.stringify({tax_office: tax_office, email:email, mobile_number: mobile_number, agencies_type:agencies_type, functions: functions, address:address, id:id}),
+                            headers: {'Content-Type': 'application/json'}
+                        })
+            
+                        const data = await res.json(); 
+                        if(data.err) {
+                            // formerror.textContent = data.err
+                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                                    type: 'danger',
+                                    allow_dismiss: true,
+                                    delay: 5000,
+                                    showProgressbar: true,
+                                    timer: 300
+                                });
+                        } else {
+                            
+                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Updated</strong>', {
+                                    type: 'theme',
+                                    allow_dismiss: true,
+                                    delay: 2000,
+                                    showProgressbar: true,
+                                    timer: 1000
+                                });
+
+                                setTimeout(function() {
+                                    notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                                    location.assign('/admin/view_agencies')
+                                }, 1000);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            }
+
+
+            function create(){
+                let form = document.querySelector('#form');
+                let id=
+                form.addEventListener('submit', async(e)=> {
+                    e.preventDefault()
+                    let tax_office = form.tax_office.value;
+                    let email = form.email.value;
+                    let mobile_number = form.mobile_number.value;
+                    let agencies_type = form.agencies_type.value;
+                    let functions = form.functions.value;
+                    let address = form.address.value;
+                    console.log(tax_office, email, mobile_number, agencies_type, functions, address)
+                    try {
+                        let res = await fetch('/admin/view_agencies', {
+                            method: "POST",
+                            body: JSON.stringify({tax_office: tax_office, email:email, mobile_number: mobile_number, agencies_type:agencies_type, functions: functions, address:address, id:id}),
+                            headers: {'Content-Type': 'application/json'}
+                        })
+            
+                        const data = await res.json(); 
+                        if(data.err) {
+                            // formerror.textContent = data.err
+                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                                    type: 'danger',
+                                    allow_dismiss: true,
+                                    delay: 5000,
+                                    showProgressbar: true,
+                                    timer: 300
+                                });
+                        } else {
+                            
+                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Created successfuly </strong>', {
+                                    type: 'theme',
+                                    allow_dismiss: true,
+                                    delay: 2000,
+                                    showProgressbar: true,
+                                    timer: 1000
+                                });
+
+                                setTimeout(function() {
+                                    notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                                    location.assign('/admin/view_agencies')
+                                }, 1000);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            }
+        </script>
+    </body>
+
+</html>

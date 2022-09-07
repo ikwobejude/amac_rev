@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../../layouts/admin/header') %>
+    </head>
+    <body>
+        <%- include('../../layouts/admin/top-nav') %>
+        <% if (user.group_id == 190){%>
+            <%- include('../../layouts/selfassessment/side-bar') %>
+        <% } else {%>
+           <%- include('../../layouts/admin/side-bar') %>
+        <% }%>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Generate Invoice</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">Verify Taxpayer Tin</li>
+                        </ol>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                
+
+                <%- messages('messages', locals) %>
+                <div class="container-fluid">
+                    <% if (user.group_id == 190){%>
+                    <%- include('../../layouts/selfassessment/self_quick_menu') %>
+                        <% } else if (user.group_id == 200) {%>
+                            <%- include('../../layouts/admin/ofice_user_quick_menu') %>
+                        <% } else {%>
+                            <%- include('../../layouts/admin/quick_menu') %>
+                        <% }%>
+                <div class="row">
+                    
+                    <div id="error"></div>
+                    <div class="col-sm-6">
+                        <div class="card" style="border-radius: 5px; padding: 3px; box-shadow: inset 5px 5px 12px #ffff,5px 5px 12px rgba(0, 0, 0, .16);">
+                            <div class="card-body">
+                                <div class="card-header"> 
+                                  <h4 class="title">ENTER TAX PAYER TIN</h4>
+                                </div>
+                                <form  method="post" action="/generate/assessment/invoice" id="form1" >
+                                    <div class="box-body">
+                                            <div class="mb-3 m-form__group">
+                                            <label for="name">Owner's TIN <span class="required">*</span></label>
+                                              <input type="text" class="form-control" id="tin" name="tin" <%= user.group_id == 190 ? 'disabled': '' %> value="<%= user.group_id == 190 ? user.username: '' %>" >
+                                            
+                                            </div>
+                                            
+                                        <div class="modal-footer footer"  id="footer">
+                                            <button type="submit" class="btn btn-primary pull-right">Next </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+        <%- include('../../layouts/admin/footer') %>
+        <script>
+            let form = document.querySelector('#form1')
+            // const formerror = document.querySelector('.error');
+            form.addEventListener('submit', async(e) => {
+                e.preventDefault();
+                // formerror.textContent = '';
+        
+               $('#cover-spin').show(0)
+                const username = form.tin.value;
+        
+                console.log(username)
+        
+                try {
+                    let res = await fetch('/generate/assessment/invoice', {
+                        method: "POST",
+                        body: JSON.stringify({tin: username}),
+                        headers: {'Content-Type': 'application/json'}
+                    })
+        
+                    const data = await res.json(); 
+                    if(data.err) {
+                        $('#cover-spin').hide(0)
+                        // formerror.textContent = data.err;
+                        var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                            type: 'danger',
+                            allow_dismiss: true,
+                            delay: 5000,
+                            showProgressbar: true,
+                            timer: 300
+                        });
+                       
+                    
+                    } else {
+                        $('#cover-spin').hide(0)
+                        function taxrin(len) {
+                            len = len || 100;
+                            var nuc = "0123456789";
+                            var i = 0;
+                            var n = 0;
+                            s = "";
+                            while (i <= len - 1) {
+                                n = Math.floor(Math.random() * 4);
+                                s += nuc[n];
+                                i++;
+                            }
+                            return s;
+                            }
+                            var randomNumb = taxrin(15);
+                        var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Loading</strong> Valid tin found...', {
+                            type: 'theme',
+                            allow_dismiss: true,
+                            delay: 2000,
+                            showProgressbar: true,
+                            timer: 1000
+                        });
+
+                        setTimeout(function() {
+                            notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting</strong>....');
+                            location.assign('/generate/generte_invoice?tin_number='+data.tin+'&invoice='+randomNumb)
+                        }, 1000);
+                        
+                    }
+                } catch (error) {
+                    $('#cover-spin').hide(0)
+                    var notify = $.notify('<i class="fa fa-warning"></i><strong>' +error.message+'</strong>.', {
+                            type: 'danger',
+                            allow_dismiss: true,
+                            delay: 5000,
+                            showProgressbar: true,
+                            timer: 300
+                        });
+                }
+            })
+        </script>
+    </body>
+
+</html>

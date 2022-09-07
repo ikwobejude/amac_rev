@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+    </head>
+    <body>
+        <% if(user.group_id == 111000){%>
+            <%- include('../layouts/cbs/top-nav') %>
+            <%- include('../layouts/cbs/side-bar') %>
+        <% } else { %>
+            <%- include('../layouts/admin/top-nav') %>
+            <%- include('../layouts/admin/side-bar') %>
+        <% } %>
+        
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>VERIFY PAYMENT</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Agencies</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container-fluid">
+                    <% if(user.group_id == 111000){%>
+                        <% } else { %>
+                            <% if (user.group_id == 190){%>
+                                <% } else if (user.group_id == 200 || user.group_id == 205 || user.group_id == 121212) {%>
+                                    <%- include('../layouts/admin/ofice_user_quick_menu') %>
+                                <% } else {%>
+                                    <%- include('../layouts/admin/quick_menu') %>
+                                <% }%>
+                        <% } %>
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                                
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6  col-md-6 col-sm-12">
+                                            <div class="card" style="border-radius: 5px; padding: 3px; box-shadow: inset 5px 5px 12px #ffff,5px 5px 12px rgba(0, 0, 0, .16);">
+                                                <div class="card-body">
+                                                    <div class="card-header"> 
+                                                      <h4 class="title">ENTER INVOICE NUMBER</h4>
+                                                    </div>
+                                                    <form  method="post"  id="form1" >
+                                                        <div class="box-body">
+                                                                <div class="mb-3 m-form__group">
+                                                                <label for="name">PAYMENT INVOICE<span class="required">*</span></label>
+                                                                  <input type="text" class="form-control" id="invoice" name="invoice"  value="" >
+                                                                
+                                                                </div>
+                                                                
+                                                            <div class="modal-footer footer"  id="footer">
+                                                                <button type="submit" class="btn btn-primary pull-right">Verify </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                   
+                                                <table  class="table display"  id="bas"  >
+                                                  <thead>
+                                                    <tr>
+                                                        <th>INVOICEID</th>
+                                                        <th>APYMENT REFERENCE</th>
+                                                        <th>AMOUNT</th>
+                                                        <th>PAYMENT DATE</th>
+                                                        <th>TAXPAYER</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody id="append_data">
+                                                  
+                                                  </tbody>
+                                                </table>
+                                               
+                                            
+                                              </div>
+                                        </div>
+                                   </div> 
+                                </div>
+                        </div>
+
+
+                       
+                    <!-- </div> -->
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+           
+
+        <%- include('../layouts/admin/footer') %>
+        <script>
+            // function submitEdit(id){
+                let form = document.querySelector('#form1');
+
+                form.addEventListener('submit', async(e)=> {
+                    e.preventDefault()
+                    let invoice = form.invoice.value;
+                    console.log(invoice)
+                    try {
+                        let res = await fetch('/api/verify_payment', {
+                            method: "POST",
+                            body: JSON.stringify({invoice: invoice}),
+                            headers: {'Content-Type': 'application/json'}
+                        })
+            
+                        const data = await res.json(); 
+                        if(data.err) {
+                            // formerror.textContent = data.err
+                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                                    type: 'danger',
+                                    allow_dismiss: true,
+                                    delay: 5000,
+                                    showProgressbar: true,
+                                    timer: 300
+                                });
+                        } else {
+
+                                console.log(data)
+                            
+                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>PAYMENT FOUND</strong>', {
+                                    type: 'theme',
+                                    allow_dismiss: true,
+                                    delay: 2000,
+                                    showProgressbar: true,
+                                    timer: 1000
+                                });
+
+                                setTimeout(function() {
+                                    notify.update('message', '<i class="fa fa-bell-o"></i><strong>Fetching info</strong>....');
+                                }, 1000);
+
+                                let veryData = `
+                                       <tr>   
+                                            <td>${data.CustReference} </td>
+                                            <td>${data.PaymentReference} </td>
+                                            <td>${data.Amount} </td>
+                                            <td>${data.logged_date} </td>
+                                            <td>${data.CustomerName.toLocaleString()} </td>
+                                        </tr>
+                                    `;
+                                $('#append_data'). append(veryData)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            // }
+
+
+          
+        </script>
+    </body>
+
+</html>

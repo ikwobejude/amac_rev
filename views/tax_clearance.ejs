@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('layouts/admin/header') %>
+    </head>
+    <body>
+        <%- include('layouts/admin/top-nav') %>
+        <%- include('layouts/admin/side-bar') %>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Tax Clearance</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Tax clearance certificate</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container invoice">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">                            
+                            <div>
+                              <div>
+                                <div class="row invo-header">
+                                  <div class="col-sm-6">
+                                    <div class="media">
+                                      <!-- <div class="media-left"><a href="index.html"><img class="media-object img-60" src="../assets/images/logo/logo-1.png" alt=""></a></div> -->
+                                      <div class="media-body m-l-20">
+                                        <h4 class="media-heading f-w-600">TAX CLEARANCE <br> CERTIFICATE</h4>
+                                        <!-- <p>hello@viho.in<br><span class="digits">289-335-6503</span></p> -->
+                                      </div>
+                                    </div>
+                                    <!-- End Info-->
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <div class="text-md-end text-xs-center">
+                                      <h3>TCC No: <span class="digits counter">1069</span></h3>
+                                      <p>TAX OFFICEl:<span class="digits"> 27, 2015</span><br>                                                            
+                                        DATE:  <span class="digits">27, 2015</span></p>
+                                    </div>
+                                    <!-- End Title                                 -->
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End InvoiceTop-->
+                              <div class="row invo-profile">
+                                <div class="col-xl-8">
+                                  <div class="media">
+                                    <div class="media-body m-l-20">
+                                        <table>
+                                            <tr>
+                                                <td>Name of Company</td>
+                                                <td>SMART APPS INFORMATION AND TECHNOLOGIESLTD</td>
+                                            </tr>
+                                            <tr>
+                                                <td>RC No</td>
+                                                <td>1728383</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Incorporation</td>
+                                                <td>2020-10-28</td>
+                                            </tr>
+                                            <tr>
+                                                <td>TIN</td>
+                                                <td>23726435-0001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FIRS ID 
+                                                </td>
+                                                <td>2101110124574</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Business Address 
+                                                </td>
+                                                <td>PLOT C8, MIDLAND HOUSE, 521 RO</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Business Status</td>
+                                                <td>Yet To Commence Business                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xl-4">
+                                  <div class="text-xl-end" id="project">
+                                  
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End Invoice Mid-->
+                              <div class="row invo-profile">
+                                <div class="col">
+                                    <p>This is to certify that the above named company has rendered Income Tax, Value Added Tax, Information Technology
+                                        Development Levy, Education Tax, as well as other tax returns and paid the assessed taxes in accordance with the
+                                        relevant tax laws for all years including the past three assessment years as detailed hereunder.
+                                        </p>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <div class="table-responsive invoice-table" id="table">
+                                  <table class="table table-bordered table-striped">
+                                    <tbody>
+                                      <tr>
+                                        <td class="item">
+                                          <h6 class="p-2 mb-0">Item Description</h6>
+                                        </td>
+                                        <td class="Hours">
+                                          <h6 class="p-2 mb-0">Hours</h6>
+                                        </td>
+                                        <td class="Rate">
+                                          <h6 class="p-2 mb-0">Rate</h6>
+                                        </td>
+                                        <td class="subtotal">
+                                          <h6 class="p-2 mb-0">Sub-total</h6>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <label>Lorem Ipsum</label>
+                                          <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">5</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$75</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$375.00</p>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <label>Lorem Ipsum</label>
+                                          <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">3</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$75</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$225.00</p>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <label>Lorem Ipsum</label>
+                                          <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">10</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$75</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$750.00</p>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <label>Lorem Ipsum</label>
+                                          <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">10</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$75</p>
+                                        </td>
+                                        <td>
+                                          <p class="itemtext digits">$750.00</p>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <p class="itemtext"></p>
+                                        </td>
+                                        <td>
+                                          <p class="m-0">HST</p>
+                                        </td>
+                                        <td>
+                                          <p class="m-0 digits">13%</p>
+                                        </td>
+                                        <td>
+                                          <p class="m-0 digits">$419.25</p>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="Rate">
+                                          <h6 class="mb-0 p-2">Total</h6>
+                                        </td>
+                                        <td class="payment digits">
+                                          <h6 class="mb-0 p-2">$3,644.25</h6>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <!-- End Table-->
+                                <div class="row mt-3">
+                                  <div class="col-md-8">
+                                    <div>
+                                      <p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices.</p>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <form class="text-end invo-pal">
+                                      <input type="image" src="../assets/images/other-images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End InvoiceBot-->
+                            </div>
+                            <div class="col-sm-12 text-center mt-3">
+                              <button class="btn btn btn-primary me-2" type="button" onclick="myFunction()">Print</button>
+                              <button class="btn btn-secondary" type="button">Cancel</button>
+                            </div>
+                            <!-- End Invoice-->
+                            <!-- End Invoice Holder-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+        <%- include('layouts/admin/footer') %>
+    </body>
+
+</html>

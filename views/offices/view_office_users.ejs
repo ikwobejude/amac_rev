@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+    </head>
+    <body>
+      <% if(user.group_id == 111000){%>
+        <%- include('../layouts/cbs/top-nav') %>
+        <%- include('../layouts/cbs/side-bar') %>
+    <% } else { %>
+        <%- include('../layouts/admin/top-nav') %>
+        <%- include('../layouts/admin/side-bar') %>
+    <% } %>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Office Users</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Office Users</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container-fluid">
+                    <div class="row">
+                    
+
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header pb-0">
+                                <h5>  <button class="btn btn-secondary" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">Add office user</button></span>
+                                </div>
+                                
+                                <div class="card-body">
+                                    
+                                    <div class="table-responsive">
+                   
+                                        <table  class="table display"  id="basic-10"  >
+                                          <thead>
+                                            <tr>
+                                                <th>ACTION</th>
+                                                <th>NAME</th>
+                                                <th>USERNAME</th>
+                                                <th>EMAIL</th>
+                                                <th>PHONE</th>
+                                                <th>TYPE</th>
+                                                <!-- <th>ADDRESS</th> -->
+                                            </tr>
+                                          </thead>
+                                      <tbody>
+                                           <% officeUsers.forEach(function(View) { %> 
+                                                <tr>   
+                                                    <td>
+                                                        <div class="dropdown-basic">
+                                                            <div class="dropdown">
+                                                              <button class="dropbtn btn-primary" type="button">Actions <span><i class="icofont icofont-arrow-down"></i></span></button>
+                                                              <div class="dropdown-content">
+                                                               <!-- <a href="javascript:;" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal<%= View.id %>">Edit details</a> -->
+                                                                <a href="javascript:;" >View transactions</a>
+                                                                <a href="#">De-activate Staff</a>
+                                                                <!-- <a href="#">Ip Configurations</a></div> -->
+                                                            </div>
+                                                          </div>
+                                                    </td>
+                                                    <td><%= View.name  %> </td>
+                                                    <td><%= View.username %> </td>
+                                                    <td><%= View.email %> </td>
+                                                    <td><%= View.user_phone %> </td>
+                                                    <td><%= View.group_id == 200 ? "Staff" : "Admin" %> </td>
+                                                    <!-- <td><%= View.functions %> </td> -->
+                                                </tr>
+                                                <%})%>
+                                          </tbody>
+                                        </table>
+                                       
+                                    
+                                      </div>
+
+                                      
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">CREATE OFFICE USER</h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form class="form theme-form"  id="form" >
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label" style="text-align: right;">OFFICES</label>
+                                <div class="col-sm-9">
+                                 <select name="tax_office" id="tax_office" class="form-control">
+                                  <option value="">SELECT OFFICES </option>
+                                  <% if(user.group_id == 111111){%>
+                                    <% offices.forEach(function(office){%>
+                                        <option value="<%= office.tax_office_id %>"><%= office.tax_office %></option>
+                                    <%});%>
+                                  <%}else {%>
+                                    <option value="<%= offices.tax_office_id %>"><%= offices.tax_office %></option>
+                                  <%}%>
+                                 </select>
+                                </div>
+                              </div>
+                              <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label"  style="text-align: right;">Staff Name</label>
+                                <div class="col-sm-9">
+                                  <input class="form-control" type="text" name="name" id="name" placeholder="" value="">
+                                </div>
+                              </div>
+                              <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Staff Number</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="staff_number" id="staff_number" placeholder="" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Email Address</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control" type="email" name="email" id="email" placeholder="" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Phone Number</label>
+                                  <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="user_phone" id="user_phone" placeholder="" value="">
+                                  </div>
+                                </div>
+                                <div class="mb-3 row">
+                                  <label class="col-sm-3 col-form-label"  style="text-align: right;">Staff Type</label>
+                                  <div class="col-sm-9">
+                                    <select name="group_id" id="group_id" class="form-control">
+                                      <option value="">SELECT STAFF GROUP</option>
+                                      <% usergroup.forEach(function(grp){%>
+                                        <option value="<%= grp.group_id %>"><%= grp.group_name %></option>
+                                      <%});%>
+                                    </select>
+                                   
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       
+                        <button class="btn btn-primary" type="submit" onclick="create()">Submit form</button>
+                     
+                      </form>
+                         
+                          <!-- <div class="card-footer text-end">
+                            <div class="col-sm-9 offset-sm-3">
+                              <button class="btn btn-primary" type="submit">Submit</button>
+                              <input class="btn btn-light" type="reset" value="Cancel">
+                            </div>
+                          </div> -->
+                        
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+
+
+        <%- include('../layouts/admin/footer') %>
+        <script>
+
+function submitEdit1(id){
+                let form = document.querySelector('#form'+id+'');
+
+                form.addEventListener('submit', async(e)=> {
+                    e.preventDefault()
+                    let tax_office = form.tax_office.value;
+                    let email = form.email.value;
+                    let mobile_number = form.mobile_number.value;
+                    let agencies_type = form.agencies_type.value;
+                    let functions = form.functions.value;
+                    let address = form.address.value;
+                    console.log(tax_office, email, mobile_number, agencies_type, functions, address)
+                    try {
+                        let res = await fetch('/admin/edit_agency', {
+                            method: "POST",
+                            body: JSON.stringify({tax_office: tax_office, email:email, mobile_number: mobile_number, agencies_type:agencies_type, functions: functions, address:address, id:id}),
+                            headers: {'Content-Type': 'application/json'}
+                        })
+            
+                        const data = await res.json(); 
+                        if(data.err) {
+                            // formerror.textContent = data.err
+                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                                    type: 'danger',
+                                    allow_dismiss: true,
+                                    delay: 5000,
+                                    showProgressbar: true,
+                                    timer: 300
+                                });
+                        } else {
+                            
+                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Updated</strong>', {
+                                    type: 'theme',
+                                    allow_dismiss: true,
+                                    delay: 2000,
+                                    showProgressbar: true,
+                                    timer: 1000
+                                });
+
+                                setTimeout(function() {
+                                    notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                                    location.assign('/admin/view_offices')
+                                }, 1000);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            }
+            // function submitEdit1(id){
+                // let form = document.querySelector('#form'+id+'');
+
+                // form.addEventListener('submit', async(e)=> {
+                //     e.preventDefault()
+
+                //     console.log(form.value)
+
+                    // let name = form.name.value;
+                    // let tax_office = form.tax_office.value;
+                    // let staff_number = form.staff_number.value;
+                    // let email = form.email.value;
+                    // let user_phone = form.user_phone.value;
+                    // let group_id = form.group_id.value;
+                    
+
+                    // try {
+                    //     let res = await fetch('/admin/add_staff_to_office', {
+                    //         method: "POST",
+                    //         body: JSON.stringify({name: name, tax_office: tax_office, staff_number:staff_number, email: email, user_phone: user_phone, group_id: group_id, input:'update', id:id}),
+                    //         headers: {'Content-Type': 'application/json'}
+                    //     })
+            
+                    //     const data = await res.json(); 
+                    //     if(data.err) {
+                    //         // formerror.textContent = data.err
+                    //         var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                    //                 type: 'danger',
+                    //                 allow_dismiss: true,
+                    //                 delay: 5000,
+                    //                 showProgressbar: true,
+                    //                 timer: 300
+                    //             });
+                    //     } else {
+                            
+                    //             var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Updated</strong>', {
+                    //                 type: 'theme',
+                    //                 allow_dismiss: true,
+                    //                 delay: 2000,
+                    //                 showProgressbar: true,
+                    //                 timer: 1000
+                    //             });
+
+                    //             setTimeout(function() {
+                    //                 notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                    //                 location.reload()
+                    //             }, 1000);
+                    //     }
+                    // } catch (error) {
+                    //     console.log(error)
+                    // }
+                // })
+            // }
+
+
+
+            function create(){
+                let form = document.querySelector('#form');
+                form.addEventListener('submit', async(e)=> {
+                    e.preventDefault()
+                    $('#cover-spin').show(0)
+                    let name = form.name.value;
+                    let tax_office = form.tax_office.value;
+                    let staff_number = form.staff_number.value;
+                    let email = form.email.value;
+                    let user_phone = form.user_phone.value;
+                    let group_id = form.group_id.value;
+                    try {
+                        let res = await fetch('/admin/add_staff_to_office', {
+                            method: "POST",
+                            body: JSON.stringify({name: name, tax_office: tax_office, staff_number:staff_number, email: email, user_phone: user_phone, group_id: group_id, input:'addtooffice'}),
+                            headers: {'Content-Type': 'application/json'}
+                        })
+            
+                        const data = await res.json(); 
+                        $('#cover-spin').hide(0)
+                         $(`exampleModal`).modal('hide');
+                         
+                        if(data.err) {
+                          $('#cover-spin').hide(0)
+                            // formerror.textContent = data.err
+                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                                    type: 'danger',
+                                    allow_dismiss: true,
+                                    delay: 5000,
+                                    showProgressbar: true,
+                                    timer: 300
+                                });
+                        } else {
+                          $('#cover-spin').hide(0)
+                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Created successfuly </strong>', {
+                                    type: 'theme',
+                                    allow_dismiss: true,
+                                    delay: 2000,
+                                    showProgressbar: true,
+                                    timer: 1000
+                                });
+
+                                setTimeout(function() {
+                                    notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                                    location.reload()
+                                }, 1000);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            }
+
+           
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,234 @@
+<!-- Font Awesome Link -->
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/payment_preloading.css">
+     <style>
+    /* spinner */
+      #cover-spin {
+        position:fixed;
+        width:100%;
+        left:0;right:0;top:0;bottom:0;
+        background-color: rgba(255,255,255,0.7);
+        z-index:9999;
+        display:none;
+    }
+    @-webkit-keyframes spin {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #cover-spin::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 48%;
+      top: 40%;
+      width: 40px;
+      height: 40px;
+      border-style: solid;
+      border-color: black;
+      border-top-color: transparent;
+      border-width: 4px;
+      border-radius: 50%;
+      -webkit-animation: spin .8s linear infinite;
+      animation: spin .8s linear infinite;
+    }
+  </style>
+</head>
+
+<body>
+   
+ <div id="cover-spin"></div>
+    <div class="modal clearfix">
+        <div class="modal-product">
+            <div class="product">
+
+                <!-- Slideshow container -->
+                <div class="product-slideshow">
+
+                    <!-- Full-width images with number and caption text -->
+                    <!-- <div class="productSlides fade">
+                        <img src="https://github.com/EricGFigueroa/002-DailyUI-Gucci-Checkout/blob/master/img/gucci-bag-1.png?raw=true"
+                            style="width:100%">
+                    </div>
+
+                    <div class="productSlides fade">
+                        <img src="https://github.com/EricGFigueroa/002-DailyUI-Gucci-Checkout/blob/master/img/gucci-bag-2.png?raw=true"
+                            style="width:100%">
+                    </div>
+
+                    <div class="productSlides fade">
+                        <img src="https://github.com/EricGFigueroa/002-DailyUI-Gucci-Checkout/blob/master/img/gucci-bag-3.png?raw=true"
+                            style="width:100%">
+                    </div>
+
+                    <div class="productSlides fade">
+                        <img src="https://github.com/EricGFigueroa/002-DailyUI-Gucci-Checkout/blob/master/img/gucci-bag-4.png?raw=true"
+                            style="width:100%">
+                    </div>
+
+                    <div class="productSlides fade">
+                        <img src="https://github.com/EricGFigueroa/002-DailyUI-Gucci-Checkout/blob/master/img/gucci-bag-5.png?raw=true"
+                            style="width:100%">
+                    </div>
+
+                    <br> -->
+
+                    <!-- The dots/circles -->
+                    <!-- <div style="text-align:center">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <span class="dot" onclick="currentSlide(4)"></span>
+                        <span class="dot" onclick="currentSlide(5)"></span>
+                    </div> -->
+
+                </div>
+
+                <!--<h1 class="product-name">-->
+                <!--    <%= assessment.invoice_number %><br>-->
+                <!--</h1>-->
+                <!--<p class="product-code-name">-->
+                <!--    <%= assessment.created_by %>-->
+                <!--</p>-->
+                <!--<p class="product-price">-->
+                <!--    <%= parseFloat(assessment.assessment_amount).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%>-->
+                    
+                <!--</p>-->
+
+            </div>
+
+            <div class="round-shape"></div>
+        </div>
+        <div class="modal-info">
+            <div class="info">
+                <h2> ₦<%= parseFloat(assessment.assessment_amount).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></h2>
+                <form action="#">
+                    <ul class="form-list">
+                        <li class="form-list-row">
+                            <div class="user">
+                                <label for="#">Name</label><br>
+                                <i class="fas fa-user"></i></i><input type="text" value="<%= assessment.tax_payer_name %>" name="name" required>
+                            </div>
+                        </li>
+                        <li class="form-list-row">
+                            <div class="number">
+                                <label for="#">Card Number</label><br>
+                                <i class="far fa-credit-card"></i><input type="text" name="card" required>
+                            </div>
+                        </li>
+                        <li class="form-list-row clearfix">
+                            <div class="date">
+                                <label for="#">Expiration Date</label><br>
+                                <input class="month" type="text" required placeholder="MM" name="card_month" >
+                                <input class="year" type="text" required placeholder="YY" name="vard_year">
+                            </div>
+                            <div class="cvc">
+                                <label for="#">CVC</label><i class="fas fa-question-circle"></i><br>
+                                <input type="text" required placeholder="123" name="cvv">
+                                <input type="hidden" name="invoice" value="<%= assessment.invoice_number %>">
+                                <input type="hidden" name="amount" value="<%= assessment.assessment_amount %>">
+                            </div>
+                        </li>
+                        <li class="form-list-row">
+                            <div class="checkbox">
+                                <label for="checkbox">
+                                    <input id="checkbox" type="checkbox">
+                                    <span>Remember My Information</span>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    <button type="submit">Pay Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/script.js"></script>
+<script src="/assets/js/jquery-3.5.1.min.js"></script>
+
+  <script>
+        let form = document.querySelector('form')
+        // const formerror = document.querySelector('.error');
+        form.addEventListener('submit', async(e) => {
+            e.preventDefault();
+             $('#cover-spin').show(0)
+    
+            const name = form.name.value;
+            const card = form.card.value;
+            const card_month = form.card_month.value;
+            const vard_year = form.vard_year.value;
+            const cvv = form.cvv.value;
+            const invoice = form.invoice.value;
+            const amount = form.amount.value
+            console.log(name, card, card_month, vard_year, cvv, invoice)
+    
+            try {
+                let res = await fetch('/pay/test_payment', {
+                    method: "POST",
+                    body: JSON.stringify({name: name, card:card, card_month: card_month, vard_year:vard_year, cvv: cvv, invoice:invoice, amount:amount}),
+                    headers: {'Content-Type': 'application/json'}
+                })
+    
+                const data = await res.json(); 
+                 $('#cover-spin').hide(0)
+                if(data.err) {
+                    $('#cover-spin').hide(0)
+                    // formerror.textContent = data.err
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.err,
+                        // footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                    
+                } else {
+                    $('#cover-spin').hide(0)
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Payment Successful',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() =>{
+                        location.assign(`/receipts/summary_receipt?invoice_number=${data.id}`)
+                    })
+                    
+                      
+                }
+            } catch (error) {
+                $('#cover-spin').hide(0)
+                 Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                        // footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                console.log(error)
+            }
+        })
+    </script>
+</script>
+</html>

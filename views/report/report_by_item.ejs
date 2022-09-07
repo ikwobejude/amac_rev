@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+    </head>
+    <body>
+        <% if(user.group_id == 111000){%>
+            <%- include('../layouts/cbs/top-nav') %>
+            <%- include('../layouts/cbs/side-bar') %>
+        <% } else { %>
+            <%- include('../layouts/admin/top-nav') %>
+            <%- include('../layouts/admin/side-bar') %>
+        <% } %>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Payment Report By Items</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item">report</li>
+                        <li class="breadcrumb-item active">payment report by assessment items</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container-fluid">
+                    <% if(user.group_id == 111000){%>
+                    <% } else { %>
+                        <% if (user.group_id == 190){%>
+                            <% } else if (user.group_id == 205 || user.group_id == 121212) {%>
+                                <%- include('../layouts/admin/ofice_user_quick_menu') %>
+                            <% } else {%>
+                                <%- include('../layouts/admin/quick_menu') %>
+                            <% }%>
+                    <% } %>
+                   
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    <form method="get" action="/report/transaction_by_items" id="taxoffice">
+                                        
+                                        <div class="row">
+                                            
+                                           <div class="col-md-4">
+                                            <div class="mb-3 m-form__group">
+                                                <label>Office:</label> 
+                                                <div class="input-group">
+                                                    
+                                                    <select name="office" id="office" class="form-control">
+                                                        <option value="">--Select--</option>
+                                                        <% if(user.group_id == 205 || user.group_id == 200) {%>
+                                                            
+                                                            <% offices.forEach(function(agency) {%>
+                                                                <% if(user.tax_office_id == agency.id_tax_office) {%>
+                                                                <option value="<%= agency.id_tax_office %>"><%= agency.tax_office %></option>
+                                                                <%}%>
+                                                            <%});%>
+                                                            
+                                                        <%} else {%>
+                                                            <% offices.forEach(function(agency) {%>
+                                                                <option value="<%= agency.id_tax_office %>"><%= agency.tax_office %></option>
+                                                            <%});%>
+                                                        <%}%>
+                                                       
+                                                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3 m-form__group">
+                                                <label>ITEMS:</label> 
+                                                <div class="input-group">
+                                                    
+                                                    <select name="item" id="item" class="form-control">
+                                                        <option value="">--Select--</option>
+                                                        <% items.forEach(function(agency) {%>
+                                                          <option value="<%= agency.assessment_item_id %>"><%= agency.assessment_item_name %></option>
+                                                        <%});%>
+                                                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-md-4">
+                                            <div class="mb-3 m-form__group">
+                                                <label>TIN</label> 
+                                                <div class="input-group">
+                                                    
+                
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                        <input type="text" class="form-control" id="tin" name="tin" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                   </div>  
+                                    <div class="row">
+                                      <div class="col-md-3">
+                                            <div class="mb-3 m-form__group">
+                                                <label>Start Date Generated:</label> 
+                                                <div class="input-group">
+                                                    
+                
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                        <input type="date" class="form-control" id="registered_on" name="registered_on" placeholder="dd/mm/yyy">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                           <div class="mb-3 m-form__group">
+                                                <label>End Date Generated:</label> 
+                                                <div class="input-group">
+                                                    
+                                                    <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                    <input type="date" class="form-control" id="registered_to" name="registered_to" placeholder="dd/mm/yyy">
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      <div class="col-md-6">
+                                        <div class="mb-3 m-form__group">
+                                            <label>Invoice number</label> 
+                                            <div class="input-group">
+                                                <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                <input type="text" class="form-control" id="invoice_number" name="invoice_number" placeholder=""> 
+                                            </div>
+                                        </div>
+                                     </div>
+                                    
+                                   
+                                        
+                                </div>  
+                                
+                                      <tr>
+                                        <td colspan="2" >
+                                            <div >
+                                                <input name="Button_DoSearch" type="submit" value="Search" alt="Search" id="revenue_invoices_api_paymButton_DoSearch" class="btn btn-primary">
+                                           
+                                                <input name="Button_DoSearch" type="submit" value="Download Assessment Item" alt="Search" id="donload_report" class="btn btn-warning">
+                                                <!-- <input name="Button_DoSearch" type="submit" value="Download Assessment" alt="Search" id="donload_sum_report" class="btn btn-warning"> -->
+                                            </div>
+                                          </td> 
+                                      </tr>
+                                      
+                                      
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header pb-0">
+                                <!-- <h5>Sample Card</h5><span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> -->
+                                </div>
+                                <% if (prm=="Search"){%>
+                                <div class="card-body">
+                                    
+                                    <div class="table-responsive">
+                   
+                                        <table class="table table-nowrap display table-striped"  >
+                                          <thead>
+                                            <tr>
+                                                <th>PaymentInvoice</th>
+                                                <th>TaxPayer</th>
+                                                <th>ItemName</th>
+                                                <th>Tin</th>
+                                                <th>Agency</th>
+                                                <th>Amount</th>
+                                                <th>DateTime</th>
+                                                <th>CreatedBy</th>
+                                            </tr>
+                                          </thead>
+                                      <tbody>
+                                           <% view_mandate.forEach(function(View) { %> 
+                                                <tr>   
+                                                    <td><%= View.invoice_number %> </td>
+                                                    <td><%= View.taxpayer_name %> </td>
+                                                    <td><%= View.assessment_item_name %> </td>
+                                                    <td><%= View.taxpayer_rin %> </td>
+                                                    <td><%= View.tax_office %> </td>
+                                                    <td><%= View.amount %> </td>
+                                                    <td><%= View.date_log.toLocaleString() %> </td>
+                                                    <td><%= View.taxpayer_name %> </td>
+                                                </tr>
+                                            <%});%>
+                                          </tbody>
+                                        </table>
+                                       
+                                    
+                                      </div>
+
+                                      <nav aria-label="...">
+                                        <%  let uri = prm=="Search" ? uri2 :uri1 ; %>
+                                       
+                                        <% if (pages > 0) { %>
+                                        
+                                        <ul class="pagination pagination-primary">
+                                            <% if (current == 1) { %>
+                                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">First</a></li>
+                                            <% } else { %>
+                                                <li class="page-item "><a class="page-link" href="<%= uri%>" tabindex="-1">Previous</a></li>
+                                            <% } %>
+                                            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                            <% if (i !== 1) { %>
+                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">...</a></li>
+                                            <% } %>
+                                            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                                <% if (i == current) { %>
+                                                <li class="page-item active"><a class="page-link" href="javascript:void(0)"><%= i %> <span class="sr-only">(current)</span></a></li>
+                                                <% } else { %>
+                                                <li class="page-item"><a class="page-link"  href="<%= uri%>&page=<%= i %>"><%= i %></a></li>
+                                                <% } %>
+                                                <% if (i == Number(current) + 4 && i < pages) { %>
+                                                    <li class="page-item"><a class="page-link"  href="javascript:void(0)">...</a></li>
+                                                <% } %>
+                                            <% } %>
+                                            <% if (current == pages) { %>
+                                            <li class="page-item"><a class="page-link" href="javascript:void(0)">Next</a></li>
+                                            <% } else { %>
+                                                <li class="page-item"><a class="page-link" href="<%= uri%>&page=<%= pages %>">Last</a></li>
+                                            <% } %>
+                                        </ul>
+                                        <% } %>
+                                      </nav>
+                                </div>
+
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+        <%- include('../layouts/admin/footer') %>
+    </body>
+
+</html>

@@ -1,0 +1,27 @@
+<div class="card-body">
+    <ul class="nav  search-list"  role="tablist">
+      <li class="nav-item">
+        <a class="nav-link  <%= link == '/office/dashboard'? 'active': '' %>" id="all-link" href="/office/dashboard" aria-selected="<%= link == '/office/dashboard'? 'true': 'false'%>"><i class="icon-dashboard"></i>Dashboard</a>
+        <div class="material-border"></div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <%= link == '/generate/assessment/invoice'  ? 'active': link ==  '/generate/generte_invoice' ? 'active': ''%>" id="image-link"  href="/generate/assessment/invoice" aria-selected="<%= link == '/generate/assessment/invoice'? 'true': 'false'%>">
+            <i class="icon-target"></i>Generate Invoice</a> 
+        <div class="material-border"></div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <%= link == '/receipts/revenue_invoices'? 'active': ''%>" id="video-link"  href="/receipts/revenue_invoices">
+            <i class="icon-video-clapper"></i>Print Revenue Invoice</a>
+        <div class="material-border"></div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <%= link == '/receipts/payment_incoices'? 'active': ''%>" id="video-link"  href="/receipts/payment_incoices">
+            <i class="icon-video-clapper"></i>Print Payment Invoice</a>
+        <div class="material-border"></div>
+      </li>
+      <li class="nav-item"><a class="nav-link <%= link == '/api/verify_payment'? 'active': ''%>" id="map-link"  href="/api/verify_payment"  aria-selected="<%= link == '/api/verify_payment'? 'true': 'false'%>"><i class="icon-map-alt"></i>Verify Payment</a>
+        <div class="material-border"></div>
+      </li>
+   
+    </ul>
+  </div>

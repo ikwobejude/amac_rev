@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+           <!-- Plugins css start-->
+    </head>
+    <body>
+        <%- include('../layouts/admin/top-nav') %>
+        <% if (user.group_id == 190){%>
+          <%- include('../layouts/selfassessment/side-bar') %>
+        <% } else {%>
+          <%- include('../layouts/admin/side-bar') %>
+        <% }%>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Payment Invoices</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">Payment Invoices</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+               
+                <div class="container-fluid">
+                  <% if (user.group_id == 190){%>
+                    <% } else if (user.group_id == 200 || user.group_id == 205 || user.group_id == 121212) {%>
+                        <%- include('../../layouts/admin/ofice_user_quick_menu') %>
+                    <% } else {%>
+                        <%- include('../../layouts/admin/quick_menu') %>
+                    <% }%>
+                <div class="row">
+                    <div class="col-sm-12">
+                      <div class="ribbon-wrapper card">
+                        <div class="ribbon ribbon-clip ribbon-success">Item(s) </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table display"  id="basic-10">
+                                  <thead>
+                                    <tr>
+                                      <th>Action</th>
+                                      <th>TaxPayerTin</th>
+                                      <th>InvoiceNumber</th>
+                                      <th>Item</th>
+                                        <th>Amount</th>
+                                      <th>Paid</th>
+                                      <th>PaymentTimeDate</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% data.forEach(function(result) {%>
+                                    <tr>
+                                      <td>
+                                       
+                                        <a href="#" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-print"></i></a>
+                                        <!-- <a href="/print_mandate/<%= result.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-print"></i></a> -->
+
+                                        
+                                      </td>
+                                     
+                                      <td><%= result.taxpayer_rin %></td>
+                                      <td><%= result.invoice_number %></td>
+                                       <td><%= result.assessment_item_name %></td>
+                                      <td><%= result.amount %></td>
+                      
+                                      <td><%= result.paid==1?"Paid":"UnPaid" %></td>
+                                      <td><%= result.created_at %></td>
+                      
+                                    </tr>
+                                    <% }) %>
+                                  </tbody>
+                                </table>
+                              </div>
+                              
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+        <%- include('../layouts/admin/footer') %>
+        
+    </body>
+
+</html>

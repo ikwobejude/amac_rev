@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>AMAC</title>
+                <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="/a/vendor/bootstrap/css/bootstrap.min.css">
+        <!-- Google fonts-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700&amp;display=swap">
+        <!-- Modal Video-->
+        <link rel="stylesheet" href="/a/vendor/modal-video/css/modal-video.min.css">
+        <!-- Leaflet-->
+        <link rel="stylesheet" href="/a/vendor/leaflet/leaflet.css">
+        <!-- Owl Carousel-->
+        <link rel="stylesheet" href="/a/vendor/owl.carousel2/assets/owl.carousel.min.css">
+        <link rel="stylesheet" href="/a/vendor/owl.carousel2/assets/owl.theme.default.min.css">
+        <!-- theme stylesheet-->
+        <link rel="stylesheet" href="/a/css/style.default.css" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+        <link rel="stylesheet" href="/a/css/custom.css">
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="/a/img/favicon.png">
+        <!-- Tweaks for older IEs-->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+        
+         <style>
+    /* spinner */
+      #cover-spin {
+        position:fixed;
+        width:100%;
+        left:0;right:0;top:0;bottom:0;
+        background-color: rgba(255,255,255,0.7);
+        z-index:9999;
+        display:none;
+    }
+    @-webkit-keyframes spin {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #cover-spin::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 48%;
+      top: 40%;
+      width: 40px;
+      height: 40px;
+      border-style: solid;
+      border-color: black;
+      border-top-color: transparent;
+      border-width: 4px;
+      border-radius: 50%;
+      -webkit-animation: spin .8s linear infinite;
+      animation: spin .8s linear infinite;
+    }
+  </style>
+</head>

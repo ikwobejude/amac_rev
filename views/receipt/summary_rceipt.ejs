@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="">
+    <style type="text/css">
+        #user_form fieldset:not(:first-of-type) {
+            display: none;
+        }
+    </style>
+
+    <title></title>
+    <!--<script type="text/javascript" src="{{asset('jquery.min.js')}}"></script>-->
+    <!--<script type="text/javascript" src="{{asset('qrcode.js')}}"></script> -->
+
+    <link rel="stylesheet" href="/a/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/roadtax.css">
+    <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/davidshimjs-qrcodejs@0.0.2/qrcode.min.js"></script>-->
+    <style>
+        @media print {
+            @page {
+                size: 8.5in 11in;
+            }
+
+            table {
+                margin-top: 2em;
+            }
+        }
+
+        @media screen,
+        print {
+            table {
+                font-size: 15pt
+            }
+        }
+
+        /*margin-right: 30mm;*/
+    </style>
+
+</head>
+
+<body>
+
+
+    <p>&nbsp;</p>
+    <p>
+
+        <% let dat="https://amacrev.com/receipts/summary_receipt?invoice_number= view_mandate.invoice_number " %>
+            </script>
+
+
+
+
+            <table style=" margin-left: auto; margin-right: auto;" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+
+
+                        <table cellspacing="0" cellpadding="0">
+
+                            <!--<div>-->
+                            <!--<td style="border-left: 1px solid #3d84cc; border-bottom: 1px solid #3d84cc; height: 30px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                            <table style="WIDTH: 600px; HEIGHT: 300px; FONT-SIZE: 15pt" border="1">
+
+                                <!--<tr>-->
+                                <!--    <td>-->
+
+
+                                <table class="Grid" cellspacing="0" cellpadding="0">
+
+                                    <!--<caption class="Row">Total Records:&nbsp;2&nbsp;</caption>-->
+
+                                    <tr class="GroupCaption">
+                                        <th colspan="3" scope="col">
+                                            &nbsp;TaxPayer Name: <%= view_mandate.tax_payer_name %> <br>
+                                                &nbsp;<span style="font-size: 15px;">TIN: <%= view_mandate.tax_payer_rin
+                                                        %></span><br />
+                                                &nbsp;BillNo: <%= view_mandate.invoice_number %> <br />
+                                                    &nbsp;Bill Date: <%= view_mandate.created_at.toLocaleString() %> <br />
+                                                        &nbsp;Payment Date: <%= view_mandate.settlement_date==null ? ""
+                                                            : view_mandate.settlement_date.toLocaleString() %><br />
+                                                            &nbsp;Payment Status: <%= view_mandate.settlement_status==0 ? "UNPAID"
+                                                            : "PAID" %><br />
+                                                            <!--&nbsp;Title:  -->
+
+                                        </th>
+                                    </tr>
+
+
+
+                                    <tr  class="Row">
+                                        <td>S/N</td>
+                                        <td>&nbsp;Revenue Items </td>
+                                        <td>Amount </td>
+                                    </tr>
+                                    <% let i = 1;%>
+                                    <% view_mandate1.forEach(function(View) {
+                                        
+                                    %>
+                                        <tr class="Row">
+                                            <td> <%= i++ %></td>
+                                            <td >&nbsp;<%= View.assessment_item_name %>
+                                            </td>
+                                            <td style="TEXT-ALIGN: left">
+                                                &#8358;<%= View.amount.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                            </td>
+
+
+                                        </tr>
+
+                                        <% }); %>
+
+
+                                            <tr class="Total">
+                                                <td colspan="2">&nbsp;Total:&nbsp; </td>
+                                                <td style="TEXT-ALIGN: right" valign="baseline">&#8358;<%=
+                                                        view_mandate.assessment_amount.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %><br />
+                                                </td>
+
+                                            </tr>
+                                            <tr class="Total">
+                                                <script type="text/javascript"
+                                                    src="{{asset('new/js/numberToString.js')}}"></script>
+                                                <td colspan="2">&nbsp;Amount in words:&nbsp; <span id="word"
+                                                        style="font-size: 12px"></span> Naira Only</td>
+                                                <td style="TEXT-ALIGN: right" valign="baseline">&nbsp;&nbsp;<br />
+                                                </td>
+
+                                            </tr>
+                                            </tr>
+                                            <% if(view_mandate.settlement_status==1 ){%>
+                                            <tr class="Total">
+                                                <td colspan="2"><img src="https://chart.googleapis.com/chart?cht=qr&chl=<%= dat %>&chs=160x160&chld=L|0" class="qr-code img-thumbnail img-responsive" /> </td>
+                                                <td style="TEXT-ALIGN: right" valign="baseline">&nbsp;&nbsp;<br />
+                                                </td>
+                                                
+                                              </tr>
+                                            <% } %>
+                                              
+
+                                            <tr class="Total">
+                                                <td colspan="2">&nbsp;Date:&nbsp;<%= view_mandate.created_at.toLocaleString() %>
+                                                </td>
+                                                <td style="TEXT-ALIGN: right" valign="baseline">&nbsp;&nbsp;<br />
+                                                </td>
+                                            </tr>
+                                            <tr class="Total">
+                                                <td colspan="3" color="red"><span style="text-align: center; color:red"> &nbsp;Service Provider:&nbsp; SMARTAPPS </td>
+                                                <!--<td style="TEXT-ALIGN: right" valign="baseline">&nbsp;&nbsp; <br />-->
+                                                </td>
+
+                                            </tr>
+
+
+
+
+
+                                </table>
+                                <!--</td>-->
+                                <!--</div>-->
+
+
+                            </table>
+                    </td>
+                </tr>
+            </table>
+
+
+
+    </p>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+
+    <script>
+
+        // System for American Numbering 
+        var th_val = ['', 'thousand', 'million', 'billion', 'trillion'];
+        // System for uncomment this line for Number of English 
+        // var th_val = ['','thousand','million', 'milliard','billion'];
+
+        var dg_val = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+        var tn_val = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        var tw_val = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        function toWordsconver(s) {
+            s = s.toString();
+            s = s.replace(/[\, ]/g, '');
+            if (s != parseFloat(s))
+                return 'not a number ';
+            var x_val = s.indexOf('.');
+            if (x_val == -1)
+                x_val = s.length;
+            if (x_val > 15)
+                return 'too big';
+            var n_val = s.split('');
+            var str_val = '';
+            var sk_val = 0;
+            for (var i = 0; i < x_val; i++) {
+                if ((x_val - i) % 3 == 2) {
+                    if (n_val[i] == '1') {
+                        str_val += tn_val[Number(n_val[i + 1])] + ' ';
+                        i++;
+                        sk_val = 1;
+                    } else if (n_val[i] != 0) {
+                        str_val += tw_val[n_val[i] - 2] + ' ';
+                        sk_val = 1;
+                    }
+                } else if (n_val[i] != 0) {
+                    str_val += dg_val[n_val[i]] + ' ';
+                    if ((x_val - i) % 3 == 0)
+                        str_val += 'hundred ';
+                    sk_val = 1;
+                }
+                if ((x_val - i) % 3 == 1) {
+                    if (sk_val)
+                        str_val += th_val[(x_val - i - 1) / 3] + ' ';
+                    sk_val = 0;
+                }
+            }
+            if (x_val != s.length) {
+                var y_val = s.length;
+                str_val += 'point ';
+                for (var i = x_val + 1; i < y_val; i++)
+                    str_val += dg_val[n_val[i]] + ' ';
+            }
+            return str_val.replace(/\s+/g, ' ');
+        }
+        var number = '<%= view_mandate.assessment_amount %>';
+        let nn = parseFloat(number).toFixed();
+        var Inwords = toWordsconver(nn);
+        document.getElementById("word").innerHTML += Inwords;
+    </script>
+</body>
+
+</html>

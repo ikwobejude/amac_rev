@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+    </head>
+    <body>
+        <%- include('../layouts/admin/top-nav') %>
+        <%- include('../layouts/admin/side-bar') %>
+        <div class="page-body">
+            <!-- Container-fluid starts-->
+            <div class="container-fluid dashboard-default-sec">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h5> <br>
+                    Welcome, <%= user.name %>
+                    
+                  </h5>
+                  
+                </div>
+                <%- include('../layouts/admin/quick_menu') %>
+                
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                  <div class="card o-hidden border-0">
+                    <a href="/admin/individuals">
+                      <div class="bg-primary b-r-4 card-body">
+                        <div class="media static-top-widget">
+                          <div class="align-self-center text-center"><i data-feather="user-plus"></i></div>
+                          <div class="media-body"><span class="m-0">INDIVIDUAL </span>
+                            <h4 class="mb-0 counter"><%= individualCount %></h4><i class="icon-bg" data-feather="database"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                  <div class="card o-hidden border-0">
+                    <a href="/admin/organization">
+                      <div class="bg-secondary b-r-4 card-body">
+                        <div class="media static-top-widget">
+                          <div class="align-self-center text-center"><i data-feather="shopping-bag"></i></div>
+                          <div class="media-body"><span class="m-0">Companies </span>
+                            <h4 class="mb-0 counter"><%= companyCount %></h4><i class="icon-bg" data-feather="shopping-bag"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </a>     
+                  </div>
+                </div>
+                <!--<div class="col-sm-6 col-xl-3 col-lg-6">-->
+                <!--  <div class="card o-hidden border-0">-->
+                <!--    <a href="/">-->
+                <!--      <div class="bg-primary b-r-4 card-body">-->
+                <!--        <div class="media static-top-widget">-->
+                <!--          <div class="align-self-center text-center"><i data-feather="message-circle"></i></div>-->
+                <!--          <div class="media-body"><span class="m-0" style="font-size: 12px">Agencies </span>-->
+                <!--            <h4 class="mb-0 counter">234</h4><i class="icon-bg" data-feather="message-circle"></i>-->
+                <!--          </div>-->
+                <!--        </div>-->
+                <!--      </div>-->
+                <!--    </a>-->
+                <!--  </div>-->
+                <!--</div>-->
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                  <div class="card o-hidden border-0">
+                    <div class="bg-primary b-r-4 card-body">
+                      <div class="media static-top-widget">
+                        <div class="align-self-center text-center"><i data-feather=" database "></i></div>
+                        <div class="media-body"><span class="m-0">PAYMENTS</span>
+                          <h4 class="mb-0 counter"><%= parseFloat(total).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></h4><i class="icon-bg" data-feather="user-plus"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+                <div class="row">
+        
+                  <div class="col-sm-6  ">
+                    <div class="card income-card">
+                      <div class="card-body p-0">
+                        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                      </div>
+                    </div>
+                   </div>
+                   <div class="col-sm-6 ">
+                    <div class="card income-card">
+                      <div class="card-body p-0">
+                        <div id="chartContainer1" style="height: 300px; width: 100%;"></div>
+                      </div>
+                    </div>
+                   </div>
+                   <div class="col-sm-6 ">
+                    <div class="card income-card">
+                      <div class="card-body p-0">
+                        <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+                      </div>
+                    </div>
+                   </div>
+
+                <div class="col-sm-6 ">
+                  <div class="card income-card">
+                    <div class="card-body p-0">
+                      <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+                    </div>
+                  </div>
+                 </div>
+              </div>
+
+                
+            <!-- Container-fluid Ends-->
+          </div>
+
+        <%- include('../layouts/admin/footer') %>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+        <script>
+          window.onload = function(){
+
+            let data1 = [];
+            let data2 = [];
+            let data3 = [];
+
+            $.ajax({
+              url: '/admin/payment_by_agencies',
+              method: "GET",
+              dataType: 'json',
+              success: function(res) {
+                for (let i = 0; i < res.length; i++) {
+                  data1.push(
+                    { label: res[i].label, y: res[i].y },
+                  )
+                }
+                var options = {
+                  title: {
+                    text: "PAYMENT BY OFFICES"
+                  },
+                  data: [{
+                      type: "pie",
+                      // startAngle: ,
+                      showInLegend: "true",
+                      legendText: "{label}",
+                      indexLabel: "{label} ({y})",
+                      yValueFormatString:"#,##0.#"%"",
+                      dataPoints:  data1
+                  }]
+                };
+                $("#chartContainer").CanvasJSChart(options);
+              }
+            })
+
+           
+          
+
+            // chart 2
+
+            $.ajax({
+              url: "/admin/chart_payment_by_assessment",
+              method: 'GET',
+              dataType: 'json',
+              success: function(res) {
+                for (let i = 0; i < res.length; i++) {
+                  data2.push(
+                    { label: res[i].label, y: res[i].y },
+                  )
+                }
+
+
+                console.log(data2)
+
+                var options1 = {
+                  title: {
+                    text: "Assessments"
+                  },
+                  theme: "light2",
+                  data: [{
+                      type: "pie",
+                      // startAngle: 45,
+                      showInLegend: "true",
+                      legendText: "{label}",
+                      indexLabel: "{label} ({y})",
+                      yValueFormatString:"#,##0.#"%"",
+                      dataPoints: data2
+                  }]
+                };
+                $("#chartContainer1").CanvasJSChart(options1);
+              }
+            })
+          
+          // chart 3
+
+          $.ajax({
+            url: '/admin/chart_pay_assessment_item',
+            method: 'GET',
+            dataType: 'JSON',
+            success: function(res){
+              for (let i = 0; i < res.length; i++) {
+                  data3.push(
+                    { label: res[i].label, y: res[i].y },
+                  )
+                }
+
+                var options2 = {
+                title: {
+                  text: "PAYMENT BY ASSESSMENT"
+                },
+                theme: "light",
+                data: [{
+                    type: "pie",
+                    startAngle: 45,
+                    showInLegend: "true",
+                    legendText: "{label}",
+                    indexLabel: "{label} ({y})",
+                    yValueFormatString:"#,##0.#"%"",
+                    dataPoints: data3
+                }]
+              };
+              $("#chartContainer2").CanvasJSChart(options2);
+            }
+          })
+          
+
+          // chart 3
+
+          // var options3 = {
+          //   title: {
+          //     text: "Website Traffic Source"
+          //   },
+          //   data: [{
+          //       type: "pie",
+          //       startAngle: 45,
+          //       showInLegend: "true",
+          //       legendText: "{label}",
+          //       indexLabel: "{label} ({y})",
+          //       yValueFormatString:"#,##0.#"%"",
+          //       dataPoints: [
+          //         { label: "Organic", y: 36 },
+          //         { label: "Email Marketing", y: 31 },
+          //         { label: "Referrals", y: 7 },
+          //         { label: "Twitter", y: 7 },
+          //         { label: "Facebook", y: 6 },
+          //         { label: "Google", y: 10 },
+          //         { label: "Others", y: 3 }
+          //       ]
+          //   }]
+          // };
+          // $("#chartContainer3").CanvasJSChart(options3);
+
+          }
+          </script>
+    </body>
+
+</html>
