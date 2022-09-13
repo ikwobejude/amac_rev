@@ -12,7 +12,7 @@ const { states, local_government_area } = require('../model/texPayersmodels');
 const saltRounds = 10;
 
 const { Users } = require("../model/userModel");
-const { sendEmail, sendOtpEmail } = require('../config/emailServices');
+// const { sendEmail, sendOtpEmail } = require('../config/emailServices');
 require('dotenv').config();
 
 
@@ -100,14 +100,14 @@ module.exports.signup_post = async (req, res) => {
                     console.log(userType)
                     let newIndividual = new individual(userType);
                     newIndividual.save().then(() => {
-                        sendEmail(userInpt, plainPass);
+                        // sendEmail(userInpt, plainPass);
                         res.status(200).json({ tin: tin })
                     })
                 } else {
                     let userType = await companyDetails(value, tin)
                     let newCopertive = new companies(userType);
                     newCopertive.save().then(() => {
-                        sendEmail(userInpt, plainPass);
+                        // sendEmail(userInpt, plainPass);
                         res.status(200).json({ tin: tin })
                     })
                 }
@@ -205,7 +205,7 @@ module.exports.sendOtp = async (req, res) => {
             let id = user.id;
             //  console.log()
             Users.update({ reset_token: otp }, { where: { id: id } }).then(() => {
-                sendOtpEmail(user, otp)
+                // sendOtpEmail(user, otp)
                 res.status(200).json({ msg: "success" })
             })
 
