@@ -12,7 +12,7 @@ const { states, local_government_area } = require('../model/texPayersmodels');
 const saltRounds = 10;
 
 const { Users } = require("../model/userModel");
-const { sendEmail, sendOtpEmail } = require('../config/emailServices');
+// const { sendEmail, sendOtpEmail } = require('../config/emailServices');
 require('dotenv').config();
 
 
