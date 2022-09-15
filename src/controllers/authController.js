@@ -158,7 +158,7 @@ module.exports.loginSuccess = async (req, res) => {
     console.log(req.user)
     try {
         let dt = req.user;
-        if (dt.group_id == 111111 || dt.group_id == 111000) {
+        if (dt.group_id == 111111 ) {
             res.redirect('/admin/dashboard')
         } else if (dt.group_id == 190) {
             res.redirect('/self/assessment/dashboard')
@@ -166,6 +166,8 @@ module.exports.loginSuccess = async (req, res) => {
             res.redirect('/agency/dashboard')
         } else if (dt.group_id == 205 || dt.group_id == 200 ||  dt.group_id == 121212){
             res.redirect('/office/dashboard')
+        }   else if (dt.group_id == 111000 ){
+            res.redirect('/cbs/admin/dashboard')
         } else {
             res.send(req.user)
         }
