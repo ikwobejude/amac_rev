@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('layouts/admin/header') %>
+    </head>
+    <body>
+        <%- include('layouts/admin/top-nav') %>
+        <%- include('layouts/admin/side-bar') %>
+
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Sample Page</h3>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item">Pages</li>
+                        <li class="breadcrumb-item active">Sample Page</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                        <ul>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                            <form class="form-inline search-form">
+                                <div class="form-group form-control-search">
+                                <input type="text" placeholder="Search..">
+                                </div>
+                            </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid starts-->
+                <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                    <!-- <div class="card">
+                        <div class="card-header pb-0">
+                        <h5>Sample Card</h5><span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                        </div>
+                        <div class="card-body">
+                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                        </div>
+                    </div> -->
+
+                    <div class="card">
+                        <div class="card-header pb-0">
+                          <h5>CENTRAL BILLING SYSTEM  API</h5>
+                        </div>
+                        <div class="card-body">
+                          <h6>Tax Payer Verification</h6>
+                        
+                          <h6>1. Third Party/MDA queries CBS endpoint to verify that a user tin exists and is correct</h6>
+                          <h6>2. If correct, third party/mda initializes a payment on PSIRS platform using                        </h6> 
+                          <ol>
+                            <li>The TIN of the taxpayer</li>
+                            <li>The amount to be paid</li>
+                            <li>The tax item to be paid for  (In text format)</li>
+                            <li>The mda initiating the payment (unique id issued by CPP/PSIRS)</li>
+                            <li>The callback url to report to when the payment is completed (a url to the custom software of the third party/MDA)                            </li>
+                          </ol>
+                          <h6>
+                            3. Thirdparty/mda will be notified on their custom software once payment is made, but assuming they want to initiate a check by themselves, they can call our provided endpoint to check the status of a billing_ref.
+                          </h6>
+                          <blockquote>
+                            <p>
+                                Test Host: http://amacrev.com/ 
+
+                            </p>
+                            
+                          </blockquote>
+                          <h4>1.0 Validate TIN endpoint - validate tin exists</h4>
+                          <blockquote>
+                            Endpoint:  
+                                POST {host}/verifyTin
+                          </blockquote>
+                          <pre>
+                            {
+                                "tin": "2320593657",
+                             }                             
+                          </pre> 
+                          <h6>Sample Successful Response: 200 OK</h6>
+                          
+                          <pre>
+                            {
+                                "status": "success",
+                                "message": "Unique TIN found!",
+                                "name": "Taxpayer_Name",
+                                "first_name": "MAGAJI",
+                                "middle_name": "PAUL",
+                                "surname": "MANYEN",
+                                "tin": "2320593657",
+                                "phoneNumber": "8036498776",
+                                "address": "21 CORNER SOJA ZARIA ROAD JOS NORTH",
+                                "account_type": "individual"
+                             }                             
+                          </pre> 
+                          <h6>Sample failed response: 201</h6>
+                          <pre>
+                            {
+                                "status”: "failed",  
+                                "message": "TIN not  found"
+                             }
+                             
+                          </pre>
+                          <br> <br>
+
+                          <h6>
+                            2.0 Initialize Transaction:
+                          </h6>
+                          <blockquote>
+                            <p>
+                                Endpoint: POST {host}/Initilize_transaction   
+                            </p>
+                          </blockquote>
+                         
+                          <h6>i. Required JSON Params : </h6>
+                          
+                          <pre>
+                            {
+                                “mda_id":"{mda_id_issued_by_PSIRS}",
+                                 “mda_reference”: “{mda_unique_reference}”
+                                “tax_item":"{Tax item paid for E.g. School Fees",
+                                “tin”: “{User_Tin}”
+                                “amount”:”{amount_paid} “,
+                                “callback_url”: “{exact_url_to_be_called_once_this_payment_is_made}”,
+                                “tax_code”: “{tax_code_according_to_the_law}”
+                             }
+                                                     
+                          </pre>
+
+                          <h6>Sample Success Response: 200                        </h6>
+                          
+                          <pre>
+                            {
+                                "status": "success",
+                                "billing_reference": "BRN123445",
+                                "mda_reference": "{supplied_billing_reference}",
+                                "amount": "{supplied_amount}"
+                                “message”:”Billing Ref created successfully”
+                            }
+                         
+                                                     
+                          </pre>
+
+                          <h6>Sample Failure Response: 201 </h6>
+                          
+                          <pre>
+                            {
+                                "status": "failure", 
+                                "mda_reference": "{supplied_billing_reference}",
+                                "amount": "{supplied_amount}"
+                                “message”:”Invalid MDA/Invalid TIN/Transaction Rejected”
+                            }
+                                             
+                          </pre>
+
+                          <h6>
+                            4. Verify BRN was created and is valid:
+
+                          </h6>
+                          <ol>
+                            <li>
+                                Manually: Visit amacrev.com (for test), and (for live payments) and verify the brn generated on the home page (Verify BRN option).
+                            </li>
+                            <li>
+                                Automatically: your provided callback_url will be called upon successful payment. The POST payload of the call will be  
+                            </li>
+                          </ol>
+
+                          <pre>
+                            {
+                                "status": "success",
+                                "billing_reference": "billing-ref",
+                                "mda_reference": "{supplied_billing_reference}",
+                                "amount": "amount_paid by user",
+                                “message”:”Payment Made Successfully”,
+                                “receipt”: “http://amacrev/#/payment/N-BRN92129472/download”
+                            }
+                         
+                        </pre>
+
+                        
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+
+
+        <%- include('layouts/admin/footer') %>
+    </body>
+
+</html>

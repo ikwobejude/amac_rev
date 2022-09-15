@@ -13,18 +13,18 @@ module.exports.verifyTaxpayerTin = async (req, res) => {
     try {
         const { error, value } = TaxTin.validate(req.body);
         if (error) {
-            res.status(201).json({ msg: error.message })
+            res.status(201).json({code: 201, msg: error.message })
         }
         const taxPayerTin = {
             usertin: value.tax_payer_tin
         }
 
         let Vtin = await findValidTin(taxPayerTin.usertin)
-        res.status(200).json({ msg: "Unique tin found", Vtin })
+        res.status(200).json({code: 200, msg: "Unique tin found", Vtin })
 
     } catch (error) {
         let err = handleError(error)
-        res.status(201).json({ "err": err.message })
+        res.status(201).json({code: 201, "err": err.message })
     }
 }
 
@@ -33,7 +33,7 @@ module.exports.initilizePayment = async (req, res) => {
     try {
         const { error, value } = initialPayment.validate(req.body);
         if (error) {
-            res.status(201).json({ msg: error.message })
+            res.status(201).json({code: 201, msg: error.message })
         } else {
             let Vtin = await findValidTin(value.tin);
             if (Vtin) {
@@ -47,12 +47,12 @@ module.exports.initilizePayment = async (req, res) => {
 
                 }
 
-                res.status(200).json({ msh: "Initialized", payload })
+                res.status(200).json({code: 200, msg: "Initialized", payload })
             }
         }
     } catch (error) {
         let err = handleError(error)
-        res.status(201).json({ msg: err.mesaage })
+        res.status(201).json({code: 201, msg: err.mesaage })
     }
 }
 

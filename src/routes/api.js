@@ -9,7 +9,7 @@ api.post('/verifyTin', async(req, res) => {
 
 api.post('/Initilize_transaction', async(req, res) => {
     apiController.initilizePayment(req, res)
-})
+});
 
 api.route('/verify_payment')
     .post(async (req, res) => {
@@ -17,6 +17,10 @@ api.route('/verify_payment')
     })
     .get(async (req, res) => {
         apiController.verifyPayment_get(req, res)
-    })
+    });
+
+api.get('/documentation', async(req, res) => {
+    res.render('documentation')
+})
 
 module.exports = api;
