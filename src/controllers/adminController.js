@@ -7,6 +7,7 @@ const validation = require('../config/validation');
 const { individual, companies, tax_offices } = require("../model/assessmentModels");
 const { assessments } = require("../model/assessmentModels");
 const { Users, User_groups } = require('../model/userModel');
+const { agencies } = require('../model/texPayersmodels');
 
 module.exports.adminDashboard = async (req, res) => {
     try {
@@ -288,6 +289,43 @@ module.exports.updateAgencyInfo = async (req, res) => {
             tax_offices.update(updateInfo, { where: { id_tax_office: value.id } }).then(() => {
                 res.status(200).json({ msg: "Updated" })
             })
+        }
+    } catch (error) {
+        res.status(201).json({ err: error.message });
+    }
+}
+
+
+module.exports.updateAgencyInfo1 = async (req, res) => {
+    try {
+        const { error, value } = validation.agenciesv.validate(req.body);
+        if (error) {
+            res.status(201).json({ err: error.message });
+        } else {
+            let updateInfo = {
+                agency_name: value.agency_name,
+                created_by: req.user.username,
+                created_at: new Date(),
+                agency_email: value.agency_email,
+                agency_phone: value.agency_phone,
+                agencies_type: value.agencies_type,
+                // functions: value.functions,
+                // address: value.address,
+            }
+            let t = await db.transaction();
+            let agen = await agencies.findOne({ where: { agency_id: value.id } });
+
+            try {
+                await agencies.update(updateInfo, { where: { agency_id: value.id } }, {transaction: t})
+                await Users.update({username: value.agency_email, email: value.agency_email, user_phone: value.agency_phone}, {where: {email: agen.agency_email }}, {transaction: t})
+                await t.commit()
+                res.status(200).json({ msg: "Updated" })
+            
+            } catch (error) {
+                await t.rollback();
+                res.status(201).json({ err: error.message });
+            }
+           
         }
     } catch (error) {
         res.status(201).json({ err: error.message });

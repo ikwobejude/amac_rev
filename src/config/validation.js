@@ -87,7 +87,7 @@ const createUpdateAgency = Joi.object({
 const officeV = Joi.object({
     tax_office: Joi.string().required(),
     email: Joi.string().email().required(),
-    user_phone: Joi.number().integer().min(11).required(),
+    user_phone: Joi.string().min(11).required(),
 
     address: Joi.string()
 })
@@ -116,7 +116,8 @@ const agenciesv = Joi.object({
     agency_type: Joi.string().required(),
     agency_name: Joi.string().required(),
     agency_email: Joi.string().email().required(),
-    agency_phone: Joi.number().min(10).required()
+    agency_phone: Joi.string().min(10).required(),
+    id: Joi.string().required(),
 })
 
 const officeUserV = Joi.object({

@@ -90,8 +90,8 @@
                                   <button class="dropbtn btn-primary" type="button"><i class="fa fa-cogs" ></i> <span></span></button>
                                   <div class="dropdown-content">
                                      <a href="javascript:;" data-bs-toggle="modal" data-original-title="test"
-                                     data-bs-target="#exampleModal<%= View.agency_id %>">Edit details</a>
-                                     <a href="javascript:;"  data-bs-toggle="modal" data-original-title="test" data-bs-target="#addStaff<%= View.id_tax_office %>" >User AMACEV.com base ayatem</a>
+                                     data-bs-target="#update<%= View.agency_id %>">Edit details</a>
+                                     <!-- <a href="javascript:;"  data-bs-toggle="modal" data-original-title="test" data-bs-target="#addStaff<%= View.id_tax_office %>" >User AMACEV.com base ayatem</a> -->
                                     <!-- <a href="javascript:;" >View transactions</a> -->
                                     <!-- <a href="/admin/view_office_users?office_id=<%= View.tax_office_id %>">View Office User</a> -->
                                     <!-- <a href="#">Ip Configurations</a></div> -->
@@ -113,7 +113,7 @@
                             </td>
                             <!-- <td><%= View.functions %> </td> -->
                           </tr>
-                          <div class="modal fade" id="exampleModal<%= View.agency_id %>" tabindex="-1" role="dialog"
+                          <div class="modal fade" id="update<%= View.agency_id %>" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -122,8 +122,7 @@
                                   <button class="btn-close" type="button" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                                 </div>
-                                <form class="form theme-form" method="post" id="form<%= View.agency_id %>"
-                                  action="/submit">
+                                <form class="form theme-form" id="form<%= View.agency_id %>">
                                   <div class="modal-body">
 
                                     <div class="card-body">
@@ -173,8 +172,7 @@
                                   </div>
                                   <div class="modal-footer">
                                     <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
-                                    <button class="btn btn-secondary" type="submit"
-                                      onclick="submitEdit('<%= View.id_tax_office %>')">Save changes</button>
+                                    <button class="btn btn-secondary"  onclick="updateD('<%= View.agency_id %>')">Save changes</button>
                                   </div>
                                 </form>
                               </div>
@@ -267,7 +265,8 @@
 
       <%- include('../layouts/admin/footer') %>
         <script>
-          function submitEdit(id) {
+          function updateD(id) {
+            console.log(id)
             let form = document.querySelector('#form' + id + '');
 
             form.addEventListener('submit', async (e) => {
@@ -282,13 +281,14 @@
               try {
                 let res = await fetch('/admin/edit_agency', {
                   method: "POST",
-                  body: JSON.stringify({ agency_name: agency_name, agency_type: agency_type, agency_email: agency_email, agency_phone: agency_phone}),
+                  body: JSON.stringify({ agency_name: agency_name, agency_type: agency_type, agency_email: agency_email, agency_phone: agency_phone, id:id}),
                   headers: { 'Content-Type': 'application/json' }
                 })
 
                 const data = await res.json();
                 if (data.err) {
                      $('#cover-spin').hide(0)
+                     $('#update' + id + '').modal('hide');
                   // formerror.textContent = data.err
                   var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data.err + '</strong>.', {
                     type: 'danger',
@@ -299,6 +299,7 @@
                   });
                 } else {
                  $('#cover-spin').hide(0)
+                 $('#update' + id + '').modal('hide');
                   var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Updated</strong>', {
                     type: 'theme',
                     allow_dismiss: true,
@@ -309,7 +310,7 @@
 
                   setTimeout(function () {
                     notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
-                    location.assign('/admin/view_agencies')
+                    location.assign('/agency/agencies')
                   }, 1000);
                 }
               } catch (error) {
@@ -325,6 +326,7 @@
               form.addEventListener('submit', async (e) => {
                 e.preventDefault()
                  $('#cover-spin').show(0)
+                 $('#exampleModal').modal('hide');
                 let agency_name = form.agency_name.value;
                 let agency_type = form.agency_type.value;
                 let agency_email = form.agency_email.value

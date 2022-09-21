@@ -57,7 +57,7 @@ admin.route('/view_offices')
     })
 
 admin.post('/edit_agency', async (req, res) => {
-    adminController.updateAgencyInfo(req, res)
+    adminController.updateAgencyInfo1(req, res)
 })
 
 admin.post('/add_staff_to_office', async(req, res)=> {
