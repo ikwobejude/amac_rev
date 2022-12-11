@@ -28,7 +28,7 @@
                         <div class="form-row  ">
                             <div class="form-group col-md-12">
                                 <label for="inputZip">Who are you?</label>
-                                <select name="usertype" id="usertype" class="form-control" >
+                                <select name="usertype" id="usertype" class="form-control" required>
                                     <option value="">Select option</option>
                                     <option value="Individual">Individual</option>
                                     <option value="Corperate">Corperate</option>
@@ -41,18 +41,18 @@
                         <div class="form-row  " >
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="" placeholder="Individual/Organization/federal or state agency name">
+                                <input type="text" class="form-control" id="name" name="name" value="" placeholder="Individual/Organization/federal or state agency name" required>
                             </div>
                         </div>
                         <div class="form-row  ">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="" placeholder="Email">
+                                <input type="email" class="form-control" id="email" name="email" value="" placeholder="Email" required>
                                 
                             </div>
                             <div class="form-group col-md-6 ">
                                 <label for="Number">Phone Number</label>
-                                <input type="text" class="form-control" id="number" name="number" placeholder="Mobile Number" value="" oninput="return phoneN()">
+                                <input type="text" class="form-control" id="number" name="number" placeholder="Mobile Number" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
                                
                             </div>
                         </div>
@@ -66,7 +66,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="inputState">State</label>
-                                <select class="form-control" id="state" name="state" onchange="getLga()">
+                                <select class="form-control" id="state" name="state" onchange="getLga()" required>
                                     <option>Choose...</option>
                                     <% state.forEach(function(st) { %>
                                     <option value="<%= st.id %>" <%= st.id == 15? "selected" : "" %> > <%= st.name %></option>
@@ -106,7 +106,7 @@
                             </ul>
                         </div>
                         <div style="padding-bottom: 20px;text-align: right   ;" id="jj">
-                            <button type="submit" class="btn btn-primary" id="btn">Submit</button>
+                            
                         </div>
                     </form>
                 </div>
@@ -199,7 +199,7 @@
 
     }
 
-
+    document.getElementById('btn').style.visibility='hidden';
     function phoneN() {
         let phone = document.getElementById('Number');
         let nn = document.getElementById('nn');
@@ -260,26 +260,20 @@
             document.getElementById('special').style.display = 'none';
             document.getElementById('number1').style.display = 'none';
             document.getElementById('lenght').style.display = 'none';
-            document.getElementById('mtc').style.display = 'none';
-
-
-            // $('jj').html('')
-
-           
-            // btn.style.visibility = 'visible';
-            
+            $('#jj').html('<button type="submit" class="btn btn-primary" id="btn" disabled>Submit</button>')
         } else {
+           
             document.getElementById('Upper').style.display = 'block';
             document.getElementById('lower').style.display = 'block';
             document.getElementById('special').style.display = 'block';
             document.getElementById('number1').style.display = 'block';
             document.getElementById('lenght').style.display = 'block';
-            document.getElementById('mtc').style.display = 'block';
+            // document.getElementById('mtc').style.display = 'block';
             // document.getElementById('btn').style.display = 'block';
             // btn.style.visibility = 'hidden';
+            
         }
     }
-
 
 
 
