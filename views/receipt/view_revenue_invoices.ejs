@@ -57,7 +57,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <form method="get" action="view_mandates1">
+                                <form method="get" action="/receipts/revenue_invoices">
                                     <div class="row">
                                       <div class="col-md-6">
                                         <div class="mb-3 m-form__group">
@@ -144,7 +144,8 @@
                                     <% data.forEach(function(result) {%>
                                     <tr>
                                       <td>
-                                       
+                                          <a href="/api/get_payment_page?invoice_number=<%= result.invoice_number %>" id="" data-toggle="tooltip" title="Make Payment"  target="_blank"><i class="fa fa-paypal"></i></a>
+                                        
                                         <a href="/receipts/summary_receipt?invoice_number=<%= result.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-print"></i></a>
                                         <!-- <a href="/print_all_receipt/<%= result.invoice_number%>" id="" data-toggle="tooltip" title="Print All Receipts"   target="_blank"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a> -->
                                         

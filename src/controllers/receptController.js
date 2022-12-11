@@ -21,20 +21,20 @@ module.exports.viewRevenueReceipt = async (req, res) => {
             let data = await assessments.findAll({
                 where: {
                     [Op.and]: [
-                        settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.user.username && { tax_payer_rin: { [Op.like]: `${req.user.username}` } },
-                        req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } }
+                        settlement_status && { settlement_status: { [Op.like]: `%${settlement_status}%` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.user.username && { tax_payer_rin: { [Op.like]: `${req.user.username}%` } },
+                        req.query.invoice_number && { invoice_number: { [Op.like]: `%${req.query.invoice_number}%` } }
                     ],
                 }
             });
             let count = await assessments.count({
                 where: {
                     [Op.and]: [
-                        settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.user.username && { tax_payer_rin: { [Op.like]: `${req.user.username}` } },
-                        req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } }
+                        settlement_status && { settlement_status: { [Op.like]: `%${settlement_status}%` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.user.username && { tax_payer_rin: { [Op.like]: `%${req.user.username}%` } },
+                        req.query.invoice_number && { invoice_number: { [Op.like]: `%${req.query.invoice_number}%` } }
                     ],
                 }
 
@@ -59,22 +59,22 @@ module.exports.viewRevenueReceipt = async (req, res) => {
             let data = await assessments.findAll({
                 where: {
                     [Op.and]: [
-                        settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `${req.query.tax_payer_rin}` } },
-                        req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } },
-                        req.user.tax_office_id && { tax_office_id: { [Op.like]: `${req.user.tax_office_id}` } }
+                        settlement_status && { settlement_status: { [Op.like]: `%${settlement_status}%` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `%${req.query.tax_payer_rin}%` } },
+                        req.query.invoice_number && { invoice_number: { [Op.like]: `%${req.query.invoice_number}%` } },
+                        req.user.tax_office_id && { tax_office_id: { [Op.like]: `%${req.user.tax_office_id}%` } }
                     ],
                 }
             });
             let count = await assessments.count({
                 where: {
                     [Op.and]: [
-                        settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `${req.query.tax_payer_rin}` } },
-                        req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } },
-                        req.user.tax_office_id && { tax_office_id: { [Op.like]: `${req.user.tax_office_id}` } }
+                        settlement_status && { settlement_status: { [Op.like]: `%${settlement_status}%` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `%${req.query.tax_payer_rin}%` } },
+                        req.query.invoice_number && { invoice_number: { [Op.like]: `%${req.query.invoice_number}` } },
+                        req.user.tax_office_id && { tax_office_id: { [Op.like]: `%${req.user.tax_office_id}%` } }
                     ],
                 }
 
@@ -99,20 +99,20 @@ module.exports.viewRevenueReceipt = async (req, res) => {
             let data = await assessments.findAll({
                 where: {
                     [Op.and]: [
-                        settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `${req.query.tax_payer_rin}` } },
-                        req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } },
+                        settlement_status && { settlement_status: { [Op.like]: `%${settlement_status}%` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `%${req.query.tax_payer_rin}%` } },
+                        req.query.invoice_number && { invoice_number: { [Op.like]: `%${req.query.invoice_number}%` } },
                     ],
                 }
             });
             let count = await assessments.count({
                 where: {
                     [Op.and]: [
-                        settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `${req.query.tax_payer_rin}` } },
-                        req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } }
+                        settlement_status && { settlement_status: { [Op.like]: `%${settlement_status}%` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `%${req.query.tax_payer_rin}%` } },
+                        req.query.invoice_number && { invoice_number: { [Op.like]: `%${req.query.invoice_number}%` } }
                     ],
                 }
 

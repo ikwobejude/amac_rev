@@ -80,7 +80,9 @@
                                   <tbody>
                                     <tr>
                                       <td>
-                                        <a href="/api/get_payment_page?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-paypal"></i></a>
+                                        <% if(data.settlement_status == 0){ %>
+                                         <a href="/api/get_payment_page?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Make Payment"  target="_blank"><i class="fa fa-paypal"></i></a>
+                                        <%}%>
                                         <!-- /pay/inilizing?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-paypal"></i></a> -->
                                         <a href="/receipts/summary_receipt?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-print"></i></a>
                                         <a href="/receipts/view_all_items?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print All Receipts"   target="_blank"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
