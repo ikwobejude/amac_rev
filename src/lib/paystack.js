@@ -2,7 +2,9 @@
 require('dotenv').config();
 // const requests = require('requests');
 const paystack = (request) => {
-    const MySecretKey = 'Bearer sk_test_910dd69b10df220be70b1ce60b179d93bc100858';
+    const MySecretKey = 'Bearer sk_live_5a5a020aeec6072234f200835b0b31213d88a215';
+    
+    // sk_test_910dd69b10df220be70b1ce60b179d93bc100858
     //replace the secret key with that from your paystack account
     const initializePayment = async(form, mycallback) => {
         const options = {
