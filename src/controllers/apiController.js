@@ -157,7 +157,7 @@ module.exports.paystackCallback = (req, res)=> {
         [reference, amount, email, full_name] = data;
         console.log("this is a return data " + data)
         retData = { references: reference, amount, email, full_name }
-        console.log(newDonor)
+        // console.log(newDonor)
 
 
         // let t = await  db.transaction();
@@ -185,12 +185,10 @@ module.exports.paystackCallback = (req, res)=> {
             }
            
             let expiry = oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
-            ass.update(ass1, {new:true});
+            db.query(`UPDATE assessments SET assessment_amount_paid ='${ass.assessment_amount}', settlement_status=1, settlement_date='${new Date()}', settlement_method='PAYSTACK' WHERE invoice_number='${ass.invoice_number}'`)
+            db.query(`UPDATE assessment_item_invoices SET locked =1, paid=1 WHERE invoice_number='${ass.invoice_number}'`)
             Api_Payments.create(apiPay);
-            // await t.commit()
-            // res.status(200).json({id:value.invoice}); 
             res.redirect('/receipts/summary_receipt?invoice_number=' + ass.invoice_number);
-            // req.flash('info', 'Your Payment Was Successful')
 
         })
 
