@@ -1,6 +1,7 @@
 const compression = require('compression');
 const express = require('express');
 const helmet = require("helmet");
+const bodyParser = require('body-parser')
 let cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path')
@@ -24,6 +25,8 @@ const settings = require('./src/routes/settings');
 const ajaxreq = require('./src/routes/ajaxreq');
 const office = require('./src/routes/offices');
 const cbs = require('./src/routes/cbs');
+const paystacts = require('./src/routes/payment/paystackPaymentRoute');
+const payst = require('./src/routes/payment/paystackPaymentRoute');
 
 
 
@@ -34,6 +37,7 @@ const app = express();
 // app.use(compression())
 // app.use(express.urlencoded());
 app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors());
 
 app.use(cookieParser())
@@ -100,6 +104,7 @@ function main() {
     app.use('/settings', requireAuth, settings)
     app.use('/office', requireAuth, office)
     app.use('/cbs/admin', requireAuth, cbs)
+    api.use(payst)
 
 }
 

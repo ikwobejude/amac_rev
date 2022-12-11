@@ -60,50 +60,41 @@
                         <div class="ribbon ribbon-clip ribbon-success">Success, below are invoice detail(s) </div>
                         
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table display"  id="basic-10">
-                                  <thead>
-                                    <tr>
-                                      <th>Action</th>
-                                      <th>TaxPayerName</th>
-                                      <th>TaxPayerTin</th>
-                                      <th>TaxPayerTyper</th>
-                                      <th>InvoiceNumber</th>
-                                      <th>Amount</th>
-                                      <th>AmountPaid</th>
-                                      <th>AmountRemaining</th>
-                      
-                                      <th>Paid</th>
-                                      <th>PaymentTimeDate</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <a href="/paystack/pay?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-paypal"></i></a>
-                                        <!-- /pay/inilizing?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-paypal"></i></a> -->
-                                        <a href="/receipts/summary_receipt?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print summary"  target="_blank"><i class="fa fa-print"></i></a>
-                                        <a href="/receipts/view_all_items?invoice_number=<%= data.invoice_number%>" id="" data-toggle="tooltip" title="Print All Receipts"   target="_blank"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
-                                        
-                                         <!--<a href="{{url('print_mandate_summary/'.$View->invoice_number)}}" id="" data-toggle="tooltip" title="Print Invoice"  target="_blank"><i class="fa fa-hand-o-right"></i></a>   -->
-                                      </td>
-                                      <td><%= data.tax_payer_name %></td>
-                                      <td><%= data.tax_payer_rin %></td>
-                                      <td><%= data.tax_payer_type %></td>
-                                      <td><%= data.invoice_number %></td>
-                                      <td><%= data.assessment_amount %></td>
-                                      <td><%= data.assessment_amount_paid %></td>
-                                      <td><%= data.assessment_amount_remaining%></td>
-                      
-                                      <td><%= data.settlement_status==1?"Paid":"UnPaid" %></td>
-                                      <td><%= data.created_at.toLocaleDateString() %></td>
-                      
-                                    </tr>
-                                   
-                                  </tbody>
-                                </table>
-
+                          <form class="form theme-form" action="/api/get_payment_page" method="post">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col">
+                                  <div class="mb-3">
+                                    <label class="form-label" for="colFormLabelSm26">Full Name</label>
+                                    <input class="form-control form-control-lg" name="full_name" value="<%= taxp.taxpayer_name %>" id="full_name" type="text" placeholder="col-form-label-lg" required>
+                                  </div>
+                                </div>
                               </div>
+                              <div class="row">
+                                <div class="col">
+                                  <div class="mb-3">
+                                    <label class="form-label" for="colFormLabelSm26">Emil</label>
+                                    <input class="form-control form-control-lg" id="email" name="email" value="<%= taxp.email_address %>"  type="text" placeholder="Enter email address" required>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col">
+                                  <div class="mb-3">
+                                    <label class="form-label" for="colFormLabelSm26">Amout</label>
+                                    <input class="form-control form-control-lg" id="amount" name="amount" value="<%= assess.assessment_amount %>" type="text" placeholder="col-form-label-lg">
+                                    <input type="hidden" name="invoice_number" value="<%= assess.invoice_number %>">
+
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            </div>
+                            <div class="card-footer text-end">
+                              <button class="btn btn-primary" type="submit">Proceed to payment</button>
+                              <input class="btn btn-light" type="reset" value="Cancel">
+                            </div>
+                          </form>
                              
                         </div>
                     </div>

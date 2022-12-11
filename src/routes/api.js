@@ -23,4 +23,15 @@ api.get('/documentation', async(req, res) => {
     res.render('documentation')
 })
 
+api.get('/get_payment_page', async(req, res) => {
+    apiController.getpayment(req, res)
+})
+api.post('/get_payment_page', (req, res) => {
+    apiController.postPayment(req, res)
+    // console.log("hi")
+})
+
+api.get('/paystack', (req, res) => {
+    apiController.paystackCallback(req, res)
+})
 module.exports = api;
