@@ -106,7 +106,7 @@
                             </ul>
                         </div>
                         <div style="padding-bottom: 20px;text-align: right   ;" id="jj">
-                            
+                            <button type="submit" class="btn btn-primary" id="btn">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -199,7 +199,6 @@
 
     }
 
-    document.getElementById('btn').style.visibility='hidden';
     function phoneN() {
         let phone = document.getElementById('Number');
         let nn = document.getElementById('nn');
@@ -210,6 +209,7 @@
         }
     }
 
+    document.getElementById("btn").disabled = true;
 
     function validate() {
         let pass = document.getElementById('password1');
@@ -260,7 +260,9 @@
             document.getElementById('special').style.display = 'none';
             document.getElementById('number1').style.display = 'none';
             document.getElementById('lenght').style.display = 'none';
-            $('#jj').html('<button type="submit" class="btn btn-primary" id="btn" disabled>Submit</button>')
+            // $('#jj').html('')
+            document.getElementById("btn").disabled = false;
+
         } else {
            
             document.getElementById('Upper').style.display = 'block';

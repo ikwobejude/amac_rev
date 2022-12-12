@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const db = require('../db/db')
 
 const nodemailer = require('nodemailer')
 
@@ -78,40 +79,49 @@ module.exports.signup_post = async (req, res) => {
         if (error) {
             res.status(201).json({ "err": error.message })
         } else {
+            let tin = taxrin(8)
             let userInpt = {
                 group_id: value.usertype == "Individual" ? "190" : value.usertype == "Corperate" ? "200" : value.usertype == "State Agency" ? "300" : "400",
                 name: value.name,
-                username: taxrin(8),
+                username: tin,
                 password: await bcrypt.hash(value.password1, saltRounds),
                 email: value.email,
                 user_phone: value.number,
             }
-            let plainPass = value.password1
-
-            console.log(userInpt, plainPass)
-
-            let input = new Users(userInpt);
-            input.save().then(async (newUser) => {
-                // const token = createToken(newUser.id);
-                // res.cookie('jwt', token, { httpOnly: true, masAge: masAge * 1000 })
-                let tin = userInpt.username;
-                if (value.usertype == "Individual") {
-                    let userType = await individul(value, tin);
-                    console.log(userType)
-                    let newIndividual = new individual(userType);
-                    newIndividual.save().then(() => {
-                        // sendEmail(userInpt, plainPass);
-                        res.status(200).json({ tin: tin })
-                    })
-                } else {
-                    let userType = await companyDetails(value, tin)
-                    let newCopertive = new companies(userType);
-                    newCopertive.save().then(() => {
-                        // sendEmail(userInpt, plainPass);
-                        res.status(200).json({ tin: tin })
-                    })
+            let us = await Users.findOne({
+                where: {
+                    [Op.or]: [
+                        { username: value.email },
+                        { email: value.email }
+                    ]
                 }
             })
+            if(us){
+                res.status(201).json({ "err": "User with the detail already exist"})
+            } else {
+                let t = await db.transaction();
+
+                try {
+                    if (value.usertype == "Individual") {
+                        let userType = await individul(value, tin);
+                        await Users.create(userInpt, { transaction: t })
+                        await individual.create(userType, { transaction: t })
+                    } else {
+                        let userType = await companyDetails(value, tin)
+                        await Users.create(userInpt, { transaction: t })
+                        await companies.create(userType, { transaction: t })
+                    }
+                    await t.commit()
+                    res.status(200).json({ tin: tin })
+    
+                } catch (error) {
+                    await t.rollback();
+                    console.log(error)
+                    const err = handleError(error);
+                    res.status(400).json({ err });
+                }
+            }
+           
         }
 
     } catch (error) {
@@ -142,7 +152,7 @@ module.exports.login_post = async (req, res) => {
             const userInfo = await findUser(value.username, value.password);
             const token = createToken(userInfo.id);
             res.cookie('jwt', token, { httpOnly: true, masAge: masAge * 1000 })
-            res.status(200).json({ user: userInfo.id, group : userInfo.group_id })
+            res.status(200).json({ user: userInfo.id, group: userInfo.group_id })
         }
     } catch (error) {
         console.log(error)
@@ -158,15 +168,15 @@ module.exports.loginSuccess = async (req, res) => {
     console.log(req.user)
     try {
         let dt = req.user;
-        if (dt.group_id == 111111 ) {
+        if (dt.group_id == 111111) {
             res.redirect('/admin/dashboard')
         } else if (dt.group_id == 190) {
             res.redirect('/self/assessment/dashboard')
-        } else if (dt.group_id == 999999){
+        } else if (dt.group_id == 999999) {
             res.redirect('/agency/dashboard')
-        } else if (dt.group_id == 205 || dt.group_id == 200 ||  dt.group_id == 121212){
+        } else if (dt.group_id == 205 || dt.group_id == 200 || dt.group_id == 121212) {
             res.redirect('/office/dashboard')
-        }   else if (dt.group_id == 111000 ){
+        } else if (dt.group_id == 111000) {
             res.redirect('/cbs/admin/dashboard')
         } else {
             res.send(req.user)
@@ -321,7 +331,9 @@ async function individul(data, tin) {
         lga_id: data.lga_id,
     }
 
-    return obj;
+   
+        return obj;
+    
 }
 
 async function companyDetails(data, tin) {
