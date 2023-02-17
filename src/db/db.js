@@ -37,7 +37,8 @@ const sequelize = new Sequelize(
     {
         host: HOST,
         dialect: DIALECT,
-        port: PORT
+        port: PORT,
+        logging: false,
     }
 )
 module.exports = sequelize;
