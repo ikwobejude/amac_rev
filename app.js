@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 let cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path')
-const session = require('express-session');
+const session = require('cookie-session');
 
 // routes 
 
