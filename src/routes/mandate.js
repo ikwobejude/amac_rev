@@ -7,24 +7,14 @@ mandate.route('/assessment/invoice')
     .get(async (req, res) => {
         res.render('./admin/mandate/generate_mandate')
     })
-    .post(async (req, res) => {
-        genMandate.getTapayersDetails(req, res);
-    })
+    .post(genMandate.getTapayersDetails)
 
 mandate.route('/generte_invoice')
-    .get(async (req, res) => {
-        genMandate.generateInvoice_get(req, res)
-    })
-    .post(async (req, res) => {
-        genMandate.generateInvoice_post(req, res)
-    });
+    .get(genMandate.generateInvoice_get)
+    .post(genMandate.generateInvoice_post);
 
 mandate.route('/cancel_or_finish_transaction')
-.post(async (req, res)=> {
-    
-    genMandate.deleteAssessmnt(req, res);
-    // console.log(req.body)
-})
+.post(genMandate.deleteAssessmnt)
 
 
 

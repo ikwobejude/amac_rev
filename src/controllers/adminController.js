@@ -20,7 +20,7 @@ module.exports.adminDashboard = async (req, res) => {
             companyCount, total
         })
     } catch (err) {
-
+        console.log(err)
     }
 }
 
@@ -49,7 +49,7 @@ module.exports.individual = async (req, res) => {
         let uri2 = `/admin/individuals?individual_name=${prm.office}&user_rin=${prm.tin}&mobile_number_1=${prm.registered_on}&email_addresss_1=${prm.registered_to}&Button_DoSearch=Search`;
         let uri1 = "/admin/individuals?"
 
-        let data = await individual.findAll({ limit: perPage, offset: offset, order: [['id_individual', 'DESC']] },);
+        let data = await individual.findAll({ limit: perPage, offset: offset, order: [['id_individual', 'DESC']], raw:true },);
         let count = await individual.count({ limit: perPage, offset: offset, order: [['id_individual', 'DESC']] },);
         console.log("norm")
 

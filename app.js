@@ -82,33 +82,38 @@ app.get('/', async (req, res) => {
 })
 
 
-function main() {
-    let PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-        console.log("APP RUNNING ON PORT", PORT)
-    })
+app.use(auth);
+app.use(ajaxreq)
 
-    app.use(auth);
-    app.use(ajaxreq)
+app.use('/admin', requireAuth, admin);
+app.use('/api', api);
+app.use('/agency', agency);
+app.use('/client', client);
+app.use('/generate', requireAuth, mandate);
+app.use('/receipts', requireAuth, receipt);
+app.use('/self/assessment', requireAuth, self);
+app.use('/report', requireAuth, report);
 
-    app.use('/admin', requireAuth, admin);
-    app.use('/api', api);
-    app.use('/agency', agency);
-    app.use('/client', client);
-    app.use('/generate', requireAuth, mandate);
-    app.use('/receipts', requireAuth, receipt);
-    app.use('/self/assessment', requireAuth, self);
-    app.use('/report', requireAuth, report);
+app.use('/pay', pay)
+app.use('/settings', requireAuth, settings)
+app.use('/office', requireAuth, office)
+app.use('/cbs/admin', requireAuth, cbs)
+api.use(payst)
+
+
+// function main() {
+//     let PORT = process.env.PORT || 5000;
+//     app.listen(PORT, () => {
+//         console.log("APP RUNNING ON PORT", PORT)
+//     })
+
     
-    app.use('/pay', pay)
-    app.use('/settings', requireAuth, settings)
-    app.use('/office', requireAuth, office)
-    app.use('/cbs/admin', requireAuth, cbs)
-    api.use(payst)
 
-}
+// }
 
-main();
+// main();
+
+module.exports = app;
 
 //error handling
 // app.use(function(req, res, next){

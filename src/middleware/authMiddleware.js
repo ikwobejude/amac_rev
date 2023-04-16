@@ -31,14 +31,14 @@ const checkUser = async (req, res, next) => {
     if (token) {
         jwt.verify(token, process.env.JWT_SECRECT, async(err, decodedToken) => {
             if (err) {
-                // console.log(err.message)
-                res.locals.user = null;
-                next();
+                req.flash("danger", err.message)
+                res.redirect('/login')
             } else {
-                // console.log(decodedToken);
-                let user = await Users.findOne({ where: { id: decodedToken.id } })
-                res.locals.user = user;
-                req.user = user;
+                let user = await Users.findOne({ attributes: {
+                    exclude: ['password']
+                }, where: { id: decodedToken.id } })
+                res.locals.user = user.toJSON();
+                req.user = user.toJSON();
                 next()
             }
         })

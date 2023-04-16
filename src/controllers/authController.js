@@ -60,11 +60,11 @@ const handleError = (err) => {
 }
 
 module.exports.signup_get = async (req, res) => {
-    let state = await states.findAll();
+    let state = await states.findAll({raw:true});
     let lga = await local_government_area.findOne({ where: { state_id: 15 } });
     res.render("./home/generate_tin", {
         state,
-        lga,
+        lga: lga.toJSON(),
     })
 }
 

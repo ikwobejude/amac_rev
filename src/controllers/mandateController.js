@@ -77,16 +77,16 @@ module.exports.generateInvoice_get = async (req, res) => {
     let invoice = req.query.invoice;
 
     let taxPayerDetail = await tax_payers.findOne({ where: { taxpayer_rin: taxPayerTin } });
-    let assessment_item = await assessment_items.findAll();
+    let assessment_item = await assessment_items.findAll({raw:true});
     let rows = await db.query(`
         SELECT
         *
     FROM
         assessment_item_invoices
     INNER JOIN assessment_items ON assessment_item_invoices.assessment_item_id = assessment_items.assessment_item_id
-    WHERE assessment_item_invoices.invoice_number = ${invoice} `, { type: QueryTypes.SELECT })
+    WHERE assessment_item_invoices.profile_ref = ${invoice} `, { type: QueryTypes.SELECT })
 
-    let count = await assessment_item_invoices.count({ where: { invoice_number: invoice } })
+    let count = await assessment_item_invoices.count({ where: { profile_ref: invoice } })
 
     // console.log(taxPayerDetail)
     res.render('./admin/mandate/mandate', {
@@ -163,6 +163,7 @@ module.exports.generateInvoice_post = async (req, res) => {
 
 
     } catch (err) {
+        console.log(err)
         res.status(201).json({ "err": err.message })
     }
 
@@ -177,68 +178,63 @@ async function itemAmount(n) {
     }
 }
 
+
+
+
 module.exports.deleteAssessmnt = async (req, res) => {
     try {
         switch (req.body.input) {
             case "finish_transaction":
-                let t = await db.transaction()
-                try {
-                    let updateTransaction = await db.query(`UPDATE assessment_item_invoices SET locked=1 WHERE invoice_number=${req.body.invoice}`, );
-                    if (updateTransaction) {
-                        let newRef = paymentRefere(6);
-                        let curd = new Date()
-                        let dd = curd.toLocaleString();
-                        let updateRerence = await db.query(`UPDATE assessment_item_invoices SET invoice_number='${newRef}', assessment_ref= '${newRef}' WHERE invoice_number=${req.body.invoice}`, { transaction: t });
-                        if (updateRerence) {
-                            let finishT = await db.query(`SELECT taxpayer_rin, invoice_number, SUM(amount) as total, created_by, tax_month, tax_year from assessment_item_invoices WHERE invoice_number='${req.body.invoice}' and locked=1`, { type: QueryTypes.SELECT });
-                            console.log(finishT)
-                            if (finishT) {
-                                console.log(finishT[0])
-                                let taxPayerDetail = await tax_payers.findOne({ where: { taxpayer_rin: finishT[0].taxpayer_rin } });
-                                console.log(taxPayerDetail)
-                                let obj = {
-                                    assessment_ref: `${newRef}`,
-                                    tax_payer_type: taxPayerDetail.tax_payer_type,
-                                    tax_payer_rin: finishT[0].taxpayer_rin,
-                                    tax_payer_name: taxPayerDetail.taxpayer_name,
-                                    tax_year: finishT[0].tax_year,
-                                    tax_month: finishT[0].tax_month,
-                                    assessment_amount: finishT[0].total,
-                                    invoice_number: `${newRef}`,
-                                    created_by: finishT[0].created_by,
-                                    service_id: 2344170253,
-                                    tax_office_id: req.user.tax_office_id
-                                }
-
-                                console.log(obj)
-
-                                // let newAssesment = new assessments(obj)
-                                assessments.create(obj, { transaction: t }).then(async() => {
-                                    await t.commit();
-                                    res.status(200).json({ tin: req.body.tin, invoice_n: newRef })
-                                })
-                               
-
-                            }
-
-                        } else {
-                            res.status(201).json({ err: 'Assessments not locked for payment' })
-                        }
-
-                    } else {
-                        res.status(201).json({ err: 'Opps something happened' })
+                
+                const finishT = await assessment_item_invoices.findAll(
+                    {
+                        attributes: [
+                            'taxpayer_rin',
+                            'invoice_number',
+                            'created_by',
+                            'tax_month',
+                            'tax_year',
+                            [Sequelize.fn('sum', Sequelize.col('amount')), 'total']
+                        ],
+                        raw:true,
+                        where : {profile_ref: req.body.invoice}
                     }
+                )
+
+                let tt = await db.transaction()
+                try {
+                    const newRef = paymentRefere(6);
+
+                    await assessment_item_invoices.update({locked: 1, invoice_number: newRef, assessment_ref: newRef}, {where : {profile_ref: req.body.invoice }}, {new:true}, { transaction: tt });
+                   
+                    const taxPayer = await tax_payers.findOne({ where: { taxpayer_rin: finishT[0].taxpayer_rin } });
+                    const taxPayerDetail = taxPayer.toJSON();
+                    // console.log(taxPayerDetail)
+                    let obj = {
+                        assessment_ref: `${newRef}`,
+                        tax_payer_type: taxPayerDetail.tax_payer_type,
+                        tax_payer_rin: finishT[0].taxpayer_rin,
+                        tax_payer_name: taxPayerDetail.taxpayer_name,
+                        tax_year: finishT[0].tax_year,
+                        tax_month: finishT[0].tax_month,
+                        assessment_amount: finishT[0].total,
+                        invoice_number: `${newRef}`,
+                        created_by: finishT[0].created_by,
+                        service_id: 2344170253,
+                        tax_office_id: req.user.tax_office_id
+                    }
+
+                    await assessments.create(obj, { transaction: tt })
+                    await tt.commit();
+                    res.status(200).json({ tin: req.body.tin, invoice_n: newRef })
+
                 } catch (error) {
-                    await t.rollback();
+                    await tt.rollback();
                     console.log(error)
                     const err = handleError(error);
 
                     res.status(400).json({ err: err.message });
                 }
-
-                // assessment_item_invoices.update({locked:1}, {where: {invoice_number: req.body.invoice}}).then(function(){
-
-                // }).
                 break;
 
             default:
@@ -256,17 +252,15 @@ module.exports.deleteAssessmnt = async (req, res) => {
                     // name == "submiop" ? input = arr[i].value : '';
                 }
 
-                // let newArr = arr1.toString();
-                // let str = newArr.replace(/(^"|"$)/g, '');
 
                 assessment_item_invoices.destroy({ where: { id_assessment_item_invoices: { [Op.in]: arr1 } } }).then(() => {
                     res.status(200).json({ tin: tin, invoice_n: invoiceNumb })
                 })
-                break;
+            break;
         }
 
     } catch (error) {
-        console.log(error)
+        console.log(error.stack)
         const err = handleError(error);
 
         res.status(400).json({ err });

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../layouts/admin/header') %>
+    </head>
+    <body>
+        <%- include('../layouts/admin/top-nav') %>
+        <%- include('../layouts/selfassessment/side-bar') %>
+        <!-- views\layouts\selfassessment\side-bar.ejs -->
+            <!-- Page Sidebar Ends-->
+            <div class="page-body">
+                <div class="container-fluid dashboard-default-sec">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5>TCC <br>
+                                Welcome, <%= user.name %>
+                
+                            </h5>
+                
+                        </div>
+                
+                
+                
+                        <%- include('../layouts/selfassessment/self_quick_menu') %>
+                        
+                        
+
+                        <div class="col-xl-12  box-col-12">
+                            <div class="card employee-status">
+                                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                                    <h5 class="text-uppercase">TCC APPLICATIONS</h5>
+                                    <div class="setting-list">
+                                        <ul class="list-unstyled setting-option">
+                                            <li>
+                                                <div class="setting-primary"><i class="icon-settings"></i></div>
+                                            </li>
+                                            <li><i class="view-html fa fa-code font-primary"></i></li>
+                                            <li><i class="icofont icofont-maximize full-card font-primary"></i></li>
+                                            <li><i class="icofont icofont-minus minimize-card font-primary"></i></li>
+                                            <li><i class="icofont icofont-refresh reload-card font-primary"></i></li>
+                                            <li><i class="icofont icofont-error close-card font-primary"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="user-status table-responsive">
+                                        <table class="table table-bordernone">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">PAYEMENTID</th>
+                                                    <th scope="col">AMOUNT</th>
+                                                    <th scope="col">AMOUNTPAID</th>
+                                                    <th scope="col">OUSTANDING</th>
+                                                    <th scope="col">STATUS</th>
+                                                    <th scope="col">PAYMENT DATE</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                               
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="code-box-copy">
+                                        <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#emplotee-status" title="Copy"><i class="icofont icofont-copy-alt"></i></button>
+                                        <!-- <pre><code class="language-html" id="emplotee-status">&lt;div class="card"&gt; -->
+                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                
+                
+                
+                
+                
+                        <!-- Container-fluid Ends-->
+                    </div>
+           
+
+
+        <%- include('../layouts/admin/footer') %>
+    </body>
+
+</html>

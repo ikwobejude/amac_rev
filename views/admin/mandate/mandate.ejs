@@ -489,8 +489,8 @@ let add = document.querySelector('#add')
 
                 const data1 = await res1.json();
                 if (data1.err) {
-            // formerror.textContent = data.err;
-            $('#cover-spin').hide(0)
+                // formerror.textContent = data.err;
+                $('#cover-spin').hide(0)
                     var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data1.err + '</strong>.', {
                         type: 'danger',
                         allow_dismiss: true,

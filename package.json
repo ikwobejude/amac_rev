@@ -4,7 +4,10 @@
   "description": "amac project\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D lga project",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js -e js,ejs",
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "start:dev": "NODE_ENV=development nodemon server.js"
   },
   "author": "paul ikwobe jude",
   "license": "ISC",
