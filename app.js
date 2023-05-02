@@ -27,7 +27,7 @@ const office = require('./src/routes/offices');
 const cbs = require('./src/routes/cbs');
 const paystacts = require('./src/routes/payment/paystackPaymentRoute');
 const payst = require('./src/routes/payment/paystackPaymentRoute');
-
+const mobile_api = require('./src/routes/mobile_api');
 
 
 
@@ -37,8 +37,9 @@ const app = express();
 // app.use(compression())
 // app.use(express.urlencoded());
 app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors());
+app.use(bodyParser.json({limit: "50mb"}));
+
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 
 app.use(cookieParser())
 app.set('trust proxy', 1) // trust first proxy
@@ -52,7 +53,7 @@ app.use(session({
   }));
 
 
-
+app.use(compression());
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
@@ -98,6 +99,7 @@ app.use('/pay', pay)
 app.use('/settings', requireAuth, settings)
 app.use('/office', requireAuth, office)
 app.use('/cbs/admin', requireAuth, cbs)
+app.use('/mobile', mobile_api)
 api.use(payst)
 
 

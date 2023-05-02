@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../layouts/admin/header') %>
+        <!-- Plugins css start-->
+</head>
+
+<body>
+    <%- include('../layouts/admin/top-nav') %>
+        <% if (user.group_id==190){%>
+            <%- include('../layouts/selfassessment/side-bar') %>
+                <% } else {%>
+                    <%- include('../layouts/admin/side-bar') %>
+                        <% }%>
+
+                            <!-- Page Sidebar Ends-->
+                            <div class="page-body">
+                                <div class="container-fluid">
+                                    <div class="page-header">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h3>Business Size Setup</h3>
+                                                <ol class="breadcrumb">
+                                                    <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                                                    <li class="breadcrumb-item active">Building Type Setup</li>
+                                                </ol>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                                <%- include('../layouts/admin/quick_menu') %>
+                                    <!-- Container-fluid starts-->
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <form id="form1">
+                                                        <div class="row">
+                                                            <%- messages('messages', locals) %>
+                                                                <div class="col">
+
+                                                                    <div class="fieldset">
+                                                                        <h1>Business Size</h1>
+                                                                        <div class="mb-3 m-form__group">
+                                                                            <!-- <label>Building Type</label> -->
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-text">
+                                                                                    <i class="fa fa-mobile"></i>
+                                                                                </div>
+                                                                                <input type="hidden" name="id">
+                                                                                <input class="form-control" type="text"
+                                                                                    name="business_size"
+                                                                                    id="business_size">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                        </div>
+
+
+
+
+                                                        <div class="modal-footer footer" id="footer">
+                                                            <button type="submit"
+                                                                class="btn btn-primary pull-right">Save </button>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-7">
+                                            <div class="card">
+                                                <div class="card-header pb-0">
+
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table display" id="basic-10">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Action</th>
+                                                                    <th>Business Size</th>
+
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <% businessSizes.forEach(function(result) {%>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <!--/print_mandate/<%= result.invoice_number%>-->
+                                                                            <a href="javascript:;" id="" onclick="if(confirm('are u sure u want to Edit')){edit(
+                                                                                '<%= result.business_size_id %>', 
+                                                                                '<%= result.business_size %>')} return false" data-toggle="tooltip"
+                                                                                data-placement="top"
+                                                                                title="Edit Building Type"><i
+                                                                                    class="fa fa-edit"></i></a>
+                                                                            <a href="/admin/building_size/<%= result.business_size_id %>"
+                                                                                onclick="return confirm('Are you sure you want to delete?')"
+                                                                                data-toggle="tooltip"
+                                                                                data-placement="top"
+                                                                                title="Delete Building"><i
+                                                                                    class="fa fa-trash"></i></a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= result.business_size %>
+                                                                        </td>
+
+
+                                                                    </tr>
+                                                                    <% }) %>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <!-- Container-fluid Ends-->
+                            </div>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Update Business Size</h5>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form" id="update_form2">
+                                                <div class="fieldset">
+                                                    <h1>Business Size</h1>
+                                                    <div class="row g-3">
+                                                        <div class="col">
+                                                            <input type="hidden" name="id" id="id">
+                                                            <!-- <label class="form-label" for="name">Building Type</label> -->
+                                                            <input class="form-control" name="ebusiness_size"
+                                                                id="ebusiness_size" type="text" required="">
+                                                            <!-- <div class="valid-feedback">Looks good!</div> -->
+                                                        </div>
+    
+    
+                                                    </div>
+                                                </div>
+                                               
+                                                <br>
+                                                <button class="btn btn-primary" type="submit"
+                                                    style="float: right;">Update</button>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <%- include('../layouts/admin/footer') %>
+                                <script>
+                                    let form = document.querySelector('#form1')
+                                    // const formerror = document.querySelector('.error');
+                                    form.addEventListener('submit', async (e) => {
+                                        e.preventDefault();
+                                        // formerror.textContent = '';
+
+
+                                        const building_type = form.business_size.value;
+                                        let dtx = {
+                                            business_size: form.business_size.value,
+                                            id: ''
+                                        }
+
+                                        console.log(building_type)
+
+                                        try {
+                                            let res = await fetch('/admin/business_size', {
+                                                method: "POST",
+                                                body: JSON.stringify(dtx),
+                                                headers: { 'Content-Type': 'application/json' }
+                                            })
+
+                                            const data = await res.json();
+                                            if (data.status == "error") {
+                                                // formerror.textContent = data.err;
+                                                var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data.error + '</strong>.', {
+                                                    type: 'danger',
+                                                    allow_dismiss: true,
+                                                    delay: 5000,
+                                                    showProgressbar: true,
+                                                    timer: 300
+                                                });
+
+
+                                            } else {
+
+                                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>' + data.message + '</strong>', {
+                                                    type: 'theme',
+                                                    allow_dismiss: true,
+                                                    delay: 2000,
+                                                    showProgressbar: true,
+                                                    timer: 1000
+                                                });
+
+                                                setTimeout(function () {
+                                                    location.reload()
+                                                }, 1000);
+
+                                            }
+                                        } catch (error) {
+                                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' + error.message + '</strong>.', {
+                                                type: 'danger',
+                                                allow_dismiss: true,
+                                                delay: 5000,
+                                                showProgressbar: true,
+                                                timer: 300
+                                            });
+                                        }
+                                    })
+
+
+
+                                    async function edit(id, ebusiness_size) {
+                                        $('#ebusiness_size').val(ebusiness_size);
+                                        $('#id').val(id);
+
+                                        $('#exampleModal').modal('show');
+                                    }
+
+                                    let form1 = document.querySelector('#update_form2');
+                                    form1.addEventListener('submit', async (e) => {
+                                        e.preventDefault();
+                                        let dtx = JSON.stringify({ business_size: form1.ebusiness_size.value, id: form1.id.value });
+                                        console.log(dtx)
+                                        try {
+                                            let res = await fetch('/admin/business_size', {
+                                                method: "put",
+                                                body: dtx,
+                                                headers: { 'Content-Type': 'application/json' }
+                                            })
+
+                                            const data = await res.json();
+                                            if (data.status == "error") {
+                                                // formerror.textContent = data.err;
+                                                var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data.error + '</strong>.', {
+                                                    type: 'danger',
+                                                    allow_dismiss: true,
+                                                    delay: 5000,
+                                                    showProgressbar: true,
+                                                    timer: 300
+                                                });
+
+
+                                            } else {
+
+                                                var notify = $.notify('<i class="fa fa-bell-o"></i><strong>' + data.message + '</strong>', {
+                                                    type: 'theme',
+                                                    allow_dismiss: true,
+                                                    delay: 2000,
+                                                    showProgressbar: true,
+                                                    timer: 1000
+                                                });
+
+                                                setTimeout(function () {
+                                                    location.reload()
+                                                }, 1000);
+
+                                            }
+                                        } catch (error) {
+                                            console.log(error)
+                                            var notify = $.notify('<i class="fa fa-warning"></i><strong>' + error.message + '</strong>.', {
+                                                type: 'danger',
+                                                allow_dismiss: true,
+                                                delay: 5000,
+                                                showProgressbar: true,
+                                                timer: 300
+                                            });
+                                        }
+                                    })
+
+                                </script>
+                                <!-- 
+        <script>
+          let form = document.querySelector('form')
+          form.addEventListener('submit', async(e) => {
+              e.preventDefault();
+              const assessment_item = form.assessment_item.value;
+              const assessment_group = form.assessment_group.value;
+              const tax_base_amount = form.tax_base_amount.value;
+      
+              console.log(assessment_item, assessment_group, tax_base_amount)
+      
+              try {
+                  let res = await fetch('/admin/assessment_item', {
+                      method: "POST",
+                      body: JSON.stringify({assessment_item: assessment_item, assessment_group:assessment_group, tax_base_amount:tax_base_amount}),
+                      headers: {'Content-Type': 'application/json'}
+                  })
+      
+                  const data = await res.json(); 
+                  // if(data.err) {
+                  //     // formerror.textContent = data.err
+                  //     var notify = $.notify('<i class="fa fa-warning"></i><strong>' +data.err+'</strong>.', {
+                  //             type: 'danger',
+                  //             allow_dismiss: true,
+                  //             delay: 5000,
+                  //             showProgressbar: true,
+                  //             timer: 300
+                  //         });
+                  // } else {
+                      
+                  //         var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Login Successfull</strong>', {
+                  //             type: 'theme',
+                  //             allow_dismiss: true,
+                  //             delay: 2000,
+                  //             showProgressbar: true,
+                  //             timer: 1000
+                  //         });
+  
+                  //         setTimeout(function() {
+                  //             notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting</strong>....');
+                  //             location.assign('/login/success')
+                  //         }, 1000);
+                  // }
+              } catch (error) {
+                  console.log(error)
+              }
+          })
+          </script> -->
+</body>
+
+</html>

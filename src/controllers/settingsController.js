@@ -8,7 +8,7 @@ const handleError = (err) => {
 }
 
 
-module.exports.assessmentItem = async (req, res) => {
+exports.assessmentItem = async (req, res) => {
 
     let items = await assessment_items.findAll();
     res.render('./admin/items/view_assessment_items', {
@@ -18,7 +18,7 @@ module.exports.assessmentItem = async (req, res) => {
 }
 
 
-module.exports.createAssItem = async (req, res) => {
+exports.createAssItem = async (req, res) => {
     try {
         const { error, value } = assessmentItems.validate(req.body);
         if (error) {
@@ -46,7 +46,7 @@ module.exports.createAssItem = async (req, res) => {
     }
 }
 
-module.exports.updateAssItems = async(req, res) => {
+exports.updateAssItems = async(req, res) => {
     try {
         assessment_items.update(values, {where:{assessment_item_id: assessment_item_id}})
         .then(() => {
@@ -57,7 +57,7 @@ module.exports.updateAssItems = async(req, res) => {
     }
 }
 
-module.exports.deleteAssItems = async(req, res) => {
+exports.deleteAssItems = async(req, res) => {
     try {
         assessment_items.destroy({where:{assessment_item_id: assessment_item_id}})
         .then(() => {
