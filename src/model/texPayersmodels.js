@@ -251,6 +251,9 @@ const _street = db.define('_streets', {
     street: {
         type: Sequelize.STRING(55)
     },
+    ward_id: {
+        type: Sequelize.BIGINT(12)
+    },
     city_id: {
         type: Sequelize.BIGINT(12)
     },
@@ -379,11 +382,40 @@ const agent_assessments = db.define('agent_assessments', {
     freezeTableName: true
 })
 
+const wards = db.define('wards', {
+    ward_id: {
+        type: Sequelize.BIGINT(11),
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: true
+    },
+    ward: { type: Sequelize.STRING(100) },
+    lga: { type: Sequelize.STRING(100) },
+    created_by: { type: Sequelize.STRING(100) },
+    created_at: { type: Sequelize.DATE },
+    updated_by: { type: Sequelize.STRING(100) },
+    updated_at: { type: Sequelize.DATE },
+    lga_id: { type: Sequelize.INTEGER },
+    service_id: { type: Sequelize.STRING },
+    organization_id: { type: Sequelize.STRING },
+    ward_code: { type: Sequelize.STRING },
+    
+}, {
+    timestamps: false,
+    freezeTableName: true
+})
+
 module.exports = {
     tax_payer_items,
     tax_payers,
     local_government_area,
     _cities,
     _countries,
-    Signature, _street, states, agencies, agent_assessments, agency_types
+    Signature, 
+    _street, 
+    states, 
+    agencies, 
+    agent_assessments, 
+    agency_types, 
+    wards
 }

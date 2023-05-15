@@ -27,6 +27,13 @@ exports. loginUser = Joi.object({
 
 })
 
+exports.changePassVal = Joi.object({
+    old_password: Joi.string().required(),
+    password: Joi.string().required(),
+    confirm_password: Joi.ref('password'),
+  });
+  
+
 exports. validateTin = Joi.object({
     tin: Joi.number().integer().required()
 })

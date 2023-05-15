@@ -3,13 +3,9 @@ const apiController = require('../controllers/apiController');
 const api = express.Router();
 
 
-api.post('/verifyTin', async(req, res) => {
-    apiController.verifyTaxpayerTin(req, res);
-})
+api.post('/verifyTin', apiController.verifyTaxpayerTin)
 
-api.post('/Initilize_transaction', async(req, res) => {
-    apiController.initilizePayment(req, res)
-});
+api.post('/Initilize_transaction', apiController.initilizePayment);
 
 api.route('/verify_payment')
     .post(async (req, res) => {
@@ -34,4 +30,7 @@ api.post('/get_payment_page', (req, res) => {
 api.get('/paystack', (req, res) => {
     apiController.paystackCallback(req, res)
 })
+
+
+api.verify
 module.exports = api;

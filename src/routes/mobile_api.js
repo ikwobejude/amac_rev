@@ -27,12 +27,19 @@ router.get('/business_size', mobileApiController.mobileAuth, mobileApiController
 
 router.get('/business_operation/:id', mobileApiController.mobileAuth, mobileApiController.businessOperation);
 
-
+router.post('/create_business', mobileApiController.mobileAuth, mobileApiController.addNewBusinessApi)
 router.post('/create_businesses', mobileApiController.mobileAuth, mobileApiController.apiBusinesses)
 
 
 
-router.get('/assessment_items', mobileApiController.mobileAuth, mobileApiController.taxItems)
+router.get('/assessment_items', mobileApiController.mobileAuth, mobileApiController.taxItems);
+
+// router.get('/countries', apiController.headerMiddleware, apiController.country)
+router.get('/state',  mobileApiController.states)
+router.get('/lga', mobileApiController.lga)
+
+router.get('/ward',  mobileApiController.mobileAuth, mobileApiController.wards)
+router.get('/streets/:ward_id',  mobileApiController.mobileAuth,  mobileApiController.apiStreets)
 
 
 

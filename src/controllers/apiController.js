@@ -20,27 +20,38 @@ const handleError = (err) => {
     return err;
 }
 
-module.exports.verifyTaxpayerTin = async (req, res) => {
+exports.verifyTaxpayerTin = async (req, res) => {
     try {
+        // res.json(req.body)
         const { error, value } = TaxTin.validate(req.body);
         if (error) {
-            res.status(201).json({code: 201, msg: error.message })
+            res.status(201).json({
+                status: "error", 
+                msg: error.message 
+            })
         }
         const taxPayerTin = {
             usertin: value.tax_payer_tin
         }
 
-        let Vtin = await findValidTin(taxPayerTin.usertin)
-        res.status(200).json({code: 200, msg: "Unique tin found", Vtin })
+        let data = await findValidTin(taxPayerTin.usertin)
+        res.status(200).json({
+            status: "success", 
+            msg: "Unique tin found", 
+            data 
+        })
 
     } catch (error) {
         let err = handleError(error)
-        res.status(201).json({code: 201, "err": err.message })
+        res.status(201).json({
+            status: "error", 
+            "err": err.message 
+        })
     }
 }
 
 
-module.exports.initilizePayment = async (req, res) => {
+exports.initilizePayment = async (req, res) => {
     try {
         const { error, value } = initialPayment.validate(req.body);
         if (error) {
@@ -50,7 +61,7 @@ module.exports.initilizePayment = async (req, res) => {
             if (Vtin) {
                 let payload = {
                     tin: value.tin,
-                    assessmenrReference: value.paymentReference,
+                    reference: value.paymentReference,
                     item: value.paymentItem,
                     amount: value.amount,
                     bill_reference: await paymenID(),
@@ -69,12 +80,12 @@ module.exports.initilizePayment = async (req, res) => {
 
 
 
-module.exports.verifyPayment_get = function(req, res) {
+exports.verifyPayment_get = function(req, res) {
     res.render('./api/api_verify_payment')
 }
 
 
-module.exports.verifyPayment = async (req, res) => {
+exports.verifyPayment = async (req, res) => {
     try {
         const { error, value } = verifyPaymentInvo.validate(req.body);
         if (error) {
@@ -94,7 +105,7 @@ module.exports.verifyPayment = async (req, res) => {
 
 
 // paystacts.route('/paystack/pay1')
-module.exports.getpayment = async(req, res) =>{
+exports.getpayment = async(req, res) =>{
     let invoice = req.query.invoice_number;
     let assess = await assessments.findOne({where: {invoice_number: invoice}});
     let taxp = await tax_payers.findOne({where:{taxpayer_rin : assess.tax_payer_rin}})
@@ -105,7 +116,7 @@ module.exports.getpayment = async(req, res) =>{
 
 
 // payst.post('/paystack/pay', (req, res) => {
-    module.exports.postPayment = (req, res) =>{
+exports.postPayment = (req, res) =>{
     try {
         const form = _.pick(req.body, ['amount', 'email', 'full_name']);
         console.log(form)
@@ -209,7 +220,7 @@ async function verifyPayment(bref) {
 
 
 async function findValidTin(tin) {
-    const taxPayer = await tax_payers.findOne({ where: { taxpayer_rin: tin } })
+    const taxPayer = await tax_payers.findOne({ attributes: {exclude: ['passwordr']}, where: { taxpayer_rin: tin }, raw:true })
     if (taxPayer) {
         return taxPayer;
     }

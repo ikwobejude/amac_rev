@@ -9,6 +9,7 @@ const businessModel = require('../model/business/businessModel');
 const assessmentModels = require('../model/assessmentModels');
 const userModel = require('../model/userModel');
 const helper = require('../helper/helper');
+const texPayersmodels = require('../model/texPayersmodels');
 
 exports.mobileAuth = async(req, res, next)=> {
     try {
@@ -86,6 +87,31 @@ exports.APIlogin = async (req, res) => {
             status:"error",
             message: "error",
             data:  error.message
+        })
+    }
+}
+
+
+exports.apiResetPassword = async(req, res) => {
+    try {
+        const {value, error} = validation.changePassVal.validate(req.body);
+        if(error){
+            res.status(403).json({
+                status: "error",
+                data: error.message
+            })
+        } else {
+            const user = await findUser(req.mobileUser.username, value.old_password);
+            user.update({password: await bcrypt.hash(value.password, saltRounds), inactive:1}, {new:true});
+            res.status(200).json({
+                status: "success",
+                data: "You password has been changed!!"
+            })
+        }
+    } catch (error) {
+        res.status(403).json({
+            status: "error",
+            data: error.message
         })
     }
 }
@@ -471,6 +497,153 @@ exports.apiBusinesses = async(req, res) => {
     }
   }
   
+
+  exports.addNewBusinessApi = async(req, res) => {
+    try{
+      let value = req.body;
+
+        const tag = helper.randomNum(10);
+        const rin = helper.randomNum(10);
+        let bulk1 = [];
+  
+          let business ={
+              business_type: value.business_type,
+              business_name: value.business_name,
+              business_category: value.business_category,
+              business_sector: value.business_sector,
+              business_operation: value.business_operation,
+              business_size: value.business_size,
+              business_address: value.business_address,
+              businessnumber: value.businessnumber,
+              business_email: value.business_email,
+              business_ownership: value.business_ownership,
+              business_tag:tag,
+              service_id: req.mobileUser.service_id,
+              building_id: value.building_id,
+              photo_url: value.photo_url ? await helper.saveBase64imageToFile(value.photo_url) : "",
+              taxpayer_rin: rin,
+              Status: "ACTIVE",
+              asset_type: "Business",
+              business_structure: "Business",
+              sync:1
+          };
+        
+          const assessmetItem = value.taxitem;
+          //   console.log(assessmetItem)
+            if(assessmetItem.length > 0){
+                for (const itm of assessmetItem) {
+                    let revItem = await assessmentModels.assessment_items.findOne({where: {assessment_item_id: itm}});
+                    if(revItem == null){
+                      // console.log(revItem, "Skip")
+                      continue;
+                    }
+                    let data = {
+                          ref_no: uuidv4(),
+                          assessment_item_id: revItem.assessment_item_id,
+                          description: revItem.revenue_name,
+                          revenue_code: revItem.revenue_code,
+                          item_category: 'building',
+                          amount: revItem.tax_amount,
+                          taxpayer_rin: value.building_number,
+                          tax_year: helper.currentYear,
+                          service_id: req.mobileUser.service_id,
+                          paid: 0
+                    }
+                    const item = await assessmentModels.assessment_item_invoices.findOne({where: {assessment_item_id: revItem.assessment_item_id, taxpayer_rin: value.building_number,tax_year: helper.currentYear}});
+                    if(item){
+                      item.update({data}, {new:true})
+                    } else {
+                      await assessmentModels.assessment_item_invoices.create(data)
+                    }
+                }
+            } 
+
+  
+            const busines = await businessModel.businesses.findOne({where: {
+                businessnumber: business.businessnumber,
+                building_id: business.building_id,
+              }});
+      
+            if(busines){
+                busines.update(business, {new:true})
+                syncs.push(business1.business_tag)
+              } else {
+                await businessModel.businesses.create(business1)
+                syncs.push(business1.business_tag)
+              }
+        
+          
+            res.status(201).json({
+              status: 'success',
+              message: "Successfully created",
+              data: business.business_tag
+          })
+      // }
+    } catch (err) {
+      console.log(err);
+      if(err.parent){
+        let myswlError = err.parent;
+        res.status(200).json({
+            status: 'error',
+            message: 'Database Error',
+            data: myswlError ? myswlError.errno == 1062 ? "Duplicate entry" : myswlError.sqlMessage : err.message
+        })
+      } else {
+        res.status(200).json({
+            status: 'failed',
+            message: 'Uknown Error',
+            data: err.message
+        })
+      }
+      
+    }
+  }
+
+  exports.states = async(req, res) => {
+        const states = await texPayersmodels.states.findOne({where:{id: 15}, raw:true})
+        res.status(200).json({
+            status: "success",
+            message: "success",
+            data: states,
+        })
+    }
+
+  exports.lga = async(req, res) => {
+        const lgas = await texPayersmodels.local_government_area.findAll({where: {state_id: 15}, raw:true})
+        res.status(200).json({
+            status: "success",
+            message: "success",
+            data: lgas,
+        })
+    }
+
+    exports.wards = async(req, res) => {
+        let cities = await texPayersmodels.wards.findAll({
+            where: { lga_id: 281 },
+          });
+    
+          res.status(200).json({
+            status: "success",
+            message: "success",
+            data: cities,
+        })
+    }
+
+    exports.apiStreets = async(req, res)=> {
+        let street = await db.query(
+            `SELECT _streets.*, wards.ward from _streets INNER JOIN wards on _streets.ward_id = wards.ward_id where _streets.ward_id = ${req.params.ward_id}`,
+            { type: Sequelize.QueryTypes.SELECT }
+          );
+          res.status(200).json({
+            status: "success",
+            message: "success",
+            data: street,
+        })
+    
+    }
+
+    
+
 
 async function findUser(username, password) {
     console.log(username, password);
