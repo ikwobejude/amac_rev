@@ -1,10 +1,10 @@
 {
   "name": "amac",
   "version": "1.0.0",
-  "description": "amac project\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D lga project",
+  "description": "amaclga project",
   "main": "server.js",
   "scripts": {
-    "start": "server.js",
+    "start": "nodemon server.js",
     "dev": "nodemon server.js -e js,ejs",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "start:dev": "NODE_ENV=development nodemon server.js"
@@ -32,6 +32,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.7",
+    "nodemon": "^2.0.12",
     "request": "^2.88.2",
     "sequelize": "^6.21.3",
     "sharp": "^0.32.1"
