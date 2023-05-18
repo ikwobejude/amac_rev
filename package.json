@@ -2,7 +2,7 @@
   "name": "amac",
   "version": "1.0.0",
   "description": "amac project\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D lga project",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "server.js",
     "dev": "nodemon server.js -e js,ejs",
