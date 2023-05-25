@@ -2,7 +2,7 @@
 require('dotenv').config();
 // const requests = require('requests');
 const paystack = (request) => {
-    const MySecretKey = process.env.paystack_live != ""? process.env.paystack_live : process.env.paystack_test;
+    const MySecretKey = process.env.paystack_test;
     
     //replace the secret key with that from your paystack account
     const initializePayment = async(form, mycallback) => {
