@@ -262,7 +262,47 @@ const companies = db.define('companies', {
 })
 
 
+const invoice_number_count = db.define('invoice_number_count', {
+    invoice_number : {
+        type: Sequelize.INTEGER(11),
+        allowNull: true,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    
+},{
+    freezeTableName: true,
+    timestamps: false
+})
+
+
+const initializations = db.define('initializations', {
+    initializationsId:{ type: Sequelize.BIGINT(20),
+        allowNull: true,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    callBacUrl:{ type: Sequelize.STRING},
+    paymentReference:{ type: Sequelize.STRING},
+    billNumber:{ type: Sequelize.STRING},
+    amount:{ type: Sequelize.DECIMAL(50, 2)},
+    service_id:{ type: Sequelize.STRING},
+    created_on:{ type: Sequelize.DATE},
+    created_by:{ type: Sequelize.STRING},
+    paymentReceivedOn:{ type: Sequelize.DATE},
+    amountPaid:{ type: Sequelize.DECIMAL(50, 2)},
+    paymentStatus:{ type: Sequelize.TINYINT},
+    notificationStatus:{ type: Sequelize.TINYINT},
+    notificationPushOn:{ type: Sequelize.DATE},
+    notificationReceivedStatus:{ type: Sequelize.TINYINT},
+    notificationReceivedOn:{ type: Sequelize.DATE},
+    notificationTextStatus:{ type: Sequelize.TEXT},
+},{
+    freezeTableName: true,
+    timestamps: false
+})
+
 module.exports = {
-    tax_offices, assessments, assessment_item_invoices, individual, assessment_items, companies
+    tax_offices, assessments, assessment_item_invoices, individual, assessment_items, companies, invoice_number_count, initializations
 }
 

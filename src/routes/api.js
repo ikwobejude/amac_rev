@@ -1,11 +1,26 @@
 const express = require('express');
 const apiController = require('../controllers/apiController');
+const { generatePaymentInvoice } = require('../controllers/apiPersistence/apiGenereteMandatePersistence');
+const { initialPayment } = require('../config/validation');
 const api = express.Router();
 
 
-api.post('/verifyTin', apiController.verifyTaxpayerTin)
+api.post('/verifyTin', apiController.apiAuthValidation,  apiController.verifyTaxpayerTin)
 
-api.post('/Initilize_transaction', apiController.initilizePayment);
+api.route('/Initilize_transaction')
+.post(apiController.apiAuthValidation, async(req, res) => {
+    const bodyData = req.body;
+    try {
+        const newInvoice = await  apiController.initializePayment({generatePaymentInvoice, initialPayment}, bodyData, req.apiUser);
+        res.status(200).json(newInvoice)
+    } catch (error) {
+        res.status(201).json({
+            status: "error",
+            error: error.message,
+            errorStack: error.stack
+        })
+    }
+})
 
 api.route('/verify_payment')
     .post(async (req, res) => {

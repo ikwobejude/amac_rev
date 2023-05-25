@@ -27,7 +27,7 @@ exports.createToken = (id) => {
 
 exports.createTokeMobile = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRECT, {
-      expiresIn: '365d' // expires in 365 day
+      expiresIn: '1080d' // expires in 1080 day = 3 years
   })
 }
 

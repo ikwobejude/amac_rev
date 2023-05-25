@@ -1,4 +1,5 @@
 const request = require('request');
+const jwt = require('jsonwebtoken');
 
 const _ = require('lodash');
 const path = require('path')
@@ -8,16 +9,58 @@ const Op = Sequelize.Op;
 const db = require('../db/db')
 const { initializePayment, verifyPayment1 } = require('../lib/paystack')(request);
 
-const { TaxTin, valideteUsersignup, initialPayment, verifyPaymentInvo } = require("../config/validation");
-const { assessments } = require("../model/assessmentModels");
+const { TaxTin, valideteUsersignup, verifyPaymentInvo } = require("../config/validation");
+const { assessments, invoice_number_count } = require("../model/assessmentModels");
 const { Api_Payments } = require("../model/paymentModel");
 const { tax_payers } = require("../model/texPayersmodels");
+const userModel = require('../model/userModel');
 
 
 
 // error handler 
 const handleError = (err) => {
     return err;
+}
+
+exports.apiAuthValidation = async(req, res, next)=> {
+    try {
+    //     let token = req.headers
+    //     console.log(req.headers.authorization)
+        const token = req.headers.authorization.split(" ")[1];
+        // console.log(token);
+        if (token) {
+            jwt.verify(token, process.env.JWT_SECRECT, async(err, decodedToken) => {
+                if (err) {
+                    res.status(401).json({
+                        status: "error",
+                        message: err.message
+                    })
+                } else {
+                    let user = await userModel.Users.findOne({
+                        attributes:["id", 'group_id', "name", "email", "user_phone", "service_id", "service_code"],
+                        where:{id: decodedToken.id}
+                    })
+                    req.apiUser = user;
+                    next()
+                }   
+            })
+        } else {
+            res.status(401).json({
+                status: "error",
+                message: "authorization token not found!"
+            })
+        }  
+
+
+    } catch (error) {
+        // console.log(error.stack)
+        res.status(401).json({
+            status: "error",
+            message: "Unknown error",
+            data: error.message
+        })
+    }
+   
 }
 
 exports.verifyTaxpayerTin = async (req, res) => {
@@ -51,30 +94,28 @@ exports.verifyTaxpayerTin = async (req, res) => {
 }
 
 
-exports.initilizePayment = async (req, res) => {
+exports.initializePayment = async (
+    {generatePaymentInvoice, initialPayment}, payload, metadata ) => {
     try {
-        const { error, value } = initialPayment.validate(req.body);
+        const { error, value } = initialPayment.validate(payload);
         if (error) {
-            res.status(201).json({code: 201, msg: error.message })
+            console.log(error)
+           throw new Error(error.message.split('"').join(""));
         } else {
-            let Vtin = await findValidTin(value.tin);
-            if (Vtin) {
-                let payload = {
-                    tin: value.tin,
-                    reference: value.paymentReference,
-                    item: value.paymentItem,
-                    amount: value.amount,
-                    bill_reference: await paymenID(),
-                    callBackUrl: value.callBackUrl,
-
+            const vTin = await findValidTin(value.tin);
+            const invoiceNumber = await paymentID();
+            const data = await generatePaymentInvoice(vTin, value, invoiceNumber, metadata)
+            if (vTin) {
+                return {
+                    code: 200, 
+                    msg: "Initialized", 
+                    data 
                 }
-
-                res.status(200).json({code: 200, msg: "Initialized", payload })
             }
         }
     } catch (error) {
-        let err = handleError(error)
-        res.status(201).json({code: 201, msg: err.mesaage })
+        console.log(error)
+        throw new Error(error.message);
     }
 }
 
@@ -227,7 +268,16 @@ async function findValidTin(tin) {
     throw Error('TIN NOT FOUND')
 }
 
-async function paymenID() {
-    return "N-AMAC" + Math.floor(Math.random() * Date.now())
+async function paymentID() {
+    const invoiceNumber = await invoice_number_count.findOne({raw:true});
+
+    await invoice_number_count.update({invoice_number: invoiceNumber.invoice_number + 1 }, 
+        {where: 
+        {invoice_number: invoiceNumber.invoice_number},
+      },
+      {new:true}
+    )
+    
+    return "N-AMAC"+invoiceNumber.invoice_number;
 }
 
