@@ -77,6 +77,7 @@ module.exports.signup_post = async (req, res) => {
     try {
         const { error, value } = createTinAndAccount.validate(req.body)
         if (error) {
+            console.log(error)
             res.status(201).json({ "err": error.message })
         } else {
             let tin = taxrin(8)
@@ -103,7 +104,8 @@ module.exports.signup_post = async (req, res) => {
 
                 try {
                     if (value.usertype == "Individual") {
-                        let userType = await individul(value, tin);
+                        console.log( req.user)
+                        let userType = await individual1(value, tin);
                         await Users.create(userInpt, { transaction: t })
                         await individual.create(userType, { transaction: t })
                     } else {
@@ -319,7 +321,7 @@ async function findUserDetail(dt) {
 }
 
 
-async function individul(data, tin) {
+async function individual1(data, tin) {
     let obj = {
         user_rin: tin,
         individual_name: data.name,
@@ -329,6 +331,7 @@ async function individul(data, tin) {
         tax_payer_type: data.usertype,
         state_id: data.state,
         lga_id: data.lga_id,
+        service_id: "2210230202"
     }
 
    
@@ -345,6 +348,7 @@ async function companyDetails(data, tin) {
         tax_payer_type: data.usertype,
         state_id: data.state,
         lga_id: data.lga_id,
+        service_id: "2210230202"
     }
 
     return obj;

@@ -45,7 +45,7 @@ exports. createTinAndAccount = Joi.object({
     number: Joi.number().integer().min(10).required(),
     state: Joi.number().integer().required(),
     lga_id: Joi.number().integer().required(),
-    password1: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+    password1: Joi.string().required(),
     password2: Joi.ref('password1')
 })
 
