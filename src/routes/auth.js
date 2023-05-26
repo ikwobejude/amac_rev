@@ -1,34 +1,41 @@
 const express = require('express')
 
 
-const authController = require('../controllers/authController')
-const auth = express.Router();
+const authController = require('../controllers/authController');
+const frontPageController = require('../controllers/frontPageController');
+const router = express.Router();
 
 
 
 
-auth.route('/signup')
+router.route('/signup')
     .get(authController.signup_get)
     .post(authController.signup_post);
 
-auth.route('/login')
+router.route('/login')
     .get(authController.login_get)
     .post( authController.login_post)
-auth.get('/logout', authController.logout_get)
+router.get('/logout', authController.logout_get)
 
-auth.get('/login/success', authController.loginSuccess)
+router.get('/login/success', authController.loginSuccess)
 
 
-auth.route('/forget_password')
+router.route('/forget_password')
 .get(authController.forgetpassword_get)
 .post(authController.sendOtp)
 
-auth.post('/verify_otp', authController.verifyOtp)
+router.post('/verify_otp', authController.verifyOtp)
 
 
-auth.route('/reset_password')
+router.route('/reset_password')
 .get(authController.resetPassword_get)
 .post(authController.resetPassword_post)
 
 
-module.exports = auth;
+
+
+// basic routing 
+router.get('/make_payment', frontPageController.getPaymentPage)
+router.post('/make_payment', frontPageController.searchPayment)
+
+module.exports = router;

@@ -160,7 +160,7 @@ exports.getpayment = async(req, res) =>{
 exports.postPayment = (req, res) =>{
     try {
         const form = _.pick(req.body, ['amount', 'email', 'full_name']);
-        console.log(form)
+        // console.log(form)
         form.metadata = {
             full_name: form.full_name
         }
@@ -169,19 +169,31 @@ exports.postPayment = (req, res) =>{
             if (error) {
                 //handle errors
                 console.log(error);
-                return;
+                // return;
+                res.status(200).json(error)
+            } else {
+                response = JSON.parse(body);
+                console.log(response);
+                if(response.status == false){
+                    res.status(200).json(response)
+                } else {
+                    if (response.data.authorization_url) {
+                        assessments.findOne({ where: { invoice_number: req.body.invoice_number } }).then(ass => {
+                            db.query(`UPDATE assessment_item_invoices SET profile_ref ='${response.data.reference}' WHERE invoice_number='${req.body.invoice_number}'`)
+                            ass.update({profile_ref: response.data.reference}, {new:true})
+                    
+                            res.status(200).json({
+                                status: true,
+                                redirectUrl: response.data.authorization_url
+                            })
+                        })
+                    }
+                }
+                
+    
+                
             }
-            response = JSON.parse(body);
-            console.log(response);
-
-            if (response.data.authorization_url) {
-                assessments.findOne({ where: { invoice_number: req.body.invoice_number } }).then(ass => {
-                    db.query(`UPDATE assessment_item_invoices SET profile_ref ='${response.data.reference}' WHERE invoice_number='${req.body.invoice_number}'`)
-                    ass.update({profile_ref: response.data.reference}, {new:true})
             
-                    res.redirect(response.data.authorization_url)
-                })
-            }
 
         }); 
     } catch (error) {

@@ -1,0 +1,138 @@
+<%- include('../layouts/header') %>
+<%- include('../layouts/nav') %>
+
+
+  <!-- navbar-->
+ 
+  <!-- Hero Slider -->
+  <section class="hero bg-cover bg-position py-4" style="background: url(/a/img/home2.jpg)">
+    <div class="container py-5 index-forward text-white">
+      <h3>Search For Bill ref</h3>
+      <!-- Breadcrumb-->
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-none mb-0 p-0">
+          <li class="breadcrumb-item pl-0"><a href="index.html"> <i class="fas fa-home mr-2"></i>Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Make Payment</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <section class="bg-light">
+    <div class="container py-5">
+      <div class="row ">
+        <div class="col-lg-5 px-lg-0">
+          <div class="bg-primary pr-lg-3">
+            <!-- <img class="img-fluid w-100" src="img/feature-img.jpg" alt=""> -->
+          </div>
+        </div>
+        <div class="col-lg-7 px-lg-0">
+          <div class="p-4 p-md-5 shadow bg-white">
+            <header>
+                <%- messages('messages', locals) %>
+              <h2>Make <span class="text-primary">Payment </span></h2> 
+
+            </header>
+            <div class="fieldset">
+              <h2><%= taxPayer.taxpayer_name %></h2>
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        
+                        <th>S/N</th>
+                        <th>ITEM(S)</th>
+                        <th>AMOUNT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% 
+                      let sum = 0;
+                      data.forEach((dt, index) => {
+                        sum += parseFloat(dt.amount ? dt.amount : 0);
+                        %>
+                        <tr>
+                          <td><%= index + 1 %></td>
+                          <td><%= dt.assessment_item_name %></td>
+                          <td>₦<%= parseFloat(dt.amount ? dt.amount : 0).toFixed(2)
+                            .toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></td>
+                        </tr>
+                      <%})%>
+                         <tr>
+                          <td colspan="2" style="text-align: right;"> <b>Grand Total</b> </td>
+                           <td><b>₦<%= parseFloat(sum ? sum : 0).toFixed(2)
+                            .toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")  %></b> </td>
+                         </tr>
+                    </tbody>
+  
+                  </table>
+  
+                  <div style="float: right;">
+                    <button class="btn btn-danger" style="padding: 10px ; width: 100px;" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Proceed</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Checkout point</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="" method="post" id="makePayment">
+        <div class="modal-body">
+          
+            <div class="form-row  " >
+                <div class="form-group col-md-12">
+                    <label for="inputEmail4">Fullname <span>*</span></label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= taxPayer.taxpayer_name %>" placeholder="" required>
+                </div>
+            </div>
+            <div class="form-row  " >
+                <div class="form-group col-md-12">
+                    <label for="inputEmail4">Email Address <span>*</span></label>
+                    <input type="text" class="form-control" id="email" name="email" value="<%= taxPayer.email_addresss %>" placeholder="" required>
+                </div>
+            </div>
+            <div class="form-row  " >
+                <div class="form-group col-md-12">
+                    <label for="inputEmail4">Phone number <span>*</span></label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="<%= taxPayer.mobile_number %>" placeholder="" required>
+                </div>
+            </div>
+            <div class="form-row  " >
+              <div class="form-group col-md-12">
+                  <input type="hidden" name="invoice_number" value="<%= taxPayer.invoice_number %>">
+                  <label for="inputEmail4">Amount <span>*</span></label>
+                  <input type="text" class="form-control" id="amount" name="amount" value="<%= parseFloat(sum ? sum : 0).toFixed(2) %>" placeholder="" required>
+              </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="subPay">Make Payment</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+ 
+
+ 
+<%- include('../layouts/footer') %>
+<script src="/payment.js"></script>

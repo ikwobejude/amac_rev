@@ -60,7 +60,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("*", function(req, res, next){
+app.all("*", function(req, res, next){
   //res.locals.cart = req.session.cart;
   res.locals.link = req.originalUrl;
   next();
