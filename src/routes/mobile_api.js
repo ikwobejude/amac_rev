@@ -38,7 +38,7 @@ router.get('/assessment_items', mobileApiController.mobileAuth, mobileApiControl
 router.get('/state',  mobileApiController.states)
 router.get('/lga', mobileApiController.lga)
 
-router.get('/ward',  mobileApiController.mobileAuth, mobileApiController.wards)
+router.get('/ward/:id',  mobileApiController.mobileAuth, mobileApiController.wards)
 router.get('/streets/:ward_id',  mobileApiController.mobileAuth,  mobileApiController.apiStreets)
 
 

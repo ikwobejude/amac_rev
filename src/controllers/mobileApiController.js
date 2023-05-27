@@ -618,8 +618,9 @@ exports.apiBusinesses = async(req, res) => {
     }
 
     exports.wards = async(req, res) => {
+        const lga = req.params.id;
         let cities = await texPayersmodels.wards.findAll({
-            where: { lga_id: 281 },
+            where: { lga_id: lga },
           });
     
           res.status(200).json({
