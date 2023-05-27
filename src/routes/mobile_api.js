@@ -23,7 +23,7 @@ router.get('/business_categories', mobileApiController.mobileAuth, mobileApiCont
 
 router.get('/business_sector', mobileApiController.mobileAuth, mobileApiController.businessSector);
 
-router.get('/business_size', mobileApiController.mobileAuth, mobileApiController.businessSize);
+router.get('/business_sizes', mobileApiController.mobileAuth, mobileApiController.businessSize);
 
 router.get('/business_operation/:id', mobileApiController.mobileAuth, mobileApiController.businessOperation);
 
