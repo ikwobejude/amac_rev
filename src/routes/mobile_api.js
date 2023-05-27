@@ -18,7 +18,7 @@ router.route('/create_buildings')
 
 
 // business 
-router.get('/building_categories', mobileApiController.mobileAuth, mobileApiController.businessCategories);
+router.get('/business_categories', mobileApiController.mobileAuth, mobileApiController.businessCategories);
 
 
 router.get('/business_sector', mobileApiController.mobileAuth, mobileApiController.businessSector);
