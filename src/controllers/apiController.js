@@ -54,11 +54,20 @@ exports.apiAuthValidation = async(req, res, next)=> {
 
     } catch (error) {
         // console.log(error.stack)
-        res.status(401).json({
-            status: "error",
-            message: "Unknown error",
-            data: error.message
-        })
+        if(error.message == "Cannot read properties of undefined (reading 'split')"){
+            res.status(401).json({
+                status: "error",
+                message: "Unknown error",
+                data: "Invalid authorization code"
+            })
+        } else {
+            res.status(401).json({
+                status: "error",
+                message: "Unknown error",
+                data: error.message
+            })
+        }
+        
     }
    
 }
