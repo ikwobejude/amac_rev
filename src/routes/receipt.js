@@ -10,9 +10,7 @@ receipt.get('/revenue_invoices', async(req, res) => {
 
 
 // revenue invoices
-receipt.get('/payment_incoices', async(req, res) => {
-    receiptController.viewPaymentIn(req, res);
-})
+receipt.get('/payment_incoices', receiptController.viewPaymentIn)
 
 
 receipt.get('/generate/view_mandate_receipts', receiptController.success)

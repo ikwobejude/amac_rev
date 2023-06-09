@@ -140,20 +140,22 @@ module.exports.viewPaymentIn = async (req, res) => {
     // try {
     // var rates = `${currentYear - 1}/${currentYear}`;
 
+    console.log(req.query)
+
     let perPage = 20;   // number of records per page
     var page = req.query.page || 1
     let offset = perPage * page - perPage;
     let settlement_status = 1;
 
     if (req.user.group_id == 190) {
-        if (req.query.search == "1") {
+        if (req.query.search == "Search") {
 
             let data = await assessments.findAll({
                 where: {
                     [Op.and]: [
                         settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.user.username && { tax_payer_rin: { [Op.like]: `${req.user.username}` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.user.username && { created_by: { [Op.like]: `${req.user.username}` } },
                         req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } }
                     ],
                 }
@@ -162,8 +164,8 @@ module.exports.viewPaymentIn = async (req, res) => {
                 where: {
                     [Op.and]: [
                         settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
-                        req.user.username && { tax_payer_rin: { [Op.like]: `${req.user.username}` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
+                        req.user.username && { created_by: { [Op.like]: `${req.user.username}` } },
                         req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } }
                     ],
                 }
@@ -184,13 +186,13 @@ module.exports.viewPaymentIn = async (req, res) => {
             pages: Math.ceil(count / perPage)
         })
     } else if(req.user.group_id == 200 || req.user.group_id == 205  || req.user.group_id == 121212){
-        if (req.query.search == "1") {
+        if (req.query.search == "Search") {
 
             let data = await assessments.findAll({
                 where: {
                     [Op.and]: [
                         settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
                         req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `${req.query.tax_payer_rin}` } },
                         req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } },
                         req.user.tax_office_id && { tax_office_id: { [Op.like]: `${req.user.tax_office_id}` } }
@@ -224,13 +226,13 @@ module.exports.viewPaymentIn = async (req, res) => {
             pages: Math.ceil(count / perPage)
         })
     }  else {
-        if (req.query.search == "1") {
+        if (req.query.search == "Search") {
 
             let data = await assessments.findAll({
                 where: {
                     [Op.and]: [
                         settlement_status && { settlement_status: { [Op.like]: `${settlement_status}` } },
-                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `${req.query.tax_payer_name}` } },
+                        req.query.tax_payer_name && { tax_payer_name: { [Op.like]: `%${req.query.tax_payer_name}%` } },
                         req.query.tax_payer_rin && { tax_payer_rin: { [Op.like]: `${req.query.tax_payer_rin}` } },
                         req.query.invoice_number && { invoice_number: { [Op.like]: `${req.query.invoice_number}` } }
                     ],
@@ -253,14 +255,16 @@ module.exports.viewPaymentIn = async (req, res) => {
                 current: page,
                 pages: Math.ceil(count / perPage)
             })
+        } else {
+            let data = await assessments.findAll({ where: { settlement_status: settlement_status }, limit: perPage, offset: offset, order: [['assessment_id', 'DESC']] },);
+            let count = await assessments.count({ where: { settlement_status: settlement_status }, perPage, offset: offset, order: [['assessment_id', 'DESC']] },);
+            res.render('./receipt/view_payment_receipt', {
+                data,
+                current: page,
+                pages: Math.ceil(count / perPage)
+            })
         }
-        let data = await assessments.findAll({ where: { settlement_status: settlement_status }, limit: perPage, offset: offset, order: [['assessment_id', 'DESC']] },);
-        let count = await assessments.count({ where: { settlement_status: settlement_status }, perPage, offset: offset, order: [['assessment_id', 'DESC']] },);
-        res.render('./receipt/view_payment_receipt', {
-            data,
-            current: page,
-            pages: Math.ceil(count / perPage)
-        })
+       
     }
 
 
