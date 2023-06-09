@@ -68,8 +68,9 @@ html>body .Header th {
 
 /* Grid Options */
 .Grid {
-	border-left: 1px solid #3d84cc; border-bottom: 1px solid #3d84cc;
-	width: 100%;
+	border-left: 1px solid #3d84cc; 
+	border-bottom: 1px solid #3d84cc;
+	width: 200%;
 	}
 
 .Caption th {

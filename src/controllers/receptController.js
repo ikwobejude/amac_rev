@@ -268,7 +268,7 @@ module.exports.viewPaymentIn = async (req, res) => {
 
 
 module.exports.success = async (req, res) => {
-    let data = await assessments.findOne({ where: { invoice_number: req.query.transaction_invoices } })
+    let data = await assessments.findOne({ where: { invoice_number: req.query.transaction_invoices }, raw:true })
     res.render('./receipt/transaction_invoice', {
         data
     })

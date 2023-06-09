@@ -6,12 +6,13 @@ makePayment.addEventListener('submit', async(e) => {
   e.preventDefault();
   subPay.textContent = "Please wait..."
   const inputData = {
-    full_name: makePayment.name.value,
+    full_name: makePayment.full_name.value,
     email: makePayment.email.value,
-    phone: makePayment.phone.value,
+    // phone: makePayment.phone.value,
     amount: makePayment.amount.value,
     invoice_number: makePayment.invoice_number.value
   }
+  console.log(inputData)
   subPay.textContent = 'Make Payment';
   try {
     const res = await fetch('/api/get_payment_page', {
@@ -36,6 +37,10 @@ makePayment.addEventListener('submit', async(e) => {
     }
 
   } catch (error) {
-    
+    Swal.fire({
+      icon: 'error',
+      title: error.message,
+      text: 'Something went wrong!',
+    })
   }
 })

@@ -15,18 +15,14 @@ receipt.get('/payment_incoices', async(req, res) => {
 })
 
 
-receipt.get('/generate/view_mandate_receipts', async(req, res) => {
-    receiptController.success(req, res);
-})
+receipt.get('/generate/view_mandate_receipts', receiptController.success)
 
 receipt.get('/view_all_items', async(req, res) => {
     receiptController.allReceipts(req, res);
 })
 
 
-receipt.get('/summary_receipt', async(req, res) => {
-    receiptController.sumarryReceipt(req, res);
-})
+receipt.get('/summary_receipt',  receiptController.sumarryReceipt)
 
 
 

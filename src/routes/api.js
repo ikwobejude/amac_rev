@@ -34,9 +34,7 @@ api.get('/documentation', async(req, res) => {
     res.render('documentation')
 })
 
-api.get('/get_payment_page', async(req, res) => {
-    apiController.getpayment(req, res)
-})
+api.get('/get_payment_page', apiController.getpayment)
 api.post('/get_payment_page', (req, res) => {
     apiController.postPayment(req, res)
     // console.log("hi")
