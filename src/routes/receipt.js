@@ -4,9 +4,7 @@ const receiptController = require('../controllers/receptController')
 
 
 // revenue receipts 
-receipt.get('/revenue_invoices', async(req, res) => {
-    receiptController.viewRevenueReceipt(req, res);
-})
+receipt.get('/revenue_invoices', receiptController.viewRevenueReceipt)
 
 
 // revenue invoices

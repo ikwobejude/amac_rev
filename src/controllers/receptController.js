@@ -16,7 +16,7 @@ module.exports.viewRevenueReceipt = async (req, res) => {
     let offset = perPage * page - perPage;
     let settlement_status = 0;
     if (req.user.group_id == 190) {
-        if (req.query.search == "1") {
+        if (req.query.Button_DoSearch == "Search") {
 
             let data = await assessments.findAll({
                 where: {
@@ -54,7 +54,7 @@ module.exports.viewRevenueReceipt = async (req, res) => {
             pages: Math.ceil(count / perPage)
         })
     } else if(req.user.group_id == 200 || req.user.group_id == 205 || req.user.group_id == 121212){
-        if (req.query.search == "1") {
+        if (req.query.Button_DoSearch == "Search") {
 
             let data = await assessments.findAll({
                 where: {
@@ -94,7 +94,7 @@ module.exports.viewRevenueReceipt = async (req, res) => {
             pages: Math.ceil(count / perPage)
         })
     } else {
-        if (req.query.search == "1") {
+        if (req.query.Button_DoSearch == "Search") {
 
             let data = await assessments.findAll({
                 where: {
