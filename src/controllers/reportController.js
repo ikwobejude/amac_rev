@@ -140,7 +140,7 @@ module.exports.transactionReport = async (req, res) => {
 
 module.exports.transactionReportItem = async (req, res) => {
     //  try {
-    //  res.send(req.query)
+     console.log(req.query)
     if(req.user.group_id == 205 || req.user.group_id == 200){
         let perPage = 20;   // number of records per page
         var page = req.query.page || 1

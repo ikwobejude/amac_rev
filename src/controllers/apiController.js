@@ -155,14 +155,14 @@ exports.verifyPayment = async (req, res) => {
 
 
 // paystacts.route('/paystack/pay1')
-exports.getpayment = async(req, res) =>{
-    let invoice = req.query.invoice_number;
-    let assess = await assessments.findOne({where: {invoice_number: invoice}, raw:true});
-    let taxp = await tax_payers.findOne({where:{taxpayer_rin : assess.tax_payer_rin}, raw:true})
-    res.render('./receipt/payment', {
-        assess, taxp
-    })
-}
+    exports.getpayment = async(req, res) =>{
+        let invoice = req.query.invoice_number;
+        let assess = await assessments.findOne({where: {invoice_number: invoice}, raw:true});
+        let taxp = await tax_payers.findOne({where:{taxpayer_rin : assess.tax_payer_rin}, raw:true})
+        res.render('./receipt/payment', {
+            assess, taxp
+        })
+    }
 
 
 // payst.post('/paystack/pay', (req, res) => {

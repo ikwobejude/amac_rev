@@ -25,6 +25,7 @@ const settings = require('./src/routes/settings');
 const ajaxreq = require('./src/routes/ajaxreq');
 const office = require('./src/routes/offices');
 const cbs = require('./src/routes/cbs');
+const locationRouter = require('./src/routes/locationRouter');
 const paystacts = require('./src/routes/payment/paystackPaymentRoute');
 const payst = require('./src/routes/payment/paystackPaymentRoute');
 const mobile_api = require('./src/routes/mobile_api');
@@ -100,6 +101,7 @@ app.use('/settings', requireAuth, settings)
 app.use('/office', requireAuth, office)
 app.use('/cbs/admin', requireAuth, cbs)
 app.use('/mobile', mobile_api)
+app.use('/location', requireAuth,  locationRouter)
 api.use(payst)
 
 

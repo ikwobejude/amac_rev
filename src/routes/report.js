@@ -11,12 +11,7 @@ report.get('/payment_transaction', async(req, res) => {
 
 
 // revenue invoices
-report.get('/transaction_by_items', async(req, res) => {
-   
-        reportController.transactionReportItem(req, res);
-    
-   
-})
+report.get('/transaction_by_items',  reportController.transactionReportItem)
 
 report.get('/transaction_by_bnk', async(req, res) => {
     res.send("comming soon")

@@ -166,7 +166,7 @@ const local_government_area = db.define('local_goverment_area', {
     freezeTableName: true
 });
 
-const _countries = db.define('_countrie', {
+const _countries = db.define('countries', {
     country_id: {
         type: Sequelize.BIGINT(20),
         primaryKey: true,
