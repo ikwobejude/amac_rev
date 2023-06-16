@@ -16,4 +16,33 @@ module.exports = {
   getWardLocations: async (data) => {
     return data;
   },
+
+  // create wards
+  storeWards: async({validateWards, createWard}, formData, metaData) => {
+   try {
+    const {value, error} = validateWards.validate(formData);
+    if(error){
+        throw Error(error.message.split("'").join(""));
+    } else {
+        const newData = createWard(value, metaData);
+        return newData
+    }
+   } catch (error) {
+    throw Error(error.message);
+   }
+  },
+
+  updateWard: async({validateWards, editWard}, formData) => {
+    try {
+     const {value, error} = validateWards.validate(formData);
+     if(error){
+         throw Error(error.message.split("'").join(""));
+     } else {
+         const newData = editWard(value);
+         return newData
+     }
+    } catch (error) {
+     throw Error(error.message);
+    }
+   },
 };

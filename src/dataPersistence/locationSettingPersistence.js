@@ -1,7 +1,7 @@
 const { Sequelize, QueryTypes } = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/db')
-const { _countries, states, local_government_area } = require("../model/texPayersmodels");
+const { _countries, states, local_government_area, wards } = require("../model/texPayersmodels");
 
 module.exports = {
     getCountry: async() => {
@@ -22,10 +22,47 @@ module.exports = {
         return {state, data};
     },
     
-    
+    // wards
     getWards: async() => {
         const lga = await local_government_area.findAll({where : {state_id: 15}});
         const data = await db.query(`SELECT * FROM wards INNER JOIN local_goverment_area ON wards.lga_id = local_goverment_area.id_lga WHERE local_goverment_area.state_id = 15`, {type: QueryTypes.SELECT});
         return {lga, data};
+    },
+
+    createWard: async(data, metaData) => {
+        try {
+            const ward = await wards.findOne({where: {ward: data.ward, lga_id: data.lga_id }});
+            if(ward){
+                throw Error('Wards already exist!')
+            } else {
+                const lga = await local_government_area.findOne({where:{id_lga: data.lga_id }, raw:true});
+                const newWard = await wards.create({
+                    ward: data.ward,
+                    lga: lga.lga,
+                    created_by: metaData.username,
+                    lga_id: data.lga_id,
+                    service_id:  metaData.service_id,
+                })
+
+                return newWard;
+            }
+        } catch (error) {
+            throw Error(error.message)
+        }
+    },
+
+    editWard: async(data) => {
+       try {
+            const lga = await local_government_area.findOne({where:{id_lga:  data.lga_id }, raw:true});
+            await wards.update({ 
+                ward: data.ward,
+                lga: lga.lga,
+                lga_id: data.lga_id
+            }, {where : {ward_id: data.id}}, {new:true});
+
+            return 1
+       } catch (error) {
+        throw Error(error.message)
+       }
     }
 }

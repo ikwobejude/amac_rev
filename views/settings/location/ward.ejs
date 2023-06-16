@@ -61,9 +61,9 @@
 
                                 <div class="btn-group">
                                      <button class="btn btn-primary" onclick="getUpdate(
-                                      '<%= View.country %>',
-                                      '<%= View.country_code %>',
-                                      '<%= View.country_id %>'
+                                      '<%= View.ward %>',
+                                      '<%= View.lga_id %>',
+                                      '<%= View.ward_id %>'
                                      )"><i class="fa fa-edit"></i></button>
                                      <button class="btn btn-secondary" id="deleteAType" value="<%= View.agency_type_id %>"><i class="fa fa fa-trash"></i></button>
                                 </div>
@@ -92,25 +92,28 @@
         <!-- Container-fluid Ends-->
       </div>
 
-      <div class="modal fade" id="editCountry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+      <div class="modal fade" id="editWard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">UPDATE State </h5>
+              <h5 class="modal-title" id="exampleModalLabel">UPDATE WARD </h5>
               <button class="btn-close" type="button" data-bs-dismiss="modal"
                 aria-label="Close"></button>
             </div>
-            <form class="form theme-form" method="post" id="formEdit" action="/submit">
+            <form class="form theme-form" id="form3">
               <div class="modal-body">
 
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
                       <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label" style="text-align: right;">Country Name</label>
+                        <label class="col-sm-3 col-form-label" style="text-align: right;">LGA</label>
                         <div class="col-sm-9">
-                          <select name="" id="" class="form-control">
+                          <select name="lga_id" id="elga_id" class="form-control">
                             <option value="">Select Option</option>
+                            <% lga.forEach((localGovernment) => { %>
+                              <option value="<%= localGovernment.id_lga %>"><%= localGovernment.lga %></option>
+                            <%})%>
                           </select>
                         </div>
                       </div>
@@ -119,9 +122,9 @@
                   <div class="row">
                     <div class="col">
                       <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label" style="text-align: right;">State</label>
+                        <label class="col-sm-3 col-form-label" style="text-align: right;">Ward</label>
                         <div class="col-sm-9">
-                          <input class="form-control " type="text" name="code" id="code" placeholder="" value="">
+                          <input class="form-control " type="text" name="ward" id="eWard" placeholder="" value="">
                           <input type="hidden" name="id" id="id">
                         </div>
                       </div>
@@ -129,11 +132,10 @@
                   </div>
                 </div>
 
-
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-secondary" type="submit">Save changes</button>
+                <!-- <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button> -->
+                <button class="btn btn-secondary" type="submit" onclick="create()">Create</button>
               </div>
             </form>
           </div>
@@ -143,23 +145,26 @@
 
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">CREATE AGENCY INFO</h5>
+              <h5 class="modal-title" id="exampleModalLabel">CREATE WARD</h5>
               <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="form theme-form" id="form">
+            <form class="form theme-form" id="form2">
               <div class="modal-body">
 
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
                       <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label" style="text-align: right;">Country Name</label>
+                        <label class="col-sm-3 col-form-label" style="text-align: right;">LGA</label>
                         <div class="col-sm-9">
-                          <select name="" id="" class="form-control">
+                          <select name="lga_id" id="lga_id" class="form-control">
                             <option value="">Select Option</option>
+                            <% lga.forEach((localGovernment) => { %>
+                              <option value="<%= localGovernment.id_lga %>"><%= localGovernment.lga %></option>
+                            <%})%>
                           </select>
                         </div>
                       </div>
@@ -168,10 +173,9 @@
                   <div class="row">
                     <div class="col">
                       <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label" style="text-align: right;">State</label>
+                        <label class="col-sm-3 col-form-label" style="text-align: right;">Ward</label>
                         <div class="col-sm-9">
-                          <input class="form-control " type="text" name="code" id="code" placeholder="" value="">
-                          <!-- <input type="hidden" name="id" id="id"> -->
+                          <input class="form-control " type="text" name="ward" id="ward" placeholder="" value="">
                         </div>
                       </div>
                     </div>
@@ -191,152 +195,133 @@
 
       <%- include('../../layouts/admin/footer') %>
         <script>
-          function submitEdit(id) {
-            let form = document.querySelector('#form' + id + '');
+          
+            let form = document.querySelector('#form2');
 
             form.addEventListener('submit', async (e) => {
               e.preventDefault()
-               $('#cover-spin').show(0)
-              let agency_type = form.agency_type.value;
+              //  $('#cover-spin').show(0)
+              const dta = {
+                lga_id: form.lga_id.value,
+                ward: form.ward.value,
+                id: ''
+              }
+              console.log(dta)
              
-              console.log(agency_type)
               try {
-                let res = await fetch('/settings/agency_type', {
+                let res = await fetch('/location/ward', {
                   method: "POST",
-                  body: JSON.stringify({agency_type: agency_type}),
+                  body: JSON.stringify(dta),
                   headers: { 'Content-Type': 'application/json' }
                 })
 
                 const data = await res.json();
-                if (data.err) {
-                     $('#cover-spin').hide(0)
-                  // formerror.textContent = data.err
-                  var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data.err + '</strong>.', {
+
+                
+                
+                $('#cover-spin').hide(0)
+                if (data.status == "error") {
+                    $.notify('<i class="fa fa-warning"></i><strong>' + data.message + '</strong>.', {
+                      type: 'danger',
+                      allow_dismiss: true,
+                      delay: 5000,
+                      showProgressbar: true,
+                      timer: 300
+                    });
+                } else {
+                    
+                    var notify = $.notify('<i class="fa fa-bell-o"></i><strong>' + data.message + '</strong>', {
+                      type: 'theme',
+                      allow_dismiss: true,
+                      delay: 2000,
+                      showProgressbar: true,
+                      timer: 1000
+                    });
+
+                    setTimeout(function () {
+                      notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                      location.assign('/location/ward')
+                    }, 1000);
+                }
+              } catch (error) {
+                console.log(error)
+                $('#cover-spin').hide(0)
+                var notify = $.notify('<i class="fa fa-warning"></i><strong>' + error.message + '</strong>.', {
                     type: 'danger',
                     allow_dismiss: true,
                     delay: 5000,
                     showProgressbar: true,
                     timer: 300
                   });
-                } else {
-                     $('#cover-spin').hide(0)
-                  var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Updated</strong>', {
-                    type: 'theme',
-                    allow_dismiss: true,
-                    delay: 2000,
-                    showProgressbar: true,
-                    timer: 1000
-                  });
+              }
+            })
+          
 
-                  setTimeout(function () {
-                    notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
-                    location.assign('/admin/view_agencies')
-                  }, 1000);
+
+          let form3 = document.querySelector('#form3');
+          form3.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const dta = {
+                lga_id: form3.lga_id.value,
+                ward: form3.ward.value,
+                id: form3.id.value
+              }
+              console.log(dta)
+             
+              try {
+                let res = await fetch('/location/ward', {
+                  method: "put",
+                  body: JSON.stringify(dta),
+                  headers: { 'Content-Type': 'application/json' }
+                })
+
+                const data = await res.json();
+
+                
+                
+                $('#cover-spin').hide(0)
+                if (data.status == "error") {
+                    $.notify('<i class="fa fa-warning"></i><strong>' + data.message + '</strong>.', {
+                      type: 'danger',
+                      allow_dismiss: true,
+                      delay: 5000,
+                      showProgressbar: true,
+                      timer: 300
+                    });
+                } else {
+                    
+                    var notify = $.notify('<i class="fa fa-bell-o"></i><strong>' + data.message + '</strong>', {
+                      type: 'theme',
+                      allow_dismiss: true,
+                      delay: 2000,
+                      showProgressbar: true,
+                      timer: 1000
+                    });
+
+                    setTimeout(function () {
+                      notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
+                      location.assign('/location/ward')
+                    }, 1000);
                 }
               } catch (error) {
                 console.log(error)
+                $('#cover-spin').hide(0)
+                var notify = $.notify('<i class="fa fa-warning"></i><strong>' + error.message + '</strong>.', {
+                    type: 'danger',
+                    allow_dismiss: true,
+                    delay: 5000,
+                    showProgressbar: true,
+                    timer: 300
+                  });
               }
-            })
-          }
-
-
-          function create() {
-            let form = document.querySelector('#form');
-            let id =
-              form.addEventListener('submit', async (e) => {
-                e.preventDefault()
-                 $('#cover-spin').show(0)
-              let agency_type = form.agency_type.value;
-             
-              console.log( agency_type)
-                try {
-                  let res = await fetch('/settings/agency_type', {
-                    method: "POST",
-                    body: JSON.stringify({agency_type: agency_type}),
-                    headers: { 'Content-Type': 'application/json' }
-                  })
-
-                  const data = await res.json();
-                  if (data.err) {
-                       $('#cover-spin').hide(0)
-                    // formerror.textContent = data.err
-                    var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data.err + '</strong>.', {
-                      type: 'danger',
-                      allow_dismiss: true,
-                      delay: 5000,
-                      showProgressbar: true,
-                      timer: 300
-                    });
-                  } else {
-                       $('#cover-spin').hide(0)
-                    var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Created successfuly </strong>', {
-                      type: 'theme',
-                      allow_dismiss: true,
-                      delay: 2000,
-                      showProgressbar: true,
-                      timer: 1000
-                    });
-
-                    setTimeout(function () {
-                      notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
-                      location.assign('/settings/agency_type')
-                    }, 1000);
-                  }
-                } catch (error) {
-                  console.log(error)
-                }
-              })
-          }
-
-          let dlt = document.querySelector('#deleteAType');
-          dlt.addEventListener('click', async()=> { 
-               $('#cover-spin').show(0)
-            let id = $('#deleteAType').val()
-            console.log(id)
-                try {
-                  let res = await fetch('/settings/agency_type_delete', {
-                    method: "POST",
-                    body: JSON.stringify({id: id}),
-                    headers: { 'Content-Type': 'application/json' }
-                  })
-
-                  const data = await res.json();
-                  if (data.err) {
-                       $('#cover-spin').hide(0)
-                    // formerror.textContent = data.err
-                    var notify = $.notify('<i class="fa fa-warning"></i><strong>' + data.err + '</strong>.', {
-                      type: 'danger',
-                      allow_dismiss: true,
-                      delay: 5000,
-                      showProgressbar: true,
-                      timer: 300
-                    });
-                  } else {
-                       $('#cover-spin').hide(0)
-                    var notify = $.notify('<i class="fa fa-bell-o"></i><strong>Deleted  </strong>', {
-                      type: 'theme',
-                      allow_dismiss: true,
-                      delay: 2000,
-                      showProgressbar: true,
-                      timer: 1000
-                    });
-
-                    setTimeout(function () {
-                      notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
-                      location.assign('/settings/agency_type')
-                    }, 1000);
-                  }
-            } catch (error) {
-                console.log(error)
-            }
           })
-        
-          function getUpdate(country, code, id){
-            $('#country').val(country);
-            $('#code').val(code);
+          function getUpdate(ward, lgs, id){
+            $('#eWard').val(ward);
+            $(`#elga_id option[value='${lgs}']`).prop('selected', true);
             $('#id').val(id);
 
-            $('#editCountry').modal('show');
+            $('#editWard').modal('show');
           }
         </script>
 </body>

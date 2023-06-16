@@ -198,3 +198,8 @@ exports.businessSectorV = Joi.object({
     id:Joi.string().allow("").optional(),
 });
 
+exports.validateWards = Joi.object({
+    ward: Joi.string().required(),
+    lga_id: Joi.string().required(),
+    id:Joi.string().allow("").optional(),
+})
