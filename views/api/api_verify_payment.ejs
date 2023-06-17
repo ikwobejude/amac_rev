@@ -64,7 +64,7 @@
                                 
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-lg-6  col-md-6 col-sm-12">
+                                        <div class="col-sm-12 col-md-12 col-lg-6  ">
                                             <div class="card" style="border-radius: 5px; padding: 3px; box-shadow: inset 5px 5px 12px #ffff,5px 5px 12px rgba(0, 0, 0, .16);">
                                                 <div class="card-body">
                                                     <div class="card-header"> 
@@ -90,19 +90,8 @@
                                         <div class="col-sm-12">
                                             <div class="table-responsive">
                    
-                                                <table  class="table display"  id="bas"  >
-                                                  <thead>
-                                                    <tr>
-                                                        <th>INVOICEID</th>
-                                                        <th>APYMENT REFERENCE</th>
-                                                        <th>AMOUNT</th>
-                                                        <th>PAYMENT DATE</th>
-                                                        <th>TAXPAYER</th>
-                                                    </tr>
-                                                  </thead>
-                                                  <tbody id="append_data">
-                                                  
-                                                  </tbody>
+                                                <table  class="table display"  id="append_data" >
+                                                 
                                                 </table>
                                                
                                             
@@ -165,13 +154,24 @@
                                 }, 1000);
 
                                 let veryData = `
-                                       <tr>   
-                                            <td>${data.CustReference} </td>
-                                            <td>${data.PaymentReference} </td>
-                                            <td>${data.Amount} </td>
-                                            <td>${data.logged_date} </td>
-                                            <td>${data.CustomerName.toLocaleString()} </td>
-                                        </tr>
+                                <thead>
+                                    <tr>
+                                        <th>INVOICEID</th>
+                                        <th>APYMENT REFERENCE</th>
+                                        <th>AMOUNT</th>
+                                        <th>PAYMENT DATE</th>
+                                        <th>TAXPAYER</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>   
+                                        <td>${data.CustReference} </td>
+                                        <td>${data.PaymentReference} </td>
+                                        <td>${data.Amount} </td>
+                                        <td>${data.logged_date} </td>
+                                        <td>${data.CustomerName.toLocaleString()} </td>
+                                    </tr>
+                                </tbody>
                                     `;
                                 $('#append_data'). append(veryData)
                         }
