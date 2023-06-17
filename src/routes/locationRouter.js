@@ -97,7 +97,7 @@ Router.route('/street')
         ...rtd
     })
     } catch (error) {
-        
+        console.log(error)
     }
 })
 .post(async(req, res) => {

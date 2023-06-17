@@ -74,7 +74,7 @@ module.exports = {
     // street 
     getStreet: async() => {
         const lga = await local_government_area.findAll({where : {state_id: 15}});
-        const data = await db.query(`SELECT _streets.street, wards.ward  _streets INNER JOIN wards ON _streets.ward_id = wards.ward_id`, {type: QueryTypes.SELECT});
+        const data = await db.query(`SELECT _streets.street, wards.ward FROM _streets INNER JOIN wards ON _streets.ward_id = wards.ward_id`, {type: QueryTypes.SELECT});
         return {lga, data};
     },
 
