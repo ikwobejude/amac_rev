@@ -84,7 +84,7 @@ module.exports = {
         try {
             const wrd = await _street.findOne({where: {street:data.street }})
             console.log(wrd)
-            if(ward){
+            if(wrd){
                 throw Error('Wards already exist!')
             } else {
                const street =  await _street.create({
