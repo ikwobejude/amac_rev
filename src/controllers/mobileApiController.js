@@ -1,8 +1,10 @@
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
+
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const db = require('../db/db')
 const validation = require('../config/validation');
 const buildingModel = require('../model/building/buildingModel');
 const businessModel = require('../model/business/businessModel');
