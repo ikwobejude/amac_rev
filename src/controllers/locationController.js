@@ -45,4 +45,24 @@ module.exports = {
      throw Error(error.message);
     }
    },
+
+   // streets 
+   getStreets: async(data) => {
+    return data;
+   },
+
+     // create wards
+  storeStreet: async({validateStreet, createNewStreet}, formData, metaData) => {
+    try {
+     const {value, error} = validateStreet.validate(formData);
+     if(error){
+         throw Error(error.message.split("'").join(""));
+     } else {
+         const newData = createNewStreet(value, metaData);
+         return newData
+     }
+    } catch (error) {
+     throw Error(error.message);
+    }
+   },
 };

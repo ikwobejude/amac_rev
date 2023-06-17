@@ -1,7 +1,7 @@
 const { Sequelize, QueryTypes } = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/db')
-const { _countries, states, local_government_area, wards } = require("../model/texPayersmodels");
+const { _countries, states, local_government_area, wards, _street } = require("../model/texPayersmodels");
 
 module.exports = {
     getCountry: async() => {
@@ -64,5 +64,39 @@ module.exports = {
        } catch (error) {
         throw Error(error.message)
        }
-    }
+    },
+    deleteWard: async(id) => {
+        await wards.destroy({where: {ward_id: id}});
+        return "deleted!";
+    },
+    // end of ward crud operation
+
+    // street 
+    getStreet: async() => {
+        const lga = await local_government_area.findAll({where : {state_id: 15}});
+        const data = await db.query(`SELECT * FROM _streets INNER JOIN wards ON _streets.ward_id = wards.ward_id`, {type: QueryTypes.SELECT});
+        return {lga, data};
+    },
+
+
+    createNewStreet: async(data, metaData) => {
+        console.log(data, metaData)
+        try {
+            const wrd = await _street.findOne({where: {street:data.street }})
+            console.log(wrd)
+            if(ward){
+                throw Error('Wards already exist!')
+            } else {
+               const street =  await _street.create({
+                    street: data.street,
+                    ward_id: data.ward,
+                    service_id:  metaData.service_id,
+                })
+
+                return street;
+            }
+        } catch (error) {
+            throw Error(error.message)
+        }
+    },
 }

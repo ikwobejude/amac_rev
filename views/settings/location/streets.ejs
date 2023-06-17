@@ -15,11 +15,11 @@
           <div class="page-header">
             <div class="row">
               <div class="col-sm-6">
-                <h3>Ward</h3>
+                <h3>Street</h3>
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
                   <li class="breadcrumb-item"><a href="javascript:;">settings</a></li>
-                  <li class="breadcrumb-item active">Ward</li>
+                  <li class="breadcrumb-item active">Street</li>
                 </ol>
               </div>
               <div class="col-sm-6">
@@ -38,7 +38,7 @@
               <div class="card">
                 <div class="card-header pb-0">
                     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-original-title="test"
-                    data-bs-target="#exampleModal" >Add Ward</button>
+                    data-bs-target="#exampleModal" >Add Street</button>
                 </div>
 
                 <div class="card-body">
@@ -49,8 +49,8 @@
                       <thead>
                         <tr>
                           <th>ACTION</th>
-                          <th>LGA</th>
-                          <th>STATE</th>
+                          <th>STREET</th>
+                          <th>WARD</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -60,17 +60,17 @@
 
 
                                 <div class="btn-group">
-                                     <button class="btn btn-primary" onclick="getUpdate(
+                                     <!-- <button class="btn btn-primary" onclick="getUpdate(
                                       '<%= View.ward %>',
                                       '<%= View.lga_id %>',
                                       '<%= View.ward_id %>'
-                                     )"><i class="fa fa-edit"></i></button>
+                                     )"><i class="fa fa-edit"></i></button> -->
                                      <a class="btn btn-secondary" href="javascript:;" onclick="return confirm('Are you sure you want to delete this ward?')" ><i class="fa fa fa-trash"></i></a>
                                 </div>
                               
                             </td>
+                            <td>  <%= View.street %> </td>
                             <td>  <%= View.ward %> </td>
-                            <td>  <%= View.lga %> </td>
                             
                           </tr>
                          
@@ -96,7 +96,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">UPDATE WARD </h5>
+              <h5 class="modal-title" id="exampleModalLabel">UPDATE STREET </h5>
               <button class="btn-close" type="button" data-bs-dismiss="modal"
                 aria-label="Close"></button>
             </div>
@@ -130,6 +130,19 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" style="text-align: right;">Street Name</label>
+                        <div class="col-sm-9">
+                          <input class="form-control " type="text" name="street" id="street" placeholder="" value="">
+                          <!-- <input type="hidden" name="id" id="id"> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
                 </div>
 
               </div>
@@ -148,7 +161,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">CREATE WARD</h5>
+              <h5 class="modal-title" id="exampleModalLabel">CREATE STREET</h5>
               <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="form theme-form" id="form2">
@@ -160,7 +173,7 @@
                       <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" style="text-align: right;">LGA</label>
                         <div class="col-sm-9">
-                          <select name="lga_id" id="lga_id" class="form-control" >
+                          <select name="lga_id" id="lga_id" class="form-control" onchange="getWards()">
                             <option value="">Select Option</option>
                             <% lga.forEach((localGovernment) => { %>
                               <option value="<%= localGovernment.id_lga %>"><%= localGovernment.lga %></option>
@@ -175,7 +188,20 @@
                       <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" style="text-align: right;">Ward</label>
                         <div class="col-sm-9">
-                          <input class="form-control " type="text" name="ward" id="ward" placeholder="" value="">
+                          <select name="ward" id="ward" class="form-control">
+
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" style="text-align: right;">Street Name</label>
+                        <div class="col-sm-9">
+                          <input class="form-control " type="text" name="street" id="street" placeholder="" value="">
+                          <!-- <input type="hidden" name="id" id="id"> -->
                         </div>
                       </div>
                     </div>
@@ -204,12 +230,13 @@
               const dta = {
                 lga_id: form.lga_id.value,
                 ward: form.ward.value,
+                street: form.street.value,
                 id: ''
               }
               console.log(dta)
              
               try {
-                let res = await fetch('/location/ward', {
+                let res = await fetch('/location/street', {
                   method: "POST",
                   body: JSON.stringify(dta),
                   headers: { 'Content-Type': 'application/json' }
@@ -240,7 +267,7 @@
 
                     setTimeout(function () {
                       notify.update('message', '<i class="fa fa-bell-o"></i><strong>Redirecting Back</strong>....');
-                      location.assign('/location/ward')
+                      location.assign('/location/street')
                     }, 1000);
                 }
               } catch (error) {
@@ -326,6 +353,32 @@
 
           
           
+          async function getWards(){
+            const lga_id = document.getElementById('lga_id').value;
+            const res = await fetch('/get_wards?lgaId='+lga_id)
+            const data = await res.json();
+            console.log(data)
+            getRecords(data.ward)
+           }
+
+           function getRecords(records) {
+              console.log(records.length)
+
+
+              if (records.length > 0) {
+                  var html = "";
+                  html += '<option disabled selected value> SELECT WARD</option>';
+                  for (var a = 0; a < records.length; a++) {
+                      html += '<option value="' + records[a].ward_id + ' ">' + records[a].ward + '</option>';
+                  }
+                  $('#ward').html(html);
+              } else {
+                  var html = "";
+                  html += '<option disabled selected value></option>';
+                  $('#ward').html(html);
+              }
+
+          }
         </script>
 </body>
 

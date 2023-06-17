@@ -1,7 +1,7 @@
 const express = require('express');
 const getCountryLocation = require('../controllers/locationController');
-const { getCountry, getState, getLga, getWards, createWard, editWard } = require('../dataPersistence/locationSettingPersistence');
-const { validateWards } = require('../config/validation');
+const { getCountry, getState, getLga, getWards, createWard, editWard, deleteWard, getStreet, createNewStreet } = require('../dataPersistence/locationSettingPersistence');
+const { validateWards, validateStreet } = require('../config/validation');
 const Router = express.Router();
 
 Router.route('/country')
@@ -72,10 +72,50 @@ Router.route('/ward')
         })
     }
 })
+.delete(async(req, res) => {
+    try {
+        console.log(req.body)
+        await deleteWard(req.body.id);
+        res.status(200).json({
+            status: "success",
+            message: "Updated created!"
+        })
+    } catch (error) {
+        res.status(200).json({
+            status: "error",
+            message: error.message
+        })
+    }
+});
 
 Router.route('/street')
-.get()
-.post()
+.get(async(req, res) => {
+    try {
+       const newData = await getStreet()
+       const rtd = await getCountryLocation.getStreets(newData) 
+       res.status(200).render('./settings/location/streets', {
+        ...rtd
+    })
+    } catch (error) {
+        
+    }
+})
+.post(async(req, res) => {
+    try {
+        console.log(req.body)
+        await getCountryLocation.storeStreet({validateStreet, createNewStreet}, req.body, req.user);
+        res.status(201).json({
+            status: "success",
+            message: "Ward created!"
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(200).json({
+            status: "error",
+            message: error.message
+        })
+    }
+})
 
 
 module.exports = Router;

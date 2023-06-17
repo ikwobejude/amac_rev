@@ -1,7 +1,7 @@
 const { Sequelize, QueryTypes } = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/db');
-const { local_government_area } = require('../model/texPayersmodels');
+const { local_government_area, wards } = require('../model/texPayersmodels');
 const saltRounds = 10;
 
 module.exports.agenncyMonthAssessmentChart = async (req, res) => {
@@ -234,6 +234,14 @@ module.exports.getLGA = async (req, res)=>{
     local_government_area.findAll({where:{state_id:stateID}}).then(function(result){
         res.send(result);
     })
+}
+
+exports.getLgaWards = async (req, res) => {
+	const lgaId = req.query.lgaId;
+	const ward = await wards.findAll({where : {lga_id: lgaId}, raw:true});
+	res.status(200).json({
+		ward
+	})
 }
 
 

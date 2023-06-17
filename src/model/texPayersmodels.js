@@ -274,7 +274,8 @@ const _street = db.define('_streets', {
     },
     area_id:{
         type: Sequelize.STRING(100)
-    }
+    },
+    ward:{ type: Sequelize.STRING(100) },
 
 
 }, {

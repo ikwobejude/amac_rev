@@ -203,3 +203,10 @@ exports.validateWards = Joi.object({
     lga_id: Joi.string().required(),
     id:Joi.string().allow("").optional(),
 })
+
+exports.validateStreet = Joi.object({
+    lga_id: Joi.string().required(),
+    ward: Joi.string().required(),
+    street: Joi.string().required(),
+    id:Joi.string().allow("").optional()
+})
