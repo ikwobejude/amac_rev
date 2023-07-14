@@ -111,7 +111,8 @@ module.exports = {
                 console.log(error)
                throw new Error(error.message.split('"').join(""));
             } else {
-                const vTin = await findValidTin(value.tin);
+                const vTin = await findValidTin1(value.tin);
+                console.log(vTin)
                 const invoiceNumber = await paymentID();
                 const data = await generatePaymentInvoice(vTin, value, invoiceNumber, metadata)
                 if (vTin) {
@@ -271,18 +272,7 @@ module.exports = {
     },
 
     // get payment invoice number
-     paymentID: async function() {
-        const invoiceNumber = await invoice_number_count.findOne({raw:true});
     
-        await invoice_number_count.update({invoice_number: invoiceNumber.invoice_number + 1 }, 
-            {where: 
-            {invoice_number: invoiceNumber.invoice_number},
-          },
-          {new:true}
-        )
-        
-        return "N-AMAC"+invoiceNumber.invoice_number;
-    }
 }
 
 
@@ -293,5 +283,27 @@ module.exports = {
     }
     throw Error('PAYMENT NOT FOUND')
 };
+
+ // validate taxpayer tin
+  async function findValidTin1(tin) {
+    const taxPayer = await tax_payers.findOne({ attributes: {exclude: ['passwordr']}, where: { taxpayer_rin: tin }, raw:true })
+    if (taxPayer) {
+        return taxPayer;
+    }
+    throw Error('TIN NOT FOUND')
+}
+
+async function paymentID () {
+    const invoiceNumber = await invoice_number_count.findOne({raw:true});
+
+    await invoice_number_count.update({invoice_number: invoiceNumber.invoice_number + 1 }, 
+        {where: 
+        {invoice_number: invoiceNumber.invoice_number},
+      },
+      {new:true}
+    )
+    
+    return "N-AMAC"+invoiceNumber.invoice_number;
+}
 
 
