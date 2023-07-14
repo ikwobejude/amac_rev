@@ -5,9 +5,7 @@ const reportController = require('../controllers/reportController');
 
 
 // revenue receipts 
-report.get('/payment_transaction', async(req, res) => {
-    reportController.transactionReport(req, res)
-})
+report.get('/payment_transaction',  reportController.transactionReport)
 
 
 // revenue invoices

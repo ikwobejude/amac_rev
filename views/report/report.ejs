@@ -63,26 +63,25 @@
                             <div class="card">
                                 
                                 <div class="card-body">
-                                    <form method="get" action="/report/transaction" id="taxoffice">
+                                    <form method="get" action="" id="taxoffice">
                                         
                                         <div class="row">
                                             
-                                           <div class="col-md-6">
-                                            <div class="mb-3 m-form__group">
-                                                <label>AGENCIES:</label> 
-                                                <div class="input-group">
-                                                    
-                                                    <select name="office" id="office" class="form-control">
-                                                        <option value="">--Select--</option>
-                                                        <% offices.forEach(function(agency) {%>
-                                                          <option value="<%= agency.id_tax_office %>"><%= agency.tax_office %></option>
-                                                        <%});%>
-                                                      </select>
+                                           <div class="col-md-4">
+                                                <div class="mb-3 m-form__group">
+                                                    <label>AGENCIES:</label> 
+                                                    <div class="input-group">
+                                                        <select name="office" id="office" class="form-control">
+                                                            <option value="">--Select--</option>
+                                                            <% offices.forEach(function(agency) {%>
+                                                            <option value="<%= agency.id_tax_office %>"><%= agency.tax_office %></option>
+                                                            <%});%>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="mb-3 m-form__group">
                                                 <label>TIN</label> 
                                                 <div class="input-group">
@@ -95,6 +94,17 @@
                                                 </div>
                                             </div>
                                         </div> 
+                                        <div class="col-md-4">
+                                            <div class="mb-3 m-form__group">
+                                                <label>Invoice number</label> 
+                                                <div class="input-group">
+                                                    <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                                    <input type="text" class="form-control" id="invoice_number" name="invoice_number" placeholder=""> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         </div>  
                                    </div>  
                                     <div class="row">
                                       <div class="col-md-3">
@@ -114,7 +124,6 @@
                                            <div class="mb-3 m-form__group">
                                                 <label>End Date Generated:</label> 
                                                 <div class="input-group">
-                                                    
                                                     <div class="input-group">
                                                     <span class="input-group-text"><i class="fa fa-building"></i></span>
                                                     <input type="date" class="form-control" id="registered_to" name="registered_to" placeholder="dd/mm/yyy">
@@ -122,20 +131,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                      <div class="col-md-6">
-                                        <div class="mb-3 m-form__group">
-                                            <label>Invoice number</label> 
-                                            <div class="input-group">
+
+                                        <div class="col-md-4">
+                                            <div class="mb-3 m-form__group">
+                                                <label>PAYMENT STATUS:</label> 
                                                 <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                                <input type="text" class="form-control" id="invoice_number" name="invoice_number" placeholder=""> 
+                                                    <select name="payment_status" id="payment_status" class="form-control">
+                                                        <option value="">--Select--</option>
+                                                        <option value="1">Paid</option>
+                                                        <option value="0">Un-Paid</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                     </div>
-                                    
-                                   
-                                        
-                                </div>  
+                                      
                                 
                                       <tr>
                                         <td colspan="2" >
@@ -170,9 +179,11 @@
                                                 <th>TaxPayer</th>
                                                 <th>Tin</th>
                                                 <th>Agency</th>
-                                                <th>Amount</th>
+                                                <th>Ass.Amount</th>
+                                                <th>Amount.Paid</th>
                                                 <th>DateTime</th>
                                                 <th>CreatedBy</th>
+                                                <th>Paid</th>
                                             </tr>
                                           </thead>
                                       <tbody>
@@ -182,9 +193,11 @@
                                                     <td><%= View.taxpayer_name %> </td>
                                                     <td><%= View.taxpayer_rin %> </td>
                                                     <td><%= View.tax_office %> </td>
+                                                    <td><%= View.assessment_amount %> </td>
                                                     <td><%= View.assessment_amount_paid %> </td>
-                                                    <td><%= View.settlement_date.toLocaleString() %> </td>
+                                                    <td><%=  View.settlement_status == 1 ? View.settlement_date : "" %> </td>
                                                     <td><%= View.name %> </td>
+                                                    <td><%=  View.settlement_status == 1 ? "Paid" : "Unpaid" %> </td>
                                                 </tr>
                                             <%});%>
                                           </tbody>

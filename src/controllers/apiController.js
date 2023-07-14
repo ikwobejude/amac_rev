@@ -108,11 +108,11 @@ module.exports = {
         try {
             const { error, value } = initialPayment.validate(payload);
             if (error) {
-                console.log(error)
+                // console.log(error)
                throw new Error(error.message.split('"').join(""));
             } else {
                 const vTin = await findValidTin1(value.tin);
-                console.log(vTin)
+                // console.log(vTin)
                 const invoiceNumber = await paymentID();
                 const data = await generatePaymentInvoice(vTin, value, invoiceNumber, metadata)
                 if (vTin) {
@@ -124,7 +124,7 @@ module.exports = {
                 }
             }
         } catch (error) {
-            console.log(error)
+            console.log(error.stack)
             throw new Error(error.message);
         }
     },

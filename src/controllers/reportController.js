@@ -13,7 +13,7 @@ module.exports.report_get = async (req, res) => {
 
 }
 module.exports.transactionReport = async (req, res) => {
-    //  res.send(req.query)
+    
     if(req.user.group_id == 205 || req.user.group_id == 200){
         let perPage = 20;   // number of records per page
         var page = req.query.page || 1
@@ -25,10 +25,10 @@ module.exports.transactionReport = async (req, res) => {
                 *
             FROM
                 assessments
-            JOIN tax_payers ON assessments.tax_payer_rin = tax_payers.taxpayer_rin
+            LEFT JOIN tax_payers ON assessments.tax_payer_rin = tax_payers.taxpayer_rin
             LEFT JOIN users ON assessments.created_by = users.username
-            JOIN tax_offices ON assessments.tax_office_id = tax_offices.id_tax_office 
-            WHERE assessments.settlement_status=1
+            LEFT JOIN tax_offices ON assessments.tax_office_id = tax_offices.id_tax_office 
+            WHERE assessments.service_id is not null
             AND assessments.tax_office_id = ${req.user.tax_office_id}
         `;
 
@@ -81,19 +81,25 @@ module.exports.transactionReport = async (req, res) => {
         let offset = perPage * page - perPage;
 
         let prm = req.query;
+        console.log(prm)
         let sql = `
             SELECT
                 *
             FROM
                 assessments
-            JOIN tax_payers ON assessments.tax_payer_rin = tax_payers.taxpayer_rin
+            LEFT JOIN tax_payers ON assessments.tax_payer_rin = tax_payers.taxpayer_rin
             LEFT JOIN users ON assessments.created_by = users.username
-            JOIN tax_offices ON assessments.tax_office_id = tax_offices.id_tax_office WHERE assessments.settlement_status=1
+            LEFT JOIN tax_offices ON assessments.tax_office_id = tax_offices.id_tax_office WHERE assessments.service_id is not null
+            
         `;
 
 
         if (req.query.tax_payer_name) {
             sql += ` AND assessments.tax_payer_name like  '%${req.query.tax_payer_name}%'`
+        }
+
+        if (req.query.payment_status) {
+            sql += ` AND assessments.settlement_status like  '%${req.query.payment_status}%'`
         }
 
         if (req.query.office) {
@@ -108,8 +114,15 @@ module.exports.transactionReport = async (req, res) => {
             sql += ` AND assessments.invoice_number like  '%${req.query.invoice_number}%'`
         }
 
-        if (req.query.registered_on & req.query.registered_to) {
-            sql += ` AND date(assessments.settlement_date) BETWEEN   '${req.query.registered_on}' AND '${req.query.registered_to}'`
+       
+
+        if (req.query.registered_on && req.query.registered_to) {
+            sql += ` AND Date(assessments.created_at) >= '${req.query.registered_on}'`;
+            sql += ` AND Date(assessments.created_at) <= '${req.query.registered_to}'`;
+        } 
+
+        if(req.query.registered_on && !req.query.registered_to) {
+            sql += ` AND Date(assessments.created_at) = '${req.query.registered_on}'`;
         }
         let cnt = await db.query(sql, { type: QueryTypes.SELECT }); // for  count to capture the totaal number before appending the limit
 
