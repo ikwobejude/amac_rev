@@ -27,12 +27,13 @@ async function generatePaymentInvoice(user, payload, invoiceNumber, metadata){
             let obj = {
                 assessment_ref: invoiceNumber,
                 tax_payer_type: "INDIVIDUAL",
-                tax_payer_rin: payload.tin,
-                tax_payer_name:"API CALL",
+                tax_payer_rin:  metadata.username,
+                tax_payer_name: payload.tax_payer_name,
                 tax_year: new Date().getFullYear(),
                 tax_month: new Date().getMonth() + 1,
                 assessment_amount:  payload.amount,
                 invoice_number: invoiceNumber,
+                created_by:  payload.tin,
                 service_id: 2344170253,
             }
             const t = await db.transaction();

@@ -59,7 +59,9 @@ exports. initialPayment = Joi.object({
     paymentReference: Joi.string().required(),
     paymentItem: Joi.string(),
     amount: Joi.number().precision(2).required(),
-    callBackUrl: Joi.string().required()
+    callBackUrl: Joi.string().required(),
+    tax_payer_name: Joi.string().allow("").optional(),
+    // consultant: Joi.string().required()
 })
 
 
@@ -159,7 +161,7 @@ exports.buildingTypeV = Joi.object({
 exports.createBuildings = Joi.object({
     building_number:   Joi.string().required(),
     building_name:  Joi.string().required(), 
-    building_image:   Joi.string().allow("").optional(),
+    building_image: Joi.string().allow("").optional(),
     building_category_id :  Joi.string().required(),
     street_id :  Joi.string().required(),
     state_id :  Joi.string().required(),
