@@ -12,7 +12,10 @@ api.route('/Initilize_transaction')
     const bodyData = req.body;
     try {
         const newInvoice = await  apiController.initializePayment({generatePaymentInvoice, initialPayment}, bodyData, req.apiUser);
-        res.status(200).json(newInvoice)
+        res.status(200).json({
+            status: "success",
+            ...newInvoice
+        })
     } catch (error) {
         console.log(error.stack)
         res.status(201).json({
