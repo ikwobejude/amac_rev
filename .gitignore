@@ -4,3 +4,4 @@ config.env
 .env
 SQL.sql
 .github
+.ebextensions
