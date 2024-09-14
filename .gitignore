@@ -3,5 +3,5 @@ src2
 config.env
 .env
 SQL.sql
-.github
+# .github
 .ebextensions
