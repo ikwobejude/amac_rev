@@ -4,7 +4,7 @@
   "description": "amaclga project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "./node_modules/pm2/bin/pm2-runtime index.js -i max",
     "dev": "nodemon server.js -e js,ejs",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "start:dev": "NODE_ENV=development nodemon server.js"
@@ -33,6 +33,7 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.7",
     "nodemon": "^2.0.12",
+    "pm2": "^5.4.2",
     "request": "^2.88.2",
     "sequelize": "^6.21.3",
     "sharp": "^0.32.1"
