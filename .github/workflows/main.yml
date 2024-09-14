@@ -1,4 +1,3 @@
-
 on:
  push:
     branches:
@@ -16,6 +15,6 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
         server: ftp.smartappsdemo.com.ng
-        username: video@video.smartappsdemo.com.ng
-        password: ${{ secrets.PSD }}
+        username: info@smartappsdemo.com.ng
+        password: ${{ secrets.NEWPSW }}
         
